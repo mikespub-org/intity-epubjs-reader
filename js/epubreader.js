@@ -585,7 +585,7 @@ var event_emitter = __webpack_require__(370);
 var event_emitter_default = /*#__PURE__*/__webpack_require__.n(event_emitter);
 ;// CONCATENATED MODULE: ./src/ui.js
 /**
- * @author mrdoob (https://github.com/mrdoob/ui.js)
+ * @author mrdoob https://github.com/mrdoob/ui.js
  */
 
 const errormsg = 'is not an instance of UIElement.';
@@ -596,208 +596,208 @@ const errormsg = 'is not an instance of UIElement.';
  */
 class UIElement {
 
-    constructor(dom) {
+	constructor(dom) {
 
-        this.dom = dom;
-    }
+		this.dom = dom;
+	}
 
-    add() {
+	add() {
 
-        for (let i = 0; i < arguments.length; i++) {
+		for (let i = 0; i < arguments.length; i++) {
 
-            const argument = arguments[i];
+			const argument = arguments[i];
 
-            if (argument instanceof UIElement) {
+			if (argument instanceof UIElement) {
 
-                this.dom.appendChild(argument.dom);
+				this.dom.appendChild(argument.dom);
 
-            } else if (Array.isArray(argument)) {
-                
-                for (let j = 0; j < argument.length; j++) {
+			} else if (Array.isArray(argument)) {
 
-                    const element = argument[j];
+				for (let j = 0; j < argument.length; j++) {
 
-                    if (element instanceof UIElement) {
+					const element = argument[j];
 
-                        this.dom.appendChild(element.dom);
+					if (element instanceof UIElement) {
 
-                    } else {
+						this.dom.appendChild(element.dom);
 
-                        console.error('UIElement:', element, errormsg);
-                    }
-                }
-                
-            } else {
+					} else {
 
-                console.error('UIElement:', argument, errormsg);
-            }
-        }
+						console.error('UIElement:', element, errormsg);
+					}
+				}
 
-        return this;
-    }
+			} else {
 
-    remove() {
+				console.error('UIElement:', argument, errormsg);
+			}
+		}
 
-        for (let i = 0; i < arguments.length; i++) {
+		return this;
+	}
 
-            const argument = arguments[i];
+	remove() {
 
-            if (argument instanceof UIElement) {
+		for (let i = 0; i < arguments.length; i++) {
 
-                this.dom.removeChild(argument.dom);
+			const argument = arguments[i];
 
-            } else {
+			if (argument instanceof UIElement) {
 
-                console.error('UIElement:', argument, errormsg);
-            }
-        }
+				this.dom.removeChild(argument.dom);
 
-        return this;
-    }
+			} else {
 
-    clear() {
+				console.error('UIElement:', argument, errormsg);
+			}
+		}
 
-        while (this.dom.children.length) {
+		return this;
+	}
 
-            this.dom.removeChild(this.dom.lastChild);
-        }
-    }
+	clear() {
 
-    setId(id) {
+		while (this.dom.children.length) {
 
-        this.dom.id = id;
-        return this;
-    }
+			this.dom.removeChild(this.dom.lastChild);
+		}
+	}
 
-    getId() {
+	setId(id) {
 
-        return this.dom.id;
-    }
+		this.dom.id = id;
+		return this;
+	}
 
-    setClass(name) {
+	getId() {
 
-        this.dom.className = name;
-        return this;
-    }
+		return this.dom.id;
+	}
 
-    addClass(name) {
+	setClass(name) {
 
-        this.dom.classList.add(name);
-        return this;
-    }
+		this.dom.className = name;
+		return this;
+	}
 
-    removeClass(name) {
+	addClass(name) {
 
-        this.dom.classList.remove(name);
-        return this;
-    }
+		this.dom.classList.add(name);
+		return this;
+	}
 
-    setStyle(style, array) {
+	removeClass(name) {
 
-        for (let i = 0; i < array.length; i++) {
+		this.dom.classList.remove(name);
+		return this;
+	}
 
-            this.dom.style[style] = array[i];
-        }
+	setStyle(style, array) {
 
-        return this;
-    }
+		for (let i = 0; i < array.length; i++) {
 
-    setDisabled(value) {
+			this.dom.style[style] = array[i];
+		}
 
-        this.dom.disabled = value;
-        return this;
-    }
+		return this;
+	}
 
-    setTextContent(value) {
+	setDisabled(value) {
 
-        this.dom.textContent = value;
-        return this;
-    }
+		this.dom.disabled = value;
+		return this;
+	}
 
-    getRect() {
+	setTextContent(value) {
 
-        this.dom.getBoundingClientRect();
-        return this;
-    }
+		this.dom.textContent = value;
+		return this;
+	}
+
+	getRect() {
+
+		this.dom.getBoundingClientRect();
+		return this;
+	}
 }
 
 // properties
 
 const properties = [
-    'position',
-    'left',
-    'top',
-    'right',
-    'bottom',
-    'width',
-    'height',
-    'border',
-    'borderLeft',
-    'borderTop',
-    'borderRight',
-    'borderBottom',
-    'borderColor',
-    'display',
-    'overflow',
-    'margin',
-    'marginLeft',
-    'marginTop',
-    'marginRight',
-    'marginBottom',
-    'padding',
-    'paddingLeft',
-    'paddingTop',
-    'paddingRight',
-    'paddingBottom',
-    'color',
-    'background',
-    'backgroundColor',
-    'opacity',
-    'fontSize',
-    'fontWeight',
-    'textAlign',
-    'textDecoration',
-    'textTransform',
-    'cursor',
-    'zIndex'
+	'position',
+	'left',
+	'top',
+	'right',
+	'bottom',
+	'width',
+	'height',
+	'border',
+	'borderLeft',
+	'borderTop',
+	'borderRight',
+	'borderBottom',
+	'borderColor',
+	'display',
+	'overflow',
+	'margin',
+	'marginLeft',
+	'marginTop',
+	'marginRight',
+	'marginBottom',
+	'padding',
+	'paddingLeft',
+	'paddingTop',
+	'paddingRight',
+	'paddingBottom',
+	'color',
+	'background',
+	'backgroundColor',
+	'opacity',
+	'fontSize',
+	'fontWeight',
+	'textAlign',
+	'textDecoration',
+	'textTransform',
+	'cursor',
+	'zIndex'
 ];
 
 properties.forEach(function (property) {
 
-    const method = 'set' +
-        property.substr(0, 1).toUpperCase() +
-        property.substr(1, property.length);
+	const method = 'set' +
+		property.substr(0, 1).toUpperCase() +
+		property.substr(1, property.length);
 
-    UIElement.prototype[method] = function () {
+	UIElement.prototype[method] = function () {
 
-        this.setStyle(property, arguments);
+		this.setStyle(property, arguments);
 
-        return this;
-    };
+		return this;
+	};
 });
 
 // events
 
 const events = [
-    'KeyUp', 
-    'KeyDown', 
-    'MouseOver', 
-    'MouseOut', 
-    'Click', 
-    'DblClick', 
-    'Change', 
-    'Input'
+	'KeyUp',
+	'KeyDown',
+	'MouseOver',
+	'MouseOut',
+	'Click',
+	'DblClick',
+	'Change',
+	'Input'
 ];
 
 events.forEach(function (event) {
 
-    const method = 'on' + event;
+	const method = 'on' + event;
 
-    UIElement.prototype[method] = function (callback) {
+	UIElement.prototype[method] = function (callback) {
 
-        this.dom.addEventListener(event.toLowerCase(), callback.bind(this), false);
-        return this;
-    };
+		this.dom.addEventListener(event.toLowerCase(), callback.bind(this), false);
+		return this;
+	};
 });
 
 /**
@@ -805,10 +805,10 @@ events.forEach(function (event) {
  */
 class UISpan extends UIElement {
 
-    constructor() {
+	constructor() {
 
-        super(document.createElement('span'));
-    }
+		super(document.createElement('span'));
+	}
 }
 
 /**
@@ -816,10 +816,10 @@ class UISpan extends UIElement {
  */
 class UIDiv extends UIElement {
 
-    constructor() {
+	constructor() {
 
-        super(document.createElement('div'));
-    }
+		super(document.createElement('div'));
+	}
 }
 
 /**
@@ -827,11 +827,11 @@ class UIDiv extends UIElement {
  */
 class UIRow extends UIDiv {
 
-    constructor() {
+	constructor() {
 
-        super();
-        this.dom.className = 'row';
-    }
+		super();
+		this.dom.className = 'row';
+	}
 }
 
 /**
@@ -839,21 +839,21 @@ class UIRow extends UIDiv {
  */
 class UIPanel extends UIDiv {
 
-    constructor() {
+	constructor() {
 
-        super();
-        this.dom.className = 'panel';
-    }
+		super();
+		this.dom.className = 'panel';
+	}
 }
 
 class UILabel extends UIElement {
 
-    constructor(text, id) {
+	constructor(text, id) {
 
-        super(document.createElement('label'));
-        this.dom.textContent = text;
-        if (id) this.dom.htmlFor = id;
-    }
+		super(document.createElement('label'));
+		this.dom.textContent = text;
+		if (id) this.dom.htmlFor = id;
+	}
 }
 
 /**
@@ -862,26 +862,26 @@ class UILabel extends UIElement {
  */
 class UIText extends UISpan {
 
-    constructor(text) {
+	constructor(text) {
 
-        super();
-        this.setValue(text);
-    }
+		super();
+		this.setValue(text);
+	}
 
-    getValue() {
+	getValue() {
 
-        return this.dom.textContent;
-    }
+		return this.dom.textContent;
+	}
 
-    setValue(value) {
+	setValue(value) {
 
-        if (value !== undefined) {
+		if (value !== undefined) {
 
-            this.dom.textContent = value;
-        }
+			this.dom.textContent = value;
+		}
 
-        return this;
-    }
+		return this;
+	}
 }
 
 /**
@@ -891,12 +891,12 @@ class UIText extends UISpan {
  */
 class UILink extends UIElement {
 
-    constructor(uri, label) {
+	constructor(uri, label) {
 
-        super(document.createElement('a'));
-        this.dom.href = uri;
-        this.dom.textContent = label;
-    }
+		super(document.createElement('a'));
+		this.dom.href = uri;
+		this.dom.textContent = label;
+	}
 }
 
 /**
@@ -905,74 +905,74 @@ class UILink extends UIElement {
  */
 class UIInput extends UIElement {
 
-    constructor(type, value, title) {
+	constructor(type, value, title) {
 
-        super(document.createElement('input'));
+		super(document.createElement('input'));
 
-        this.dom.type = type;
-        this.dom.addEventListener('keydown', function (event) {
+		this.dom.type = type;
+		this.dom.addEventListener('keydown', function (event) {
 
-            event.stopPropagation();
+			event.stopPropagation();
 
-        }, false);
+		}, false);
 
-        this.setValue(value);
-        this.setTitle(title);
-    }
+		this.setValue(value);
+		this.setTitle(title);
+	}
 
-    getName() {
+	getName() {
 
-        return this.dom.name;
-    }
+		return this.dom.name;
+	}
 
-    setName(name) {
+	setName(name) {
 
-        this.dom.name = name;
-        return this;
-    }
+		this.dom.name = name;
+		return this;
+	}
 
-    getType() {
+	getType() {
 
-        return this.dom.type;
-    }
+		return this.dom.type;
+	}
 
-    setType(type) {
+	setType(type) {
 
-        this.dom.type = type;
-        return this;
-    }
+		this.dom.type = type;
+		return this;
+	}
 
-    getValue() {
+	getValue() {
 
-        return this.dom.value;
-    }
+		return this.dom.value;
+	}
 
-    setValue(value) {
+	setValue(value) {
 
-        if (value !== undefined) {
-            this.dom.value = value;
-        }
-        return this;
-    }
+		if (value !== undefined) {
+			this.dom.value = value;
+		}
+		return this;
+	}
 
-    getTitle() {
+	getTitle() {
 
-        return this.dom.title;
-    }
+		return this.dom.title;
+	}
 
-    setTitle(text) {
+	setTitle(text) {
 
-        if (text !== undefined) {
-            this.dom.title = text;
-        }
-        return this;
-    }
+		if (text !== undefined) {
+			this.dom.title = text;
+		}
+		return this;
+	}
 
-    readonly(value) {
+	readonly(value) {
 
-        this.dom.readOnly = value;
-        return this;
-    }
+		this.dom.readOnly = value;
+		return this;
+	}
 }
 
 /**
@@ -980,39 +980,39 @@ class UIInput extends UIElement {
  */
 class UITextArea extends UIElement {
 
-    constructor() {
+	constructor() {
 
-        super(document.createElement('textarea'));
+		super(document.createElement('textarea'));
 
-        this.dom.spellcheck = false;
-        this.dom.addEventListener('keydown', function (event) {
+		this.dom.spellcheck = false;
+		this.dom.addEventListener('keydown', function (event) {
 
-            event.stopPropagation();
+			event.stopPropagation();
 
-            if (event.keyCode === 9) {
+			if (event.keyCode === 9) {
 
-                event.preventDefault();
+				event.preventDefault();
 
-                const cursor = dom.selectionStart;
+				const cursor = dom.selectionStart;
 
-                this.dom.value = this.dom.value.substring(0, cursor) + '\t' + this.dom.value.substring(cursor);
-                this.dom.selectionStart = cursor + 1;
-                this.dom.selectionEnd = this.dom.selectionStart;
-            }
+				this.dom.value = this.dom.value.substring(0, cursor) + '\t' + this.dom.value.substring(cursor);
+				this.dom.selectionStart = cursor + 1;
+				this.dom.selectionEnd = this.dom.selectionStart;
+			}
 
-        }, false);
-    }
+		}, false);
+	}
 
-    getValue() {
+	getValue() {
 
-        return this.dom.value;
-    }
+		return this.dom.value;
+	}
 
-    setValue(value) {
+	setValue(value) {
 
-        this.dom.value = value;
-        return this;
-    }
+		this.dom.value = value;
+		return this;
+	}
 }
 
 /**
@@ -1020,55 +1020,55 @@ class UITextArea extends UIElement {
  */
 class UISelect extends UIElement {
 
-    constructor() {
+	constructor() {
 
-        super(document.createElement('select'));
-    }
+		super(document.createElement('select'));
+	}
 
-    setMultiple(boolean) {
+	setMultiple(boolean) {
 
-        this.dom.multiple = boolean || false;
-        return this;
-    }
+		this.dom.multiple = boolean || false;
+		return this;
+	}
 
-    setOptions(options) {
+	setOptions(options) {
 
-        const selected = this.dom.value;
+		const selected = this.dom.value;
 
-        while (this.dom.children.length > 0) {
+		while (this.dom.children.length > 0) {
 
-            this.dom.removeChild(this.dom.firstChild);
-        }
+			this.dom.removeChild(this.dom.firstChild);
+		}
 
-        for (const key in options) {
+		for (const key in options) {
 
-            const option = document.createElement('option');
-            option.value = key;
-            option.innerHTML = options[key];
-            this.dom.appendChild(option);
-        }
+			const option = document.createElement('option');
+			option.value = key;
+			option.innerHTML = options[key];
+			this.dom.appendChild(option);
+		}
 
-        this.dom.value = selected;
+		this.dom.value = selected;
 
-        return this;
-    }
+		return this;
+	}
 
-    getValue() {
+	getValue() {
 
-        return this.dom.value;
-    }
+		return this.dom.value;
+	}
 
-    setValue(value) {
+	setValue(value) {
 
-        value = String(value);
+		value = String(value);
 
-        if (this.dom.value !== value) {
+		if (this.dom.value !== value) {
 
-            this.dom.value = value;
-        }
+			this.dom.value = value;
+		}
 
-        return this;
-    }
+		return this;
+	}
 }
 
 /**
@@ -1077,38 +1077,38 @@ class UISelect extends UIElement {
  */
 class UICheckbox extends (/* unused pure expression or super */ null && (UIElement)) {
 
-    constructor(value) {
+	constructor(value) {
 
-        super(document.createElement('input'));
+		super(document.createElement('input'));
 
-        this.dom.type = 'checkbox';
-        this.setValue(value);
-    }
+		this.dom.type = 'checkbox';
+		this.setValue(value);
+	}
 
-    getName() {
+	getName() {
 
-        return this.dom.name;
-    }
+		return this.dom.name;
+	}
 
-    setName(name) {
+	setName(name) {
 
-        this.dom.name = name;
-        return this;
-    }
+		this.dom.name = name;
+		return this;
+	}
 
-    getValue() {
+	getValue() {
 
-        return this.dom.checked;
-    }
+		return this.dom.checked;
+	}
 
-    setValue(value) {
+	setValue(value) {
 
-        if (value !== undefined) {
+		if (value !== undefined) {
 
-            this.dom.checked = value;
-        }
-        return this;
-    }
+			this.dom.checked = value;
+		}
+		return this;
+	}
 }
 
 /**
@@ -1116,42 +1116,42 @@ class UICheckbox extends (/* unused pure expression or super */ null && (UIEleme
  */
 class UIColor extends (/* unused pure expression or super */ null && (UIElement)) {
 
-    constructor() {
+	constructor() {
 
-        super(document.createElement('input'));
+		super(document.createElement('input'));
 
-        try {
+		try {
 
-            this.dom.type = 'color';
-            this.dom.value = '#ffffff';
+			this.dom.type = 'color';
+			this.dom.value = '#ffffff';
 
-        } catch (e) {
+		} catch (e) {
 
-            console.exception(e);
-        }
-    }
+			console.exception(e);
+		}
+	}
 
-    getValue() {
+	getValue() {
 
-        return this.dom.value;
-    }
+		return this.dom.value;
+	}
 
-    getHexValue() {
+	getHexValue() {
 
-        return parseInt(this.dom.value.substr(1), 16);
-    }
+		return parseInt(this.dom.value.substr(1), 16);
+	}
 
-    setValue(value) {
+	setValue(value) {
 
-        this.dom.value = value;
-        return this;
-    }
+		this.dom.value = value;
+		return this;
+	}
 
-    setHexValue(hex) {
+	setHexValue(hex) {
 
-        this.dom.value = '#' + ('000000' + hex.toString(16)).slice(-6);
-        return this;
-    }
+		this.dom.value = '#' + ('000000' + hex.toString(16)).slice(-6);
+		return this;
+	}
 }
 
 /**
@@ -1160,252 +1160,252 @@ class UIColor extends (/* unused pure expression or super */ null && (UIElement)
  */
 class UINumber extends (/* unused pure expression or super */ null && (UIElement)) {
 
-    constructor(number) {
+	constructor(number) {
 
-        super(document.createElement('input'));
+		super(document.createElement('input'));
 
-        
-        this.dom.type = 'number';
-        this.dom.value = '0.00';
 
-        this.value = 0;
+		this.dom.type = 'number';
+		this.dom.value = '0.00';
 
-        this.min = - Infinity;
-        this.max = + Infinity;
+		this.value = 0;
 
-        this.precision = 2;
-        this.step = 1;
-        this.unit = '';
-        this.nudge = 0.01;
+		this.min = - Infinity;
+		this.max = + Infinity;
 
-        this.setValue(number);
+		this.precision = 2;
+		this.step = 1;
+		this.unit = '';
+		this.nudge = 0.01;
 
-        const scope = this;
+		this.setValue(number);
 
-        const changeEvent = document.createEvent('HTMLEvents');
-        changeEvent.initEvent('change', true, true);
+		const scope = this;
 
-        let distance = 0;
-        let onMouseDownValue = 0;
+		const changeEvent = document.createEvent('HTMLEvents');
+		changeEvent.initEvent('change', true, true);
 
-        const pointer = { x: 0, y: 0 };
-        const prevPointer = { x: 0, y: 0 };
+		let distance = 0;
+		let onMouseDownValue = 0;
 
-        function onMouseDown(event) {
+		const pointer = { x: 0, y: 0 };
+		const prevPointer = { x: 0, y: 0 };
 
-            event.preventDefault();
+		function onMouseDown(event) {
 
-            distance = 0;
+			event.preventDefault();
 
-            onMouseDownValue = scope.value;
+			distance = 0;
 
-            prevPointer.x = event.clientX;
-            prevPointer.y = event.clientY;
+			onMouseDownValue = scope.value;
 
-            document.addEventListener('mousemove', onMouseMove, false);
-            document.addEventListener('mouseup', onMouseUp, false);
-        }
+			prevPointer.x = event.clientX;
+			prevPointer.y = event.clientY;
 
-        function onMouseMove(event) {
+			document.addEventListener('mousemove', onMouseMove, false);
+			document.addEventListener('mouseup', onMouseUp, false);
+		}
 
-            const currentValue = scope.value;
+		function onMouseMove(event) {
 
-            pointer.x = event.clientX;
-            pointer.y = event.clientY;
+			const currentValue = scope.value;
 
-            distance += (pointer.x - prevPointer.x) - (pointer.y - prevPointer.y);
+			pointer.x = event.clientX;
+			pointer.y = event.clientY;
 
-            let value = onMouseDownValue + (distance / (event.shiftKey ? 5 : 50)) * scope.step;
-            value = Math.min(scope.max, Math.max(scope.min, value));
+			distance += (pointer.x - prevPointer.x) - (pointer.y - prevPointer.y);
 
-            if (currentValue !== value) {
+			let value = onMouseDownValue + (distance / (event.shiftKey ? 5 : 50)) * scope.step;
+			value = Math.min(scope.max, Math.max(scope.min, value));
 
-                scope.setValue(value);
-                scope.dom.dispatchEvent(changeEvent);
-            }
+			if (currentValue !== value) {
 
-            prevPointer.x = event.clientX;
-            prevPointer.y = event.clientY;
-        }
+				scope.setValue(value);
+				scope.dom.dispatchEvent(changeEvent);
+			}
 
-        function onMouseUp() {
+			prevPointer.x = event.clientX;
+			prevPointer.y = event.clientY;
+		}
 
-            document.removeEventListener('mousemove', onMouseMove, false);
-            document.removeEventListener('mouseup', onMouseUp, false);
+		function onMouseUp() {
 
-            if (Math.abs(distance) < 2) {
+			document.removeEventListener('mousemove', onMouseMove, false);
+			document.removeEventListener('mouseup', onMouseUp, false);
 
-                scope.dom.focus();
-                scope.dom.select();
-            }
-        }
+			if (Math.abs(distance) < 2) {
 
-        function onTouchStart(event) {
+				scope.dom.focus();
+				scope.dom.select();
+			}
+		}
 
-            if (event.touches.length === 1) {
+		function onTouchStart(event) {
 
-                distance = 0;
+			if (event.touches.length === 1) {
 
-                onMouseDownValue = scope.value;
+				distance = 0;
 
-                prevPointer.x = event.touches[0].pageX;
-                prevPointer.y = event.touches[0].pageY;
+				onMouseDownValue = scope.value;
 
-                document.addEventListener('touchmove', onTouchMove, false);
-                document.addEventListener('touchend', onTouchEnd, false);
-            }
-        }
+				prevPointer.x = event.touches[0].pageX;
+				prevPointer.y = event.touches[0].pageY;
 
-        function onTouchMove(event) {
+				document.addEventListener('touchmove', onTouchMove, false);
+				document.addEventListener('touchend', onTouchEnd, false);
+			}
+		}
 
-            const currentValue = scope.value;
+		function onTouchMove(event) {
 
-            pointer.x = event.touches[0].pageX;
-            pointer.y = event.touches[0].pageY;
+			const currentValue = scope.value;
 
-            distance += (pointer.x - prevPointer.x) - (pointer.y - prevPointer.y);
+			pointer.x = event.touches[0].pageX;
+			pointer.y = event.touches[0].pageY;
 
-            let value = onMouseDownValue + (distance / (event.shiftKey ? 5 : 50)) * scope.step;
-            value = Math.min(scope.max, Math.max(scope.min, value));
+			distance += (pointer.x - prevPointer.x) - (pointer.y - prevPointer.y);
 
-            if (currentValue !== value) {
+			let value = onMouseDownValue + (distance / (event.shiftKey ? 5 : 50)) * scope.step;
+			value = Math.min(scope.max, Math.max(scope.min, value));
 
-                scope.setValue(value);
-                scope.dom.dispatchEvent(changeEvent);
-            }
+			if (currentValue !== value) {
 
-            prevPointer.x = event.touches[0].pageX;
-            prevPointer.y = event.touches[0].pageY;
-        }
+				scope.setValue(value);
+				scope.dom.dispatchEvent(changeEvent);
+			}
 
-        function onTouchEnd(event) {
+			prevPointer.x = event.touches[0].pageX;
+			prevPointer.y = event.touches[0].pageY;
+		}
 
-            if (event.touches.length === 0) {
+		function onTouchEnd(event) {
 
-                document.removeEventListener('touchmove', onTouchMove, false);
-                document.removeEventListener('touchend', onTouchEnd, false);
-            }
-        }
+			if (event.touches.length === 0) {
 
-        function onChange() {
+				document.removeEventListener('touchmove', onTouchMove, false);
+				document.removeEventListener('touchend', onTouchEnd, false);
+			}
+		}
 
-            scope.setValue(this.value);
-        }
+		function onChange() {
 
-        //function onFocus() {
-        //    dom.style.backgroundColor = '';
-        //    dom.style.cursor = '';
-        //}
-        //function onBlur() {
-        //    dom.style.backgroundColor = 'transparent';
-        //    dom.style.cursor = 'ns-resize';
-        //}
+			scope.setValue(this.value);
+		}
 
-        function onKeyDown(event) {
+		//function onFocus() {
+		//    dom.style.backgroundColor = '';
+		//    dom.style.cursor = '';
+		//}
+		//function onBlur() {
+		//    dom.style.backgroundColor = 'transparent';
+		//    dom.style.cursor = 'ns-resize';
+		//}
 
-            event.stopPropagation();
+		function onKeyDown(event) {
 
-            switch (event.keyCode) {
+			event.stopPropagation();
 
-                //case 13: // enter
-                //    dom.blur();
-                //    break;
-                case 38: // up
-                    event.preventDefault();
-                    scope.setValue(scope.getValue() + scope.nudge);
-                    scope.dom.dispatchEvent(changeEvent);
-                    break;
-                case 40: // down
-                    event.preventDefault();
-                    scope.setValue(scope.getValue() - scope.nudge);
-                    scope.dom.dispatchEvent(changeEvent);
-                    break;
-            }
-        }
+			switch (event.keyCode) {
 
-        //onBlur();
-        this.dom.addEventListener('keydown', onKeyDown, false);
-        this.dom.addEventListener('mousedown', onMouseDown, false);
-        this.dom.addEventListener('touchstart', onTouchStart, false);
-        this.dom.addEventListener('change', onChange, false);
-        //dom.addEventListener('focus', onFocus, false);
-        //dom.addEventListener('blur', onBlur, false);
-    }
+				//case 13: // enter
+				//    dom.blur();
+				//    break;
+				case 38: // up
+					event.preventDefault();
+					scope.setValue(scope.getValue() + scope.nudge);
+					scope.dom.dispatchEvent(changeEvent);
+					break;
+				case 40: // down
+					event.preventDefault();
+					scope.setValue(scope.getValue() - scope.nudge);
+					scope.dom.dispatchEvent(changeEvent);
+					break;
+			}
+		}
 
-    getName() {
+		//onBlur();
+		this.dom.addEventListener('keydown', onKeyDown, false);
+		this.dom.addEventListener('mousedown', onMouseDown, false);
+		this.dom.addEventListener('touchstart', onTouchStart, false);
+		this.dom.addEventListener('change', onChange, false);
+		//dom.addEventListener('focus', onFocus, false);
+		//dom.addEventListener('blur', onBlur, false);
+	}
 
-        return this.dom.name;
-    }
+	getName() {
 
-    setName(name) {
+		return this.dom.name;
+	}
 
-        this.dom.name = name;
-        return this;
-    }
+	setName(name) {
 
-    getValue() {
+		this.dom.name = name;
+		return this;
+	}
 
-        return parseFloat(this.dom.value);
-    }
+	getValue() {
 
-    setValue(value) {
+		return parseFloat(this.dom.value);
+	}
 
-        if (value !== undefined) {
+	setValue(value) {
 
-            value = parseFloat(value);
+		if (value !== undefined) {
 
-            if (value < this.min)
-                value = this.min;
-            if (value > this.max)
-                value = this.max;
+			value = parseFloat(value);
 
-            this.value = value;
-            this.dom.value = value.toFixed(this.precision);
+			if (value < this.min)
+				value = this.min;
+			if (value > this.max)
+				value = this.max;
 
-            if (this.unit !== '')
-                this.dom.value += ' ' + this.unit;
-        }
+			this.value = value;
+			this.dom.value = value.toFixed(this.precision);
 
-        return this;
-    }
+			if (this.unit !== '')
+				this.dom.value += ' ' + this.unit;
+		}
 
-    setPrecision(precision) {
+		return this;
+	}
 
-        this.precision = precision;
-        return this;
-    }
+	setPrecision(precision) {
 
-    setStep(step) {
+		this.precision = precision;
+		return this;
+	}
 
-        this.step = step;
-        return this;
-    }
+	setStep(step) {
 
-    setNudge(nudge) {
+		this.step = step;
+		return this;
+	}
 
-        this.nudge = nudge;
-        return this;
-    }
+	setNudge(nudge) {
 
-    setRange(min, max) {
+		this.nudge = nudge;
+		return this;
+	}
 
-        this.min = min;
-        this.max = max;
+	setRange(min, max) {
 
-        return this;
-    }
+		this.min = min;
+		this.max = max;
 
-    setUnit(unit) {
+		return this;
+	}
 
-        this.unit = unit;
-        return this;
-    }
+	setUnit(unit) {
 
-    setTitle(text) {
+		this.unit = unit;
+		return this;
+	}
 
-        this.dom.title = text;
-        return this;
-    }
+	setTitle(text) {
+
+		this.dom.title = text;
+		return this;
+	}
 }
 
 /**
@@ -1417,42 +1417,39 @@ class UINumber extends (/* unused pure expression or super */ null && (UIElement
  */
 class UIInteger extends UIElement {
 
-    constructor(value, step, min, max) {
+	constructor(value, step, min, max) {
 
-        super(document.createElement('input'));
+		super(document.createElement('input'));
 
-        this.dom.type = 'number';
-        this.dom.value = value;
+		this.dom.type = 'number';
+		this.dom.value = value;
 
-        if (step != undefined)
-        {
-            this.dom.step = step;
-        }
-        
-        if (min !== undefined)
-        {
-            this.dom.min = min;
-        }
+		if (step != undefined) {
+			this.dom.step = step;
+		}
 
-        if (max !== undefined)
-        {
-            this.dom.max = max;
-        }
-    }
+		if (min !== undefined) {
+			this.dom.min = min;
+		}
 
-    getValue() {
+		if (max !== undefined) {
+			this.dom.max = max;
+		}
+	}
 
-        return this.dom.value;
-    }
+	getValue() {
 
-    setValue(value) {
+		return this.dom.value;
+	}
 
-        if (value !== undefined) {
-            
-            this.dom.value = value;
-        }
-        return this;
-    }
+	setValue(value) {
+
+		if (value !== undefined) {
+
+			this.dom.value = value;
+		}
+		return this;
+	}
 }
 
 /**
@@ -1460,12 +1457,12 @@ class UIInteger extends UIElement {
  */
 class UIBreak extends (/* unused pure expression or super */ null && (UIElement)) {
 
-    constructor() {
+	constructor() {
 
-        super(document.createElement('br'));
+		super(document.createElement('br'));
 
-        this.dom.className = 'Break';
-    }
+		this.dom.className = 'Break';
+	}
 }
 
 /**
@@ -1473,12 +1470,12 @@ class UIBreak extends (/* unused pure expression or super */ null && (UIElement)
  */
 class UIHorizontalRule extends (/* unused pure expression or super */ null && (UIElement)) {
 
-    constructor() {
+	constructor() {
 
-        super(document.createElement('hr'));
+		super(document.createElement('hr'));
 
-        this.dom.className = 'HorizontalRule';
-    }
+		this.dom.className = 'HorizontalRule';
+	}
 }
 
 /**
@@ -1487,40 +1484,40 @@ class UIHorizontalRule extends (/* unused pure expression or super */ null && (U
  */
 class UIButton extends (/* unused pure expression or super */ null && (UIElement)) {
 
-    constructor(value) {
+	constructor(value) {
 
-        super(document.createElement('input'));
+		super(document.createElement('input'));
 
-        this.dom.type = 'button';
+		this.dom.type = 'button';
 
-        if (value !== undefined) {
+		if (value !== undefined) {
 
-            this.dom.value = value;
-        }
+			this.dom.value = value;
+		}
 
-        return this;
-    }
+		return this;
+	}
 
-    setValue(value) {
+	setValue(value) {
 
-        this.dom.value = value;
-        return this;
-    }
+		this.dom.value = value;
+		return this;
+	}
 }
 
 class UIProgress extends (/* unused pure expression or super */ null && (UIElement)) {
 
-    constructor(value) {
+	constructor(value) {
 
-        super(document.createElement('progress'));
+		super(document.createElement('progress'));
 
-        this.dom.value = value;
-    }
+		this.dom.value = value;
+	}
 
-    setValue(value) {
+	setValue(value) {
 
-        this.dom.value = value;
-    }
+		this.dom.value = value;
+	}
 }
 
 /**
@@ -1528,115 +1525,115 @@ class UIProgress extends (/* unused pure expression or super */ null && (UIEleme
  */
 class UITabbedPanel extends UIDiv {
 
-    /**
-     * Constructor
-     * @param {*} align (horizontal | vertical)
-     */
-    constructor(align) {
+	/**
+	 * Constructor
+	 * @param {*} align (horizontal | vertical)
+	 */
+	constructor(align) {
 
-        super();
+		super();
 
-        this.tabs = [];
-        this.panels = [];
-        this.selector = new UISpan().setClass('tab-selector');
+		this.tabs = [];
+		this.panels = [];
+		this.selector = new UISpan().setClass('tab-selector');
 
-        this.tabsDiv = new UIDiv();
-        this.tabsDiv.dom.className = 'tabs';
-        this.tabsDiv.add(this.selector);
+		this.tabsDiv = new UIDiv();
+		this.tabsDiv.dom.className = 'tabs';
+		this.tabsDiv.add(this.selector);
 
-        this.panelsDiv = new UIDiv();
-        this.panelsDiv.dom.className = 'panels';
+		this.panelsDiv = new UIDiv();
+		this.panelsDiv.dom.className = 'panels';
 
-        this.add(this.tabsDiv);
-        this.add(this.panelsDiv);
+		this.add(this.tabsDiv);
+		this.add(this.panelsDiv);
 
-        this.align = align || 'horizontal';
-        this.selected = '';
-    }
+		this.align = align || 'horizontal';
+		this.selected = '';
+	}
 
-    select(id) {
+	select(id) {
 
-        let tab;
-        let panel;
+		let tab;
+		let panel;
 
-        // Deselect current selection
-        if (this.selected && this.selected.length) {
+		// Deselect current selection
+		if (this.selected && this.selected.length) {
 
-            tab = this.tabs.find((item) => {
+			tab = this.tabs.find((item) => {
 
-                return item.dom.id === this.selected;
-            });
+				return item.dom.id === this.selected;
+			});
 
-            panel = this.panels.find((item) => {
+			panel = this.panels.find((item) => {
 
-                return item.dom.id === this.selected;
-            });
+				return item.dom.id === this.selected;
+			});
 
-            if (tab) {
+			if (tab) {
 
-                tab.removeClass('selected');
-            }
+				tab.removeClass('selected');
+			}
 
-            if (panel) {
+			if (panel) {
 
-                panel.setDisplay('none');
-            }
-        }
+				panel.setDisplay('none');
+			}
+		}
 
-        tab = this.tabs.find(function (item) {
+		tab = this.tabs.find(function (item) {
 
-            return item.dom.id === id;
-        });
+			return item.dom.id === id;
+		});
 
-        panel = this.panels.find(function (item) {
+		panel = this.panels.find(function (item) {
 
-            return item.dom.id === id;
-        });
+			return item.dom.id === id;
+		});
 
-        if (tab) {
+		if (tab) {
 
-            tab.addClass('selected');
-            //
-            // transforming the tab-selector element
-            //
-            let size;
-            const rect = tab.dom.getBoundingClientRect();
-            if (this.align === 'horizontal') {
-                size = rect.width * this.tabs.indexOf(tab);
-                this.selector.dom.style.transform = `translateX(${size}px)`;
-            } else {
-                size = rect.height * this.tabs.indexOf(tab);
-                this.selector.dom.style.transform = `translateY(${size}px)`;
-            }
-        }
+			tab.addClass('selected');
+			//
+			// transforming the tab-selector element
+			//
+			let size;
+			const rect = tab.dom.getBoundingClientRect();
+			if (this.align === 'horizontal') {
+				size = rect.width * this.tabs.indexOf(tab);
+				this.selector.dom.style.transform = `translateX(${size}px)`;
+			} else {
+				size = rect.height * this.tabs.indexOf(tab);
+				this.selector.dom.style.transform = `translateY(${size}px)`;
+			}
+		}
 
-        if (panel) {
+		if (panel) {
 
-            panel.setDisplay('');
-        }
+			panel.setDisplay('');
+		}
 
-        this.selected = id;
+		this.selected = id;
 
-        return this;
-    }
+		return this;
+	}
 
-    addTab(id, label, items) {
+	addTab(id, label, items) {
 
-        const tab = new UITab(label, this);
-        tab.setId(id);
-        tab.setClass('tab');
-        this.tabs.push(tab);
-        this.tabsDiv.add(tab);
+		const tab = new UITab(label, this);
+		tab.setId(id);
+		tab.setClass('tab');
+		this.tabs.push(tab);
+		this.tabsDiv.add(tab);
 
-        const panel = new UIDiv();
-        panel.setId(id);
-        panel.add(items);
-        panel.setDisplay('none');
-        this.panels.push(panel);
-        this.panelsDiv.add(panel);
+		const panel = new UIDiv();
+		panel.setId(id);
+		panel.add(items);
+		panel.setDisplay('none');
+		this.panels.push(panel);
+		this.panelsDiv.add(panel);
 
-        this.select(id);
-    }
+		this.select(id);
+	}
 }
 
 /**
@@ -1644,20 +1641,20 @@ class UITabbedPanel extends UIDiv {
  */
 class UITab extends UIDiv {
 
-    constructor(text, parent) {
+	constructor(text, parent) {
 
-        super(text);
+		super(text);
 
-        this.button = new UIInput('button');
-        this.button.dom.title = text;
-        this.parent = parent;
-        this.dom.addEventListener('click', () => {
+		this.button = new UIInput('button');
+		this.button.dom.title = text;
+		this.parent = parent;
+		this.dom.addEventListener('click', () => {
 
-            this.parent.select(this.dom.id);
+			this.parent.select(this.dom.id);
 
-        });
-        this.add(this.button);
-    }
+		});
+		this.add(this.button);
+	}
 }
 
 /**
@@ -1665,82 +1662,82 @@ class UITab extends UIDiv {
  */
 class UIListbox extends (/* unused pure expression or super */ null && (UIElement)) {
 
-    constructor() {
+	constructor() {
 
-        super(document.createElement('select'));
-        
-        this.dom.multiple = true;
+		super(document.createElement('select'));
 
-        this.items = [];
-        this.listItems = [];
-        this.selectedIndex = -1;
-        this.selectedValue = null;
+		this.dom.multiple = true;
 
-        return this;
-    }
+		this.items = [];
+		this.listItems = [];
+		this.selectedIndex = -1;
+		this.selectedValue = null;
 
-    setItems(items) {
+		return this;
+	}
 
-        this.items = items;
-        this.dom.options.length = 0;
+	setItems(items) {
 
-        for (let i = 0; i < items.length; i++) {
+		this.items = items;
+		this.dom.options.length = 0;
 
-            this.setItem(items[i]);
-        }
-    }
+		for (let i = 0; i < items.length; i++) {
 
-    selectIndex(index) {
+			this.setItem(items[i]);
+		}
+	}
 
-        this.selectValue(index);
-    }
+	selectIndex(index) {
 
-    selectValue(index) {
+		this.selectValue(index);
+	}
 
-        let value = null;
+	selectValue(index) {
 
-        for (let i = 0; i < this.dom.options.length; i++) {
+		let value = null;
 
-            const option = this.dom.options[i];
+		for (let i = 0; i < this.dom.options.length; i++) {
 
-            if (index === i) {
+			const option = this.dom.options[i];
 
-                option.selected = true;
-                option.className = 'selected';
-                value = parseInt(option.value);
+			if (index === i) {
 
-            } else {
+				option.selected = true;
+				option.className = 'selected';
+				value = parseInt(option.value);
 
-                option.selected = false;
-                option.className = '';
-            }
-        }
+			} else {
 
-        this.selectedValue = value;
-        this.selectedIndex = index;
-    }
+				option.selected = false;
+				option.className = '';
+			}
+		}
 
-    getValue() {
+		this.selectedValue = value;
+		this.selectedIndex = index;
+	}
 
-        return this.selectedValue;
-    }
+	getValue() {
 
-    setItem(item) {
+		return this.selectedValue;
+	}
 
-        const option = document.createElement('option');
-        option.value = item.id;
-        option.text = item.type;
-        option.addEventListener('click', (event) => {
+	setItem(item) {
 
-            this.selectValue(event.target.index);
+		const option = document.createElement('option');
+		option.value = item.id;
+		option.text = item.type;
+		option.addEventListener('click', (event) => {
 
-        }, false);
+			this.selectValue(event.target.index);
 
-        this.dom.appendChild(option);
-        this.listItems.push(item);
+		}, false);
 
-        return this;
-    }
+		this.dom.appendChild(option);
+		this.listItems.push(item);
+
+		return this;
+	}
 }
 
 /**
@@ -1748,10 +1745,10 @@ class UIListbox extends (/* unused pure expression or super */ null && (UIElemen
  */
 class UITreeView extends UIElement {
 
-    constructor() {
+	constructor() {
 
-        super(document.createElement('ul'));
-    }
+		super(document.createElement('ul'));
+	}
 }
 
 /**
@@ -1762,70 +1759,70 @@ class UITreeView extends UIElement {
  */
 class UITreeViewItem extends UIElement {
 
-    constructor(id, link, parent) {
+	constructor(id, link, parent) {
 
-        super(document.createElement('li'));
-        this.dom.id = id;
-        this.link = link;
-        this.parent = parent;
-        this.toggle = new UISpan().setClass('toggle-collapsed');
-        this.expander = new UIDiv().setId('expander');
-        this.expanded = false;
-        this.selected = false;
-        this.add([this.expander, this.link]);
-    }
+		super(document.createElement('li'));
+		this.dom.id = id;
+		this.link = link;
+		this.parent = parent;
+		this.toggle = new UISpan().setClass('toggle-collapsed');
+		this.expander = new UIDiv().setId('expander');
+		this.expanded = false;
+		this.selected = false;
+		this.add([this.expander, this.link]);
+	}
 
-    setItems(subItems) {
+	setItems(subItems) {
 
-        this.add(subItems);
-        this.toggle.dom.onclick = () => {
+		this.add(subItems);
+		this.toggle.dom.onclick = () => {
 
-            if (this.expanded) {
-                this.collaps();
-            } else {
-                this.expand();
-            }
-            return false;
-        };
-        this.expander.add(this.toggle);
+			if (this.expanded) {
+				this.collaps();
+			} else {
+				this.expand();
+			}
+			return false;
+		};
+		this.expander.add(this.toggle);
 
-        if (!this.expanded) {
+		if (!this.expanded) {
 
-            const items = subItems.dom.getElementsByTagName('li');
-            for (let item of items) {
-                if (item.className === 'selected') {
-                    this.expand();
-                    break;
-                }
-            }
-        }
-    }
+			const items = subItems.dom.getElementsByTagName('li');
+			for (let item of items) {
+				if (item.className === 'selected') {
+					this.expand();
+					break;
+				}
+			}
+		}
+	}
 
-    select() {
+	select() {
 
-        this.selected = true;
-        this.setClass('selected');
-    }
+		this.selected = true;
+		this.setClass('selected');
+	}
 
-    unselect() {
+	unselect() {
 
-        this.selected = false;
-        this.dom.removeAttribute('class');
-    }
+		this.selected = false;
+		this.dom.removeAttribute('class');
+	}
 
-    expand() {
+	expand() {
 
-        this.toggle.setClass('toggle-expanded');
-        this.dom.children[2].style.display = 'block';
-        this.expanded = true;
-    }
+		this.toggle.setClass('toggle-expanded');
+		this.dom.children[2].style.display = 'block';
+		this.expanded = true;
+	}
 
-    collaps() {
+	collaps() {
 
-        this.toggle.setClass('toggle-collapsed');
-        this.dom.children[2].style.display = 'none';
-        this.expanded = false;
-    }
+		this.toggle.setClass('toggle-collapsed');
+		this.dom.children[2].style.display = 'none';
+		this.expanded = false;
+	}
 }
 
 
@@ -1834,9 +1831,9 @@ class UITreeViewItem extends UIElement {
 
 
 class MetadataPanel extends UIPanel {
-	
+
 	constructor(reader) {
-		
+
 		super();
 		super.setId('metadata');
 
@@ -1855,7 +1852,7 @@ class MetadataPanel extends UIPanel {
 	}
 
 	init(meta) {
-		
+
 		document.title = meta.title + " – " + meta.creator;
 
 		this.title.setValue(meta.title);
@@ -1869,216 +1866,216 @@ class MetadataPanel extends UIPanel {
 
 
 class Toolbar {
-    
-    constructor(reader) {
 
-        const strings = reader.strings;
+	constructor(reader) {
 
-        const container = new UIDiv().setId('toolbar');
+		const strings = reader.strings;
 
-        const start = new UIPanel().setId('start');
-        const opener = new UIInput('button').setId('btn-s');
-        const openerStr = strings.get('toolbar/opener');
-        opener.dom.title = openerStr;
-        opener.dom.onclick = () => {
+		const container = new UIDiv().setId('toolbar');
 
-            const isOpen = opener.dom.classList.length > 0;
+		const start = new UIPanel().setId('start');
+		const opener = new UIInput('button').setId('btn-s');
+		const openerStr = strings.get('toolbar/opener');
+		opener.dom.title = openerStr;
+		opener.dom.onclick = () => {
 
-            reader.emit('sidebaropener', !isOpen);
+			const isOpen = opener.dom.classList.length > 0;
 
-            if (!isOpen) {
-                opener.addClass('open');
-            } else {
-                opener.removeClass('open');
-            }
-        };
+			reader.emit('sidebaropener', !isOpen);
 
-        start.add(opener);
+			if (!isOpen) {
+				opener.addClass('open');
+			} else {
+				opener.removeClass('open');
+			}
+		};
 
-        const center = new MetadataPanel(reader);
+		start.add(opener);
 
-        const end = new UIPanel().setId('end');
-        const open = new UIInput('file').setId('btn-o');
-        const uploadStr = strings.get('toolbar/openbook');
-        const storage = window.storage;
-        open.dom.title = uploadStr;
-        open.dom.accept = 'application/epub+zip';
-        open.dom.addEventListener('change', function (e) {
+		const center = new MetadataPanel(reader);
 
-            if (e.target.files.length === 0)
-                return;
+		const end = new UIPanel().setId('end');
+		const open = new UIInput('file').setId('btn-o');
+		const uploadStr = strings.get('toolbar/openbook');
+		const storage = window.storage;
+		open.dom.title = uploadStr;
+		open.dom.accept = 'application/epub+zip';
+		open.dom.addEventListener('change', function (e) {
 
-            if (window.FileReader) {
+			if (e.target.files.length === 0)
+				return;
 
-                const fr = new FileReader();
-                fr.onload = function (e) {
-                    storage.clear();
-                    storage.set(e.target.result, () => {
-                        reader.unload();
-                        reader.init(e.target.result, { restore: true });
-                    });
-                };
-                fr.readAsArrayBuffer(e.target.files[0]);
-                fr.onerror = function (e) {
-                    console.error(e);
-                };
+			if (window.FileReader) {
 
-                if (window.location.href.includes("?bookPath=")) {
-                    window.location.href = window.location.origin + window.location.pathname;
-                }
+				const fr = new FileReader();
+				fr.onload = function (e) {
+					storage.clear();
+					storage.set(e.target.result, () => {
+						reader.unload();
+						reader.init(e.target.result, { restore: true });
+					});
+				};
+				fr.readAsArrayBuffer(e.target.files[0]);
+				fr.onerror = function (e) {
+					console.error(e);
+				};
 
-            } else {
-                alert(strings.get('toolbar/openbook/error'));
-            }
-        }, false);
+				if (window.location.href.includes("?bookPath=")) {
+					window.location.href = window.location.origin + window.location.pathname;
+				}
 
-        end.add(open);
+			} else {
+				alert(strings.get('toolbar/openbook/error'));
+			}
+		}, false);
 
-        const bookmark = new UIInput('button').setId('btn-b');
-        const bookmarkStr = strings.get('toolbar/bookmark');
-        bookmark.dom.title = bookmarkStr;
-        bookmark.dom.addEventListener('click', () => {
+		end.add(open);
 
-            const cfi = reader.rendition.currentLocation().start.cfi;
-            reader.emit('bookmarked', reader.isBookmarked(cfi) === -1);
-        });
+		const bookmark = new UIInput('button').setId('btn-b');
+		const bookmarkStr = strings.get('toolbar/bookmark');
+		bookmark.dom.title = bookmarkStr;
+		bookmark.dom.addEventListener('click', () => {
 
-        end.add(bookmark);
+			const cfi = reader.rendition.currentLocation().start.cfi;
+			reader.emit('bookmarked', reader.isBookmarked(cfi) === -1);
+		});
 
-        if (document.fullscreenEnabled) {
-            
-            const fullscreen = new UIInput('button').setId('btn-f');
-            const fullscreenStr = strings.get('toolbar/fullsceen');
-            fullscreen.dom.title = fullscreenStr;
-            fullscreen.dom.addEventListener('click', () => {
-                
-                this.toggleFullScreen();
-            });
+		end.add(bookmark);
 
-            document.addEventListener('keydown', (e) => {
-            
-                if (e.key === 'F11') {
-                    e.preventDefault();
-                    this.toggleFullScreen();
-                }
-            }, false);
+		if (document.fullscreenEnabled) {
 
-            document.addEventListener('fullscreenchange', (e) => {
+			const fullscreen = new UIInput('button').setId('btn-f');
+			const fullscreenStr = strings.get('toolbar/fullsceen');
+			fullscreen.dom.title = fullscreenStr;
+			fullscreen.dom.addEventListener('click', () => {
 
-                const w = window.screen.width === e.path[2].innerWidth;
-                const h = window.screen.height === e.path[2].innerHeight;
-                
-                if (w && h) {
-                    fullscreen.addClass('resize-small');
-                } else {
-                    fullscreen.removeClass('resize-small');
-                }
-            }, false);
+				this.toggleFullScreen();
+			});
 
-            end.add(fullscreen);
-        }
+			document.addEventListener('keydown', (e) => {
 
-        container.add([start, center, end]);
-        document.body.appendChild(container.dom);
+				if (e.key === 'F11') {
+					e.preventDefault();
+					this.toggleFullScreen();
+				}
+			}, false);
 
-        //-- events --//
+			document.addEventListener('fullscreenchange', (e) => {
 
-        reader.on('relocated', (location) => {
+				const w = window.screen.width === e.path[2].innerWidth;
+				const h = window.screen.height === e.path[2].innerHeight;
 
-            const cfi = location.start.cfi;
+				if (w && h) {
+					fullscreen.addClass('resize-small');
+				} else {
+					fullscreen.removeClass('resize-small');
+				}
+			}, false);
 
-            if (reader.isBookmarked(cfi) === -1) {
-                bookmark.removeClass('bookmarked');
-            } else {
-                bookmark.addClass('bookmarked');
-            }
-        });
+			end.add(fullscreen);
+		}
 
-        reader.on('bookmarked', (value) => {
+		container.add([start, center, end]);
+		document.body.appendChild(container.dom);
 
-            if (value) {
-                bookmark.addClass('bookmarked');
-            } else {
-                bookmark.removeClass('bookmarked');
-            }
-        });
-    }
+		//-- events --//
 
-    toggleFullScreen() {
-        
-        document.activeElement.blur();
-        
-        if (document.fullscreenElement === null) {
-            document.documentElement.requestFullscreen();
-        } else if (document.exitFullscreen) {
-            document.exitFullscreen();
-        }
-    }
+		reader.on('relocated', (location) => {
+
+			const cfi = location.start.cfi;
+
+			if (reader.isBookmarked(cfi) === -1) {
+				bookmark.removeClass('bookmarked');
+			} else {
+				bookmark.addClass('bookmarked');
+			}
+		});
+
+		reader.on('bookmarked', (value) => {
+
+			if (value) {
+				bookmark.addClass('bookmarked');
+			} else {
+				bookmark.removeClass('bookmarked');
+			}
+		});
+	}
+
+	toggleFullScreen() {
+
+		document.activeElement.blur();
+
+		if (document.fullscreenElement === null) {
+			document.documentElement.requestFullscreen();
+		} else if (document.exitFullscreen) {
+			document.exitFullscreen();
+		}
+	}
 }
 
 ;// CONCATENATED MODULE: ./src/panels/toc_panel.js
 
 
 class TocPanel extends UIPanel {
-    
-    constructor(reader) {
-        
-        super();
-        super.setId('contents');
 
-        this.reader = reader;
-        this.selector = undefined; // save reference to selected tree item
+	constructor(reader) {
 
-        //-- events --//
+		super();
+		super.setId('contents');
 
-        reader.on('navigation', (toc) => {
+		this.reader = reader;
+		this.selector = undefined; // save reference to selected tree item
 
-            this.init(toc);
-        });
-    }
+		//-- events --//
 
-    init(toc) {
+		reader.on('navigation', (toc) => {
 
-        super.clear();
-        super.add(this.generateToc(toc));
-    }
+			this.init(toc);
+		});
+	}
 
-    generateToc(toc, parent) {
+	init(toc) {
 
-        const container = new UITreeView();
+		super.clear();
+		super.add(this.generateToc(toc));
+	}
 
-        toc.forEach((chapter) => {
+	generateToc(toc, parent) {
 
-            const link = new UILink(chapter.href, chapter.label);
-            const treeItem = new UITreeViewItem(chapter.id, link, parent);
+		const container = new UITreeView();
 
-            link.dom.onclick = () => {
+		toc.forEach((chapter) => {
 
-                this.reader.rendition.display(chapter.href);
-                if (this.selector && this.selector !== treeItem) {
-                    this.selector.unselect();
-                }
-                treeItem.select();
-                this.selector = treeItem;
-                this.reader.emit('tocselected', chapter.id);
-                return false;
-            };
+			const link = new UILink(chapter.href, chapter.label);
+			const treeItem = new UITreeViewItem(chapter.id, link, parent);
 
-            if (this.reader.settings.sectionId === chapter.id) {
-                treeItem.select();
-                this.selector = treeItem;
-            }
+			link.dom.onclick = () => {
 
-            if (chapter.subitems && chapter.subitems.length > 0) {
-                
-                treeItem.setItems(this.generateToc(chapter.subitems, treeItem));
-            }
+				this.reader.rendition.display(chapter.href);
+				if (this.selector && this.selector !== treeItem) {
+					this.selector.unselect();
+				}
+				treeItem.select();
+				this.selector = treeItem;
+				this.reader.emit('tocselected', chapter.id);
+				return false;
+			};
 
-            container.add(treeItem);
-        });
+			if (this.reader.settings.sectionId === chapter.id) {
+				treeItem.select();
+				this.selector = treeItem;
+			}
 
-        return container;
-    }
+			if (chapter.subitems && chapter.subitems.length > 0) {
+
+				treeItem.setItems(this.generateToc(chapter.subitems, treeItem));
+			}
+
+			container.add(treeItem);
+		});
+
+		return container;
+	}
 }
 
 ;// CONCATENATED MODULE: ./src/panels/bookmarks_panel.js
@@ -2086,147 +2083,147 @@ class TocPanel extends UIPanel {
 
 class BookmarksPanel extends UIPanel {
 
-    constructor(reader) {
-        
-        super();
-        super.setId('bookmarks');
+	constructor(reader) {
 
-        const strings = reader.strings;
+		super();
+		super.setId('bookmarks');
 
-        const ctrlRow = new UIRow();
-        const ctrlStr = [
-            strings.get('sidebar/bookmarks/add'),
-            strings.get('sidebar/bookmarks/remove'),
-            strings.get('sidebar/bookmarks/clear'),
-        ];
-        const btn_a = new UIInput('button', ctrlStr[0]).addClass('btn-start');
-        const btn_r = new UIInput('button', ctrlStr[1]).addClass('btn-medium');
-        const btn_c = new UIInput('button', ctrlStr[2]).addClass('btn-end');
+		const strings = reader.strings;
 
-        btn_a.dom.onclick = () => {
+		const ctrlRow = new UIRow();
+		const ctrlStr = [
+			strings.get('sidebar/bookmarks/add'),
+			strings.get('sidebar/bookmarks/remove'),
+			strings.get('sidebar/bookmarks/clear'),
+		];
+		const btn_a = new UIInput('button', ctrlStr[0]).addClass('btn-start');
+		const btn_r = new UIInput('button', ctrlStr[1]).addClass('btn-medium');
+		const btn_c = new UIInput('button', ctrlStr[2]).addClass('btn-end');
 
-            reader.emit('bookmarked', true);
-            return false;
-        };
+		btn_a.dom.onclick = () => {
 
-        btn_r.dom.onclick = () => {
+			reader.emit('bookmarked', true);
+			return false;
+		};
 
-            reader.emit('bookmarked', false);
-            return false;
-        };
+		btn_r.dom.onclick = () => {
 
-        btn_c.dom.onclick = () => {
+			reader.emit('bookmarked', false);
+			return false;
+		};
 
-            this.clearBookmarks();
-            reader.emit('bookmarked', false);
-            return false;
-        };
+		btn_c.dom.onclick = () => {
 
-        ctrlRow.add([btn_a, btn_r, btn_c]);
+			this.clearBookmarks();
+			reader.emit('bookmarked', false);
+			return false;
+		};
 
-        this.reader = reader;
-        this.bookmarks = document.createElement('ul');
-        
-        super.add(ctrlRow);
-        this.dom.appendChild(this.bookmarks);
+		ctrlRow.add([btn_a, btn_r, btn_c]);
 
-        const update = () => {
+		this.reader = reader;
+		this.bookmarks = document.createElement('ul');
 
-            btn_r.dom.disabled = reader.settings.bookmarks.length === 0;
-            btn_c.dom.disabled = reader.settings.bookmarks.length === 0;
-        };
+		super.add(ctrlRow);
+		this.dom.appendChild(this.bookmarks);
 
-        //-- events --//
+		const update = () => {
 
-        reader.on ('bookready', () => {
+			btn_r.dom.disabled = reader.settings.bookmarks.length === 0;
+			btn_c.dom.disabled = reader.settings.bookmarks.length === 0;
+		};
 
-            reader.settings.bookmarks.forEach((cfi) => {
-                
-                const bookmark = this.createBookmarkItem(cfi);
-                this.bookmarks.appendChild(bookmark);
-            });
+		//-- events --//
 
-            update();
-        });
+		reader.on('bookready', () => {
 
-        reader.on('relocated', (location) => {
+			reader.settings.bookmarks.forEach((cfi) => {
 
-            const cfi = location.start.cfi;
-            const val = reader.isBookmarked(cfi) === -1;
-            btn_a.dom.disabled = !val;
-            btn_r.dom.disabled = val;
-        });
+				const bookmark = this.createBookmarkItem(cfi);
+				this.bookmarks.appendChild(bookmark);
+			});
 
-        reader.on('bookmarked', (value) => {
+			update();
+		});
 
-            const cfi = reader.rendition.currentLocation().start.cfi;
+		reader.on('relocated', (location) => {
 
-            if (value) {
-                this.addBookmark(cfi);
-                btn_a.dom.disabled = true;
-            } else {
-                this.removeBookmark(cfi);
-                btn_a.dom.disabled = false;
-            }
+			const cfi = location.start.cfi;
+			const val = reader.isBookmarked(cfi) === -1;
+			btn_a.dom.disabled = !val;
+			btn_r.dom.disabled = val;
+		});
 
-            update();
-        });
-    }
+		reader.on('bookmarked', (value) => {
 
-    addBookmark(cfi) {
+			const cfi = reader.rendition.currentLocation().start.cfi;
 
-        if (this.reader.isBookmarked(cfi) > -1)
-            return;
+			if (value) {
+				this.addBookmark(cfi);
+				btn_a.dom.disabled = true;
+			} else {
+				this.removeBookmark(cfi);
+				btn_a.dom.disabled = false;
+			}
 
-        const bookmark = this.createBookmarkItem(cfi);
-        this.bookmarks.appendChild(bookmark);
-        this.reader.settings.bookmarks.push(cfi);
-    }
+			update();
+		});
+	}
 
-    removeBookmark(cfi) {
+	addBookmark(cfi) {
 
-        const index = this.reader.isBookmarked(cfi);
-        if (index === -1)
-            return;
+		if (this.reader.isBookmarked(cfi) > -1)
+			return;
 
-        this.bookmarks.removeChild(this.bookmarks.childNodes[index]);
-        this.reader.settings.bookmarks.splice(index, 1);
-    }
+		const bookmark = this.createBookmarkItem(cfi);
+		this.bookmarks.appendChild(bookmark);
+		this.reader.settings.bookmarks.push(cfi);
+	}
 
-    clearBookmarks() {
+	removeBookmark(cfi) {
 
-        this.reader.settings.bookmarks = [];
-        while (this.bookmarks.hasChildNodes()) {
-            this.bookmarks.removeChild(this.bookmarks.lastChild);
-        }
-    }
+		const index = this.reader.isBookmarked(cfi);
+		if (index === -1)
+			return;
 
-    createBookmarkItem(cfi) {
+		this.bookmarks.removeChild(this.bookmarks.childNodes[index]);
+		this.reader.settings.bookmarks.splice(index, 1);
+	}
 
-        const item = document.createElement('li');
-        const link = document.createElement('a');
+	clearBookmarks() {
 
-        const book = this.reader.book;
-        const spineItem = book.spine.get(cfi);
-        
-        if (spineItem.index in book.navigation.toc) {
-            const tocItem = book.navigation.toc[spineItem.index];
-            item.id = tocItem.id;
-            link.textContent = tocItem.label;
-        } else {
-            link.textContent = cfi;
-        }
+		this.reader.settings.bookmarks = [];
+		while (this.bookmarks.hasChildNodes()) {
+			this.bookmarks.removeChild(this.bookmarks.lastChild);
+		}
+	}
 
-        link.href = "#" + cfi;
-        link.onclick = () => {
+	createBookmarkItem(cfi) {
 
-            this.reader.rendition.display(cfi);
-            return false;
-        };
+		const item = document.createElement('li');
+		const link = document.createElement('a');
 
-        item.appendChild(link);
-        return item;
-    }
+		const book = this.reader.book;
+		const spineItem = book.spine.get(cfi);
+
+		if (spineItem.index in book.navigation.toc) {
+			const tocItem = book.navigation.toc[spineItem.index];
+			item.id = tocItem.id;
+			link.textContent = tocItem.label;
+		} else {
+			link.textContent = cfi;
+		}
+
+		link.href = "#" + cfi;
+		link.onclick = () => {
+
+			this.reader.rendition.display(cfi);
+			return false;
+		};
+
+		item.appendChild(link);
+		return item;
+	}
 }
 
 ;// CONCATENATED MODULE: ./src/panels/annotations_panel.js
@@ -2235,7 +2232,7 @@ class BookmarksPanel extends UIPanel {
 class AnnotationsPanel extends UIPanel {
 
 	constructor(reader) {
-		
+
 		super();
 		super.setId('annotations');
 
@@ -2343,8 +2340,8 @@ class AnnotationsPanel extends UIPanel {
 		const item = document.createElement('li');
 		const link = document.createElement('a');
 		const btnr = document.createElement('span');
-		const call = () => {};
-		
+		const call = () => { };
+
 		link.href = "#" + note.href;
 		link.textContent = note.text;
 		link.onclick = () => {
@@ -2358,11 +2355,11 @@ class AnnotationsPanel extends UIPanel {
 
 		btnr.className = 'btn-remove';
 		btnr.onclick = () => {
-			
+
 			this.remove(note);
 			return false;
 		};
-		
+
 		item.appendChild(btnr);
 
 		this.notes.appendChild(item);
@@ -2386,7 +2383,7 @@ class AnnotationsPanel extends UIPanel {
 	clearNotes() {
 
 		const len = this.reader.settings.annotations.length;
-		for(let i = 0; i < len; i++) {
+		for (let i = 0; i < len; i++) {
 
 			this.remove(this.reader.settings.annotations[i]);
 		}
@@ -2398,84 +2395,85 @@ class AnnotationsPanel extends UIPanel {
 
 class SearchPanel extends UIPanel {
 
-    constructor(reader) {
+	constructor(reader) {
 
-        super();
-        super.setId('search');
-        
-        const strings = reader.strings;
+		super();
+		super.setId('search');
 
-        let searchQuery = undefined;
-        const searchBox = new UIInput('search');
-        searchBox.dom.placeholder = strings.get('sidebar/search/placeholder');
-        searchBox.dom.onsearch = () => {
+		const strings = reader.strings;
 
-            const value = searchBox.getValue();
-            
-            if (value.length === 0) {
-                this.clear();
-            } else if (searchQuery !== value) {
-                this.clear();
-                this.doSearch(value).then(results => {
+		let searchQuery = undefined;
+		const searchBox = new UIInput('search');
+		searchBox.dom.placeholder = strings.get('sidebar/search/placeholder');
+		searchBox.dom.onsearch = () => {
 
-                    results.forEach(item => {
-                        this.set(item);
-                    });
-                });
-            }
-            searchQuery = value;
-        };
+			const value = searchBox.getValue();
 
-        const ctrlRow = new UIRow();
-        ctrlRow.add(searchBox);
-        super.add(ctrlRow);
+			if (value.length === 0) {
+				this.clear();
+			} else if (searchQuery !== value) {
+				this.clear();
+				this.doSearch(value).then(results => {
 
-        this.items = document.createElement('ul');
-        this.dom.appendChild(this.items);
-        this.reader = reader;
-        //
-        // improvement of the highlighting of keywords is required...
-        //
-    }
+					results.forEach(item => {
+						this.set(item);
+					});
+				});
+			}
+			searchQuery = value;
+		};
 
-    /**
-     * Searching the entire book
-     * @param {*} q Query keyword
-     * @returns The search result array.
-     */
-    async doSearch(q) {
+		const ctrlRow = new UIRow();
+		ctrlRow.add(searchBox);
+		super.add(ctrlRow);
 
-        const book = this.reader.book;
-        const results = await Promise.all(
-            book.spine.spineItems.map(item => item.load(book.load.bind(book))
-            .then(item.find.bind(item, q)).finally(item.unload.bind(item))));
-        return await Promise.resolve([].concat.apply([], results));
-    }
+		this.items = document.createElement('ul');
+		this.dom.appendChild(this.items);
+		this.reader = reader;
+		//
+		// improvement of the highlighting of keywords is required...
+		//
+	}
 
-    set(data) {
+	/**
+	 * Searching the entire book
+	 * @param {*} q Query keyword
+	 * @returns The search result array.
+	 */
+	async doSearch(q) {
 
-        const item = document.createElement('li');
-        const link = document.createElement('a');
+		const book = this.reader.book;
+		const results = await Promise.all(
+			book.spine.spineItems.map(item => item.load(book.load.bind(book))
+				.then(item.find.bind(item, q)).finally(item.unload.bind(item))));
+		return await Promise.resolve([].concat.apply([], results));
+	}
 
-        link.href = "#" + data.cfi;
-        link.textContent = data.excerpt;
-        link.onclick = () => {
+	set(data) {
 
-            this.reader.rendition.display(data.cfi);
-            return false;
-        };
+		const item = document.createElement('li');
+		const link = document.createElement('a');
 
-        item.appendChild(link);
-        this.items.appendChild(item);
-    }
+		link.href = "#" + data.cfi;
+		link.textContent = data.excerpt;
+		link.onclick = () => {
 
-    clear() {
+			this.reader.rendition.display(data.cfi);
+			return false;
+		};
 
-        while (this.items.hasChildNodes()) {
-            this.items.removeChild(this.items.lastChild);
-        }
-    }
+		item.appendChild(link);
+		this.items.appendChild(item);
+	}
+
+	clear() {
+
+		while (this.items.hasChildNodes()) {
+			this.items.removeChild(this.items.lastChild);
+		}
+	}
 }
+
 ;// CONCATENATED MODULE: ./src/panels/settings_panel.js
 
 
@@ -2485,15 +2483,15 @@ class SettingsPanel extends UIPanel {
 
 		super();
 		super.setId('settings');
-		
+
 		const strings = reader.strings;
 
 		const languageStr = strings.get('sidebar/settings/language');
 		const languageRow = new UIRow();
 		const language = new UISelect().setOptions({
-			en: 'English', 
-			fr: 'French', 
-			ja: 'Japanese', 
+			en: 'English',
+			fr: 'French',
+			ja: 'Japanese',
 			ru: 'Russian'
 		});
 		language.dom.addEventListener('change', (e) => {
@@ -2573,297 +2571,299 @@ class SettingsPanel extends UIPanel {
 
 
 class Sidebar {
-    
-    constructor(reader) {
-        
-        const strings = reader.strings;
-        const tabs = [
-            strings.get('sidebar/contents'),
-            strings.get('sidebar/bookmarks'),
-            strings.get('sidebar/annotations'),
-            strings.get('sidebar/search'),
-            strings.get('sidebar/settings')
-        ];
 
-        this.toc = new TocPanel(reader);
-        this.bookmarks = new BookmarksPanel(reader);
-        this.annotations = new AnnotationsPanel(reader);
-        this.search = new SearchPanel(reader);
-        this.settings = new SettingsPanel(reader);
+	constructor(reader) {
 
-        this.container = new UITabbedPanel('vertical').setId('sidebar');
+		const strings = reader.strings;
+		const tabs = [
+			strings.get('sidebar/contents'),
+			strings.get('sidebar/bookmarks'),
+			strings.get('sidebar/annotations'),
+			strings.get('sidebar/search'),
+			strings.get('sidebar/settings')
+		];
 
-        this.container.addTab('tab-t', tabs[0], this.toc);
-        this.container.addTab('tab-b', tabs[1], this.bookmarks);
-        this.container.addTab('tab-n', tabs[2], this.annotations);
-        this.container.addTab('tab-s', tabs[3], this.search);
-        this.container.addTab('tab-c', tabs[4], this.settings);
+		this.toc = new TocPanel(reader);
+		this.bookmarks = new BookmarksPanel(reader);
+		this.annotations = new AnnotationsPanel(reader);
+		this.search = new SearchPanel(reader);
+		this.settings = new SettingsPanel(reader);
 
-        this.container.select('tab-t');
+		this.container = new UITabbedPanel('vertical').setId('sidebar');
 
-        document.body.appendChild(this.container.dom);
-    }
+		this.container.addTab('tab-t', tabs[0], this.toc);
+		this.container.addTab('tab-b', tabs[1], this.bookmarks);
+		this.container.addTab('tab-n', tabs[2], this.annotations);
+		this.container.addTab('tab-s', tabs[3], this.search);
+		this.container.addTab('tab-c', tabs[4], this.settings);
+
+		this.container.select('tab-t');
+
+		document.body.appendChild(this.container.dom);
+	}
 }
+
 ;// CONCATENATED MODULE: ./src/content.js
 
 
 class Content {
 
-    constructor(reader) {
-        
-        this.main = new UIDiv().setId('content');
-        this.main.dom.addEventListener('transitionend', (e) => {
+	constructor(reader) {
 
-            if (reader.settings.sidebarReflow) {
-                reader.rendition.resize();
-            }
-        });
+		this.main = new UIDiv().setId('content');
+		this.main.dom.addEventListener('transitionend', (e) => {
 
-        const prev = new UIDiv().setId('prev').setClass('arrow');
-        prev.dom.onclick = (e) => {
+			if (reader.settings.sidebarReflow) {
+				reader.rendition.resize();
+			}
+		});
 
-            reader.emit('prev');
-            e.preventDefault();
-        };
-        prev.add(new UILabel('<'));
+		const prev = new UIDiv().setId('prev').setClass('arrow');
+		prev.dom.onclick = (e) => {
 
-        const next = new UIDiv().setId('next').setClass('arrow');
-        next.dom.onclick = (e) => {
-            
-            reader.emit('next');
-            e.preventDefault();
-        };
-        next.add(new UILabel('>'));
+			reader.emit('prev');
+			e.preventDefault();
+		};
+		prev.add(new UILabel('<'));
 
-        const viewer  = new UIDiv().setId('viewer');
-        const divider = new UIDiv().setId('divider');
-        const loader  = new UIDiv().setId('loader');
+		const next = new UIDiv().setId('next').setClass('arrow');
+		next.dom.onclick = (e) => {
 
-        const showDivider = () => {
-            divider.dom.style.display = 'block';
-        };
+			reader.emit('next');
+			e.preventDefault();
+		};
+		next.add(new UILabel('>'));
 
-        const hideDivider = () => {
-            divider.dom.style.display = 'none';
-        };
+		const viewer = new UIDiv().setId('viewer');
+		const divider = new UIDiv().setId('divider');
+		const loader = new UIDiv().setId('loader');
 
-        const showLoader = () => {
-            loader.dom.style.display = 'block';
-            hideDivider();
-        };
+		const showDivider = () => {
+			divider.dom.style.display = 'block';
+		};
 
-        const hideLoader = () => {
-            loader.dom.style.display = 'none';
+		const hideDivider = () => {
+			divider.dom.style.display = 'none';
+		};
 
-            //-- If the book is using spreads, show the divider
-            if(reader.book.settings.spreads) {
-                showDivider();
-            }
-        };
+		const showLoader = () => {
+			loader.dom.style.display = 'block';
+			hideDivider();
+		};
 
-        this.main.add([prev, viewer, next, divider, loader]);
+		const hideLoader = () => {
+			loader.dom.style.display = 'none';
 
-        this.reader = reader;
-        
-        document.body.appendChild(this.main.dom);
+			//-- If the book is using spreads, show the divider
+			if (reader.book.settings.spreads) {
+				showDivider();
+			}
+		};
 
-        //-- events --//
+		this.main.add([prev, viewer, next, divider, loader]);
 
-        reader.on('bookloaded', () => {
+		this.reader = reader;
 
-            hideLoader();
-        });
+		document.body.appendChild(this.main.dom);
 
-        reader.on('sidebaropener', (value) => {
-            
-            if (value) {
-                this.slideOut();
-            } else {
-                this.slideIn();
-            }
-        });
+		//-- events --//
 
-        reader.on('layout', (props) => {
+		reader.on('bookloaded', () => {
 
-            if (props.spread === true && props.width > props.spreadWidth) {
-                showDivider();
-            } else {
-                hideDivider();
-            }
-        });
+			hideLoader();
+		});
 
-        reader.on('relocated', (location) => {
+		reader.on('sidebaropener', (value) => {
 
-            if (location.atStart) {
-                prev.addClass('disabled');
-            } else {
-                prev.removeClass('disabled');
-            }
+			if (value) {
+				this.slideOut();
+			} else {
+				this.slideIn();
+			}
+		});
 
-            if (location.atEnd) {
-                next.addClass('disabled');
-            } else {
-                next.removeClass('disabled');
-            }
-        });
+		reader.on('layout', (props) => {
 
-        reader.on('prev', () => {
+			if (props.spread === true && props.width > props.spreadWidth) {
+				showDivider();
+			} else {
+				hideDivider();
+			}
+		});
 
-            prev.addClass('active');
-            setTimeout(() => { prev.removeClass('active'); }, 100);
-        });
+		reader.on('relocated', (location) => {
 
-        reader.on('next', () => {
+			if (location.atStart) {
+				prev.addClass('disabled');
+			} else {
+				prev.removeClass('disabled');
+			}
 
-            next.addClass('active');
-            setTimeout(() => { next.removeClass('active'); }, 100);
-        });
+			if (location.atEnd) {
+				next.addClass('disabled');
+			} else {
+				next.removeClass('disabled');
+			}
+		});
 
-        reader.on('viewercleanup', () => {
+		reader.on('prev', () => {
 
-            viewer.clear();
-        });
-    }
+			prev.addClass('active');
+			setTimeout(() => { prev.removeClass('active'); }, 100);
+		});
 
-    slideIn() {
+		reader.on('next', () => {
 
-        //var currentPosition = rendition.currentLocation().start.cfi;
-        if (this.reader.settings.sidebarReflow) {
-            //this.main.removeClass('single');
-        } else {
-            //this.main.removeClass('closed');
-        }
+			next.addClass('active');
+			setTimeout(() => { next.removeClass('active'); }, 100);
+		});
 
-        this.main.removeClass('single');
-        this.main.removeClass('closed');
-    }
+		reader.on('viewercleanup', () => {
 
-    slideOut() {
-        /*
-        var location = rendition.currentLocation();
-        if (!location) {
-            return;
-        }
-        var currentPosition = location.start.cfi;
-        */
-        if (this.reader.settings.sidebarReflow) {
-            this.main.addClass('single');
-        } else {
-            this.main.addClass('closed');
-        }
-    }
+			viewer.clear();
+		});
+	}
+
+	slideIn() {
+
+		//var currentPosition = rendition.currentLocation().start.cfi;
+		if (this.reader.settings.sidebarReflow) {
+			//this.main.removeClass('single');
+		} else {
+			//this.main.removeClass('closed');
+		}
+
+		this.main.removeClass('single');
+		this.main.removeClass('closed');
+	}
+
+	slideOut() {
+		/*
+		var location = rendition.currentLocation();
+		if (!location) {
+			return;
+		}
+		var currentPosition = location.start.cfi;
+		*/
+		if (this.reader.settings.sidebarReflow) {
+			this.main.addClass('single');
+		} else {
+			this.main.addClass('closed');
+		}
+	}
 }
+
 ;// CONCATENATED MODULE: ./src/strings.js
 class Strings {
 
-    constructor(reader) {
+	constructor(reader) {
 
-        this.language = reader.settings.language || 'en';
-        this.values = {
-            en: {
-                'toolbar/opener': 'Sidebar',
-                'toolbar/openbook': 'Open book',
-                'toolbar/openbook/error': 'Your browser does not support the required features.\nPlease use a modern browser such as Google Chrome, or Mozilla Firefox.',
-                'toolbar/bookmark': 'Add this page to bookmarks',
-                'toolbar/fullsceen': 'Fullscreen',
+		this.language = reader.settings.language || 'en';
+		this.values = {
+			en: {
+				'toolbar/opener': 'Sidebar',
+				'toolbar/openbook': 'Open book',
+				'toolbar/openbook/error': 'Your browser does not support the required features.\nPlease use a modern browser such as Google Chrome, or Mozilla Firefox.',
+				'toolbar/bookmark': 'Add this page to bookmarks',
+				'toolbar/fullsceen': 'Fullscreen',
 
-                'sidebar/contents': 'Contents',
-                'sidebar/bookmarks': 'Bookmarks',
-                'sidebar/bookmarks/add': 'Add',
-                'sidebar/bookmarks/remove': 'Remove',
-                'sidebar/bookmarks/clear': 'Clear',
-                'sidebar/annotations': 'Annotations',
-                'sidebar/annotations/add': 'Add',
-                'sidebar/annotations/clear': 'Clear',
-                'sidebar/annotations/anchor': 'Anchor',
-                'sidebar/annotations/cancel': 'Cancel',
-                'sidebar/search': 'Search',
-                'sidebar/search/placeholder': 'search',
-                'sidebar/settings': 'Settings',
-                'sidebar/settings/language': 'Language',
-                'sidebar/settings/fontsize': 'Font size (%)',
-                'sidabar/settings/reflowtext': ['Reflow text', 'Reflow text when sidebars are open'],
-                'sidebar/settings/pagination': ['Pagination', 'Generate pagination']
-            },
-            fr: {
-                'toolbar/opener': 'Barre latérale',
-                'toolbar/openbook': 'Ouvrir un livre local',
-                'toolbar/openbook/error': 'Votre navigateur ne prend pas en charge les fonctions nécessaires.\nVeuillez utiliser un navigateur moderne tel que Google Chrome ou Mozilla Firefox.',
-                'toolbar/bookmark': 'Insérer un marque page ici',
-                'toolbar/fullsceen': 'Plein écran',
+				'sidebar/contents': 'Contents',
+				'sidebar/bookmarks': 'Bookmarks',
+				'sidebar/bookmarks/add': 'Add',
+				'sidebar/bookmarks/remove': 'Remove',
+				'sidebar/bookmarks/clear': 'Clear',
+				'sidebar/annotations': 'Annotations',
+				'sidebar/annotations/add': 'Add',
+				'sidebar/annotations/clear': 'Clear',
+				'sidebar/annotations/anchor': 'Anchor',
+				'sidebar/annotations/cancel': 'Cancel',
+				'sidebar/search': 'Search',
+				'sidebar/search/placeholder': 'search',
+				'sidebar/settings': 'Settings',
+				'sidebar/settings/language': 'Language',
+				'sidebar/settings/fontsize': 'Font size (%)',
+				'sidabar/settings/reflowtext': ['Reflow text', 'Reflow text when sidebars are open'],
+				'sidebar/settings/pagination': ['Pagination', 'Generate pagination']
+			},
+			fr: {
+				'toolbar/opener': 'Barre latérale',
+				'toolbar/openbook': 'Ouvrir un livre local',
+				'toolbar/openbook/error': 'Votre navigateur ne prend pas en charge les fonctions nécessaires.\nVeuillez utiliser un navigateur moderne tel que Google Chrome ou Mozilla Firefox.',
+				'toolbar/bookmark': 'Insérer un marque page ici',
+				'toolbar/fullsceen': 'Plein écran',
 
-                'sidebar/contents': 'Sommaire',
-                'sidebar/bookmarks': 'Marque-pages',
-                'sidebar/bookmarks/add': 'Ajouter',
-                'sidebar/bookmarks/remove': 'Retirer',
-                'sidebar/bookmarks/clear': 'Tout enlever',
-                'sidebar/annotations': 'Annotations',
-                'sidebar/annotations/add': 'Ajouter',
-                'sidebar/annotations/clear': 'Tout enlever',
-                'sidebar/annotations/anchor': 'Ancre',
-                'sidebar/annotations/cancel': 'Annuler',
-                'sidebar/search': 'Rechercher',
-                'sidebar/search/placeholder': 'rechercher',
-                'sidebar/settings': 'Réglages',
-                'sidebar/settings/language': 'Langue',
-                'sidebar/settings/fontsize': '???',
-                'sidabar/settings/reflowtext': ['Réagencer', 'Réagencer les lignes lorsque le panneau latéral est ouvert'],
-                'sidebar/settings/pagination': ['Pagination', 'Établir une pagination']
-            },
-            ja: {
-                'toolbar/opener': 'サイドバー',
-                'toolbar/openbook': '本を開く',
-                'toolbar/openbook/error': 'ご利用のブラウザは必要な機能をサポートしていません。\nGoogle Chrome、Mozilla Firefox、その他のモダンなブラウザでご利用ください。',
-                'toolbar/bookmark': 'このページに栞を設定する',
-                'toolbar/fullsceen': 'フルスクリーン',
+				'sidebar/contents': 'Sommaire',
+				'sidebar/bookmarks': 'Marque-pages',
+				'sidebar/bookmarks/add': 'Ajouter',
+				'sidebar/bookmarks/remove': 'Retirer',
+				'sidebar/bookmarks/clear': 'Tout enlever',
+				'sidebar/annotations': 'Annotations',
+				'sidebar/annotations/add': 'Ajouter',
+				'sidebar/annotations/clear': 'Tout enlever',
+				'sidebar/annotations/anchor': 'Ancre',
+				'sidebar/annotations/cancel': 'Annuler',
+				'sidebar/search': 'Rechercher',
+				'sidebar/search/placeholder': 'rechercher',
+				'sidebar/settings': 'Réglages',
+				'sidebar/settings/language': 'Langue',
+				'sidebar/settings/fontsize': '???',
+				'sidabar/settings/reflowtext': ['Réagencer', 'Réagencer les lignes lorsque le panneau latéral est ouvert'],
+				'sidebar/settings/pagination': ['Pagination', 'Établir une pagination']
+			},
+			ja: {
+				'toolbar/opener': 'サイドバー',
+				'toolbar/openbook': '本を開く',
+				'toolbar/openbook/error': 'ご利用のブラウザは必要な機能をサポートしていません。\nGoogle Chrome、Mozilla Firefox、その他のモダンなブラウザでご利用ください。',
+				'toolbar/bookmark': 'このページに栞を設定する',
+				'toolbar/fullsceen': 'フルスクリーン',
 
-                'sidebar/contents': '目次',
-                'sidebar/bookmarks': '栞',
-                'sidebar/bookmarks/add': '追加',
-                'sidebar/bookmarks/remove': '削除',
-                'sidebar/bookmarks/clear': 'クリア',
-                'sidebar/annotations': '注釈',
-                'sidebar/annotations/add': '追加',
-                'sidebar/annotations/clear': 'クリア',
-                'sidebar/annotations/anchor': 'アンカー',
-                'sidebar/annotations/cancel': 'キャンセル',
-                'sidebar/search': '検索',
-                'sidebar/search/placeholder': '検索',
-                'sidebar/settings': '設定',
-                'sidebar/settings/language': '表示言語',
-                'sidebar/settings/fontsize': '???',
-                'sidabar/settings/reflowtext': ['再配置', 'サイドバーを開いた時に、テキストを再配置します。'],
-                'sidebar/settings/pagination': ['ページネーション', 'ページネーションを生成します。']
-            },
-            ru: {
-                'toolbar/opener': 'Боковая панель',
-                'toolbar/openbook': 'Открыть книгу',
-                'toolbar/openbook/error': 'Ваш браузер не поддерживает необходимые функции.\nПожалуйста, используйте современный браузер, такой как Google Chrome или Mozilla Firefox.',
-                'toolbar/bookmark': 'Добавить эту страницу в закладки',
-                'toolbar/fullsceen': 'Полноэкранный режим',
+				'sidebar/contents': '目次',
+				'sidebar/bookmarks': '栞',
+				'sidebar/bookmarks/add': '追加',
+				'sidebar/bookmarks/remove': '削除',
+				'sidebar/bookmarks/clear': 'クリア',
+				'sidebar/annotations': '注釈',
+				'sidebar/annotations/add': '追加',
+				'sidebar/annotations/clear': 'クリア',
+				'sidebar/annotations/anchor': 'アンカー',
+				'sidebar/annotations/cancel': 'キャンセル',
+				'sidebar/search': '検索',
+				'sidebar/search/placeholder': '検索',
+				'sidebar/settings': '設定',
+				'sidebar/settings/language': '表示言語',
+				'sidebar/settings/fontsize': '???',
+				'sidabar/settings/reflowtext': ['再配置', 'サイドバーを開いた時に、テキストを再配置します。'],
+				'sidebar/settings/pagination': ['ページネーション', 'ページネーションを生成します。']
+			},
+			ru: {
+				'toolbar/opener': 'Боковая панель',
+				'toolbar/openbook': 'Открыть книгу',
+				'toolbar/openbook/error': 'Ваш браузер не поддерживает необходимые функции.\nПожалуйста, используйте современный браузер, такой как Google Chrome или Mozilla Firefox.',
+				'toolbar/bookmark': 'Добавить эту страницу в закладки',
+				'toolbar/fullsceen': 'Полноэкранный режим',
 
-                'sidebar/contents': 'Содержание',
-                'sidebar/bookmarks': 'Закладки',
-                'sidebar/bookmarks/add': 'Добавить',
-                'sidebar/bookmarks/remove': 'Удалить',
-                'sidebar/bookmarks/clear': 'Очистить',
-                'sidebar/annotations': 'Аннотации',
-                'sidebar/annotations/add': 'Добавить',
-                'sidebar/annotations/clear': 'Очистить',
-                'sidebar/annotations/anchor': 'Метка',
-                'sidebar/annotations/cancel': 'Отмена',
-                'sidebar/search': 'Поиск',
-                'sidebar/search/placeholder': 'поиск...',
-                'sidebar/settings': 'Настройки',
-                'sidebar/settings/language': 'Язык',
-                'sidebar/settings/fontsize': 'Размер шрифта',
-                'sidabar/settings/reflowtext': ['Перекомпоновать текст', 'Перекомпоновать текст при открытых боковых панелях'],
-                'sidebar/settings/pagination': ['Нумерация страниц', 'Генерировать нумерацию страниц']
-            }
-        };
-    }
+				'sidebar/contents': 'Содержание',
+				'sidebar/bookmarks': 'Закладки',
+				'sidebar/bookmarks/add': 'Добавить',
+				'sidebar/bookmarks/remove': 'Удалить',
+				'sidebar/bookmarks/clear': 'Очистить',
+				'sidebar/annotations': 'Аннотации',
+				'sidebar/annotations/add': 'Добавить',
+				'sidebar/annotations/clear': 'Очистить',
+				'sidebar/annotations/anchor': 'Метка',
+				'sidebar/annotations/cancel': 'Отмена',
+				'sidebar/search': 'Поиск',
+				'sidebar/search/placeholder': 'поиск...',
+				'sidebar/settings': 'Настройки',
+				'sidebar/settings/language': 'Язык',
+				'sidebar/settings/fontsize': 'Размер шрифта',
+				'sidabar/settings/reflowtext': ['Перекомпоновать текст', 'Перекомпоновать текст при открытых боковых панелях'],
+				'sidebar/settings/pagination': ['Нумерация страниц', 'Генерировать нумерацию страниц']
+			}
+		};
+	}
 
-    get(key) { return this.values[this.language][key] || '???'; }
+	get(key) { return this.values[this.language][key] || '???'; }
 }
 
 ;// CONCATENATED MODULE: ./src/reader.js
@@ -2876,392 +2876,392 @@ class Strings {
 
 class Reader {
 
-    constructor(bookPath, _options) {
-
-        this.settings = undefined;
-        this.cfgInit(bookPath, _options);
-
-        this.strings = new Strings(this);
-        this.toolbar = new Toolbar(this);
-        this.sidebar = new Sidebar(this);
-        this.content = new Content(this);
-
-        this.book = undefined;
-        this.rendition = undefined;
-        this.displayed = undefined;
-
-        this.init();
-
-        window.addEventListener('beforeunload', this.unload.bind(this), false);
-        window.addEventListener('hashchange', this.hashChanged.bind(this), false);
-        window.addEventListener('keydown', this.keyboardHandler.bind(this), false);
-        window.addEventListener('wheel', (e) => {
-            if (e.ctrlKey) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-    }
-
-    /**
-     * Initialize book.
-     * @param {*} bookPath 
-     * @param {*} _options 
-     */
-    init(bookPath, _options) {
-
-        this.emit('viewercleanup');
-        
-        if (arguments.length > 0) {
-
-            this.cfgInit(bookPath, _options);
-        }
-
-        this.book = ePub(this.settings.bookPath);
-        this.rendition = this.book.renderTo('viewer', {
-            width: '100%',
-            height: '100%'
-        });
-
-        const cfi = this.settings.previousLocationCfi;
-        if (cfi) {
-            this.displayed = this.rendition.display(cfi);
-        } else {
-            this.displayed = this.rendition.display();
-        }
-
-        this.displayed.then((renderer) => {
-            this.emit('renderered', renderer);
-        });
-
-        this.book.ready.then(function () {
-            if (this.settings.pagination) {
-                this.generatePagination();
-            }
-            this.emit('bookready');
-            this.emit('fontresize', parseInt(this.settings.styles.fontSize));
-        }.bind(this)).then(function () {
-            this.emit('bookloaded');
-        }.bind(this));
-
-        this.book.loaded.metadata.then((meta) => {
-            this.emit('metadata', meta);
-        });
-
-        this.book.loaded.navigation.then((toc) => {
-            this.emit('navigation', toc);
-        });
-
-        this.rendition.on('click', (e) => {
-            const selection = e.view.document.getSelection();
-            const range = selection.getRangeAt(0);
-            if (range.startOffset === range.endOffset) {
-                this.emit('unselected');
-            }
-        });
-
-        this.rendition.on('layout', (props) => {
-            this.emit('layout', props);
-        });
-
-        this.rendition.on('selected', (cfiRange, contents) => {
-            this.setLocation(cfiRange);
-            this.emit('selected', cfiRange, contents);
-        });
-
-        this.rendition.on('relocated', (location) => {
-            this.setLocation(location.start.cfi);
-            this.emit('relocated', location);
-        });
-
-        this.on('fontresize', (value) => {
-            const fontSize = value + "%";
-            this.settings.styles.fontSize = fontSize;
-            this.rendition.themes.fontSize(fontSize);
-        });
-
-        this.on('prev', () => {
-            if (this.book.package.metadata.direction === 'rtl') {
-                this.rendition.next();
-            } else {
-                this.rendition.prev();
-            }
-        });
-
-        this.on('next', () => {
-            if (this.book.package.metadata.direction === 'rtl') {
-                this.rendition.prev();
-            } else {
-                this.rendition.next();
-            }
-        });
-
-        this.on('tocselected', (sectionId) => {
-            this.settings.sectionId = sectionId;
-        });
-    }
-
-    /* ------------------------------- Common ------------------------------- */
-
-    defaults(obj) {
-
-        for (let i = 1, length = arguments.length; i < length; i++) {
-            const source = arguments[i];
-            for (let prop in source) {
-                if (obj[prop] === void 0)
-                    obj[prop] = source[prop];
-            }
-        }
-        return obj;
-    }
-
-    uuid() {
-
-        let d = new Date().getTime();
-        const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-            let r = (d + Math.random() * 16) % 16 | 0;
-            d = Math.floor(d / 16);
-            return (c === 'x' ? r : (r & 0x7 | 0x8)).toString(16);
-        });
-        return uuid;
-    }
-
-    /* ------------------------------ Bookmarks ----------------------------- */
-
-    /**
-     * Verifying the current page in bookmarks.
-     * @param {*} cfi 
-     * @returns The index of the bookmark if it exists, or -1 otherwise.
-     */
-    isBookmarked(cfi) {
-
-        return this.settings.bookmarks.indexOf(cfi);
-    }
-
-    /* ----------------------------- Annotations ---------------------------- */
-
-    isAnnotated(note) {
-
-        return this.settings.annotations.indexOf(note);
-    }
-
-    /* ------------------------------ Settings ------------------------------ */
-
-    /**
-     * Initialize book settings.
-     * @param {*} bookPath
-     * @param {*} _options
-     */
-    cfgInit(bookPath, _options) {
-
-        this.settings = this.defaults(_options || {}, {
-            bookKey: this.getBookKey(bookPath),
-            bookPath: bookPath,
-            restore: false,
-            history: true,
-            reload: false, // ??
-            bookmarks: undefined,
-            annotations: undefined,
-            contained: undefined,
-            sectionId: undefined,
-            styles: undefined,
-            reflowText: false, // ??
-            pagination: false, // ??
-            language: undefined
-        });
-
-        if (this.settings.restore && this.isSaved()) {
-            this.applySavedSettings();
-        }
-
-        if (this.settings.bookmarks === undefined) {
-            this.settings.bookmarks = [];
-        }
-
-        if (this.settings.annotations === undefined) {
-            this.settings.annotations = [];
-        }
-
-        if (this.settings.styles === undefined) {
-            this.settings.styles = { fontSize: '100%' };
-        }
-
-        if (this.settings.language === undefined) {
-            this.settings.language = 'en';
-        }
-    }
-    
-    /**
-     * Get book key.
-     * @param {*} identifier (url | blob)
-     * @returns Book key (MD5).
-     */
-    getBookKey(identifier) {
-
-        return 'epubjs-reader:' + md5(identifier);
-    }
-    
-    /**
-     * Set book key in settings.
-     * @param {*} identifier (url | blob)
-     * @returns Current book key.
-     */
-    setBookKey(identifier) {
-
-        if (this.settings.bookKey === undefined) {
-            this.settings.bookKey = this.getBookKey(identifier);
-        }
-        return this.settings.bookKey;
-    }
-
-    /**
-     * Checks if the book setting can be retrieved from localStorage.
-     * @returns true if the book key exists, or false otherwise.
-     */
-    isSaved() {
-
-        if (!localStorage)
-            return false;
-        
-        return localStorage.getItem(this.settings.bookKey) !== null;
-    }
-
-    /**
-     * Removing the current book settings from local storage.
-     * @returns true if the book settings were deleted successfully, or false 
-     * otherwise.
-     */
-    removeSavedSettings() {
-
-        if (!this.isSaved())
-            return false;
-
-        localStorage.removeItem(this.settings.bookKey);
-        return true;
-    }
-
-    applySavedSettings() {
-
-        if (!localStorage)
-            return false;
-
-        let stored;
-        try {
-            stored = JSON.parse(localStorage.getItem(this.settings.bookKey));
-        } catch (e) { // parsing error of localStorage
-            console.exception(e);
-        }
-
-        if (stored) {
-            // Merge styles
-            if (stored.styles) {
-                this.settings.styles = this.defaults(this.settings.styles || {},
-                    stored.styles);
-            }
-            // Merge the rest
-            this.settings = this.defaults(this.settings, stored);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Saving the current book settings in local storage.
-     * @returns 
-     */
-    saveSettings() {
-
-        if (this.book) {
-
-            if (this.rendition.location) {
-                const curLocation = this.rendition.currentLocation();
-                this.settings.previousLocationCfi = curLocation.start.cfi;
-            }
-        }
-
-        if (!localStorage)
-            return false;
-
-        localStorage.setItem(this.settings.bookKey, JSON.stringify(this.settings));
-        return true;
-    }
-
-    unload() {
-        
-        if (this.settings.restore && localStorage) {
-            this.saveSettings();
-        }
-    }
-
-    hashChanged() {
-
-        const hash = window.location.hash.slice(1);
-        this.rendition.display(hash);
-    }
-
-    setLocation(cfi) {
-
-        const baseUrl = this.book.archived ? undefined : this.book.url;
-        const url = new URL(window.location, baseUrl);
-        url.hash = "#" + cfi;
-
-        // Update the History Location
-        if (this.settings.history && window.location.hash !== url.hash) {
-            // Add CFI fragment to the history
-            window.history.pushState({}, "", url);
-            this.currentLocationCfi = cfi;
-        }
-    }
-
-    generatePagination() {
-        //
-        // no implemented
-        //
-        //const rect = this.content.viewer.getRect();
-        //this.book.generatePagination(rect.width, rect.height);
-    }
-
-    keyboardHandler(e) {
-
-        const MOD = (e.ctrlKey || e.metaKey);
-
-        if (MOD) {
-
-            const step = 2;
-            let value = parseInt(this.settings.styles.fontSize);
-
-            switch (e.key) {
-
-                case '=':
-                    e.preventDefault();
-                    value += step;
-                    this.emit('fontresize', value);
-                    break;
-                case '-':
-                    e.preventDefault();
-                    value -= step;
-                    this.emit('fontresize', value);
-                    break;
-                case '0':
-                    e.preventDefault();
-                    value = 100;
-                    this.emit('fontresize', value);
-                    break;
-            }
-        } else {
-
-            switch (e.key) {
-                case 'ArrowLeft':
-                    this.emit('prev');
-                    e.preventDefault();
-                    break;
-                case 'ArrowRight':
-                    this.emit('next');
-                    e.preventDefault();
-                    break;
-            }
-        }
-    }
+	constructor(bookPath, _options) {
+
+		this.settings = undefined;
+		this.cfgInit(bookPath, _options);
+
+		this.strings = new Strings(this);
+		this.toolbar = new Toolbar(this);
+		this.sidebar = new Sidebar(this);
+		this.content = new Content(this);
+
+		this.book = undefined;
+		this.rendition = undefined;
+		this.displayed = undefined;
+
+		this.init();
+
+		window.addEventListener('beforeunload', this.unload.bind(this), false);
+		window.addEventListener('hashchange', this.hashChanged.bind(this), false);
+		window.addEventListener('keydown', this.keyboardHandler.bind(this), false);
+		window.addEventListener('wheel', (e) => {
+			if (e.ctrlKey) {
+				e.preventDefault();
+			}
+		}, { passive: false });
+	}
+
+	/**
+	 * Initialize book.
+	 * @param {*} bookPath
+	 * @param {*} _options
+	 */
+	init(bookPath, _options) {
+
+		this.emit('viewercleanup');
+
+		if (arguments.length > 0) {
+
+			this.cfgInit(bookPath, _options);
+		}
+
+		this.book = ePub(this.settings.bookPath);
+		this.rendition = this.book.renderTo('viewer', {
+			width: '100%',
+			height: '100%'
+		});
+
+		const cfi = this.settings.previousLocationCfi;
+		if (cfi) {
+			this.displayed = this.rendition.display(cfi);
+		} else {
+			this.displayed = this.rendition.display();
+		}
+
+		this.displayed.then((renderer) => {
+			this.emit('renderered', renderer);
+		});
+
+		this.book.ready.then(function () {
+			if (this.settings.pagination) {
+				this.generatePagination();
+			}
+			this.emit('bookready');
+			this.emit('fontresize', parseInt(this.settings.styles.fontSize));
+		}.bind(this)).then(function () {
+			this.emit('bookloaded');
+		}.bind(this));
+
+		this.book.loaded.metadata.then((meta) => {
+			this.emit('metadata', meta);
+		});
+
+		this.book.loaded.navigation.then((toc) => {
+			this.emit('navigation', toc);
+		});
+
+		this.rendition.on('click', (e) => {
+			const selection = e.view.document.getSelection();
+			const range = selection.getRangeAt(0);
+			if (range.startOffset === range.endOffset) {
+				this.emit('unselected');
+			}
+		});
+
+		this.rendition.on('layout', (props) => {
+			this.emit('layout', props);
+		});
+
+		this.rendition.on('selected', (cfiRange, contents) => {
+			this.setLocation(cfiRange);
+			this.emit('selected', cfiRange, contents);
+		});
+
+		this.rendition.on('relocated', (location) => {
+			this.setLocation(location.start.cfi);
+			this.emit('relocated', location);
+		});
+
+		this.on('fontresize', (value) => {
+			const fontSize = value + "%";
+			this.settings.styles.fontSize = fontSize;
+			this.rendition.themes.fontSize(fontSize);
+		});
+
+		this.on('prev', () => {
+			if (this.book.package.metadata.direction === 'rtl') {
+				this.rendition.next();
+			} else {
+				this.rendition.prev();
+			}
+		});
+
+		this.on('next', () => {
+			if (this.book.package.metadata.direction === 'rtl') {
+				this.rendition.prev();
+			} else {
+				this.rendition.next();
+			}
+		});
+
+		this.on('tocselected', (sectionId) => {
+			this.settings.sectionId = sectionId;
+		});
+	}
+
+	/* ------------------------------- Common ------------------------------- */
+
+	defaults(obj) {
+
+		for (let i = 1, length = arguments.length; i < length; i++) {
+			const source = arguments[i];
+			for (let prop in source) {
+				if (obj[prop] === void 0)
+					obj[prop] = source[prop];
+			}
+		}
+		return obj;
+	}
+
+	uuid() {
+
+		let d = new Date().getTime();
+		const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+			let r = (d + Math.random() * 16) % 16 | 0;
+			d = Math.floor(d / 16);
+			return (c === 'x' ? r : (r & 0x7 | 0x8)).toString(16);
+		});
+		return uuid;
+	}
+
+	/* ------------------------------ Bookmarks ----------------------------- */
+
+	/**
+	 * Verifying the current page in bookmarks.
+	 * @param {*} cfi
+	 * @returns The index of the bookmark if it exists, or -1 otherwise.
+	 */
+	isBookmarked(cfi) {
+
+		return this.settings.bookmarks.indexOf(cfi);
+	}
+
+	/* ----------------------------- Annotations ---------------------------- */
+
+	isAnnotated(note) {
+
+		return this.settings.annotations.indexOf(note);
+	}
+
+	/* ------------------------------ Settings ------------------------------ */
+
+	/**
+	 * Initialize book settings.
+	 * @param {*} bookPath
+	 * @param {*} _options
+	 */
+	cfgInit(bookPath, _options) {
+
+		this.settings = this.defaults(_options || {}, {
+			bookKey: this.getBookKey(bookPath),
+			bookPath: bookPath,
+			restore: false,
+			history: true,
+			reload: false, // ??
+			bookmarks: undefined,
+			annotations: undefined,
+			contained: undefined,
+			sectionId: undefined,
+			styles: undefined,
+			reflowText: false, // ??
+			pagination: false, // ??
+			language: undefined
+		});
+
+		if (this.settings.restore && this.isSaved()) {
+			this.applySavedSettings();
+		}
+
+		if (this.settings.bookmarks === undefined) {
+			this.settings.bookmarks = [];
+		}
+
+		if (this.settings.annotations === undefined) {
+			this.settings.annotations = [];
+		}
+
+		if (this.settings.styles === undefined) {
+			this.settings.styles = { fontSize: '100%' };
+		}
+
+		if (this.settings.language === undefined) {
+			this.settings.language = 'en';
+		}
+	}
+
+	/**
+	 * Get book key.
+	 * @param {*} identifier (url | blob)
+	 * @returns Book key (MD5).
+	 */
+	getBookKey(identifier) {
+
+		return 'epubjs-reader:' + md5(identifier);
+	}
+
+	/**
+	 * Set book key in settings.
+	 * @param {*} identifier (url | blob)
+	 * @returns Current book key.
+	 */
+	setBookKey(identifier) {
+
+		if (this.settings.bookKey === undefined) {
+			this.settings.bookKey = this.getBookKey(identifier);
+		}
+		return this.settings.bookKey;
+	}
+
+	/**
+	 * Checks if the book setting can be retrieved from localStorage.
+	 * @returns true if the book key exists, or false otherwise.
+	 */
+	isSaved() {
+
+		if (!localStorage)
+			return false;
+
+		return localStorage.getItem(this.settings.bookKey) !== null;
+	}
+
+	/**
+	 * Removing the current book settings from local storage.
+	 * @returns true if the book settings were deleted successfully, or false
+	 * otherwise.
+	 */
+	removeSavedSettings() {
+
+		if (!this.isSaved())
+			return false;
+
+		localStorage.removeItem(this.settings.bookKey);
+		return true;
+	}
+
+	applySavedSettings() {
+
+		if (!localStorage)
+			return false;
+
+		let stored;
+		try {
+			stored = JSON.parse(localStorage.getItem(this.settings.bookKey));
+		} catch (e) { // parsing error of localStorage
+			console.exception(e);
+		}
+
+		if (stored) {
+			// Merge styles
+			if (stored.styles) {
+				this.settings.styles = this.defaults(this.settings.styles || {},
+					stored.styles);
+			}
+			// Merge the rest
+			this.settings = this.defaults(this.settings, stored);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Saving the current book settings in local storage.
+	 * @returns
+	 */
+	saveSettings() {
+
+		if (this.book) {
+
+			if (this.rendition.location) {
+				const curLocation = this.rendition.currentLocation();
+				this.settings.previousLocationCfi = curLocation.start.cfi;
+			}
+		}
+
+		if (!localStorage)
+			return false;
+
+		localStorage.setItem(this.settings.bookKey, JSON.stringify(this.settings));
+		return true;
+	}
+
+	unload() {
+
+		if (this.settings.restore && localStorage) {
+			this.saveSettings();
+		}
+	}
+
+	hashChanged() {
+
+		const hash = window.location.hash.slice(1);
+		this.rendition.display(hash);
+	}
+
+	setLocation(cfi) {
+
+		const baseUrl = this.book.archived ? undefined : this.book.url;
+		const url = new URL(window.location, baseUrl);
+		url.hash = "#" + cfi;
+
+		// Update the History Location
+		if (this.settings.history && window.location.hash !== url.hash) {
+			// Add CFI fragment to the history
+			window.history.pushState({}, "", url);
+			this.currentLocationCfi = cfi;
+		}
+	}
+
+	generatePagination() {
+		//
+		// no implemented
+		//
+		//const rect = this.content.viewer.getRect();
+		//this.book.generatePagination(rect.width, rect.height);
+	}
+
+	keyboardHandler(e) {
+
+		const MOD = (e.ctrlKey || e.metaKey);
+
+		if (MOD) {
+
+			const step = 2;
+			let value = parseInt(this.settings.styles.fontSize);
+
+			switch (e.key) {
+
+				case '=':
+					e.preventDefault();
+					value += step;
+					this.emit('fontresize', value);
+					break;
+				case '-':
+					e.preventDefault();
+					value -= step;
+					this.emit('fontresize', value);
+					break;
+				case '0':
+					e.preventDefault();
+					value = 100;
+					this.emit('fontresize', value);
+					break;
+			}
+		} else {
+
+			switch (e.key) {
+				case 'ArrowLeft':
+					this.emit('prev');
+					e.preventDefault();
+					break;
+				case 'ArrowRight':
+					this.emit('next');
+					e.preventDefault();
+					break;
+			}
+		}
+	}
 }
 
 event_emitter_default()(Reader.prototype);
@@ -3270,16 +3270,16 @@ event_emitter_default()(Reader.prototype);
 class Storage {
 
 	constructor() {
-		
+
 		this.name = 'epubjs-reader';
 		this.version = 1.0;
 		this.database;
-		this.indexedDB = window.indexedDB || 
-						 window.webkitIndexedDB || 
-						 window.mozIndexedDB ||
-						 window.OIndexedDB ||
-						 window.msIndexedDB;
-		
+		this.indexedDB = window.indexedDB ||
+			window.webkitIndexedDB ||
+			window.mozIndexedDB ||
+			window.OIndexedDB ||
+			window.msIndexedDB;
+
 		if (this.indexedDB === undefined) {
 
 			alert('The IndexedDB API not available in your browser.');
@@ -3292,7 +3292,7 @@ class Storage {
 			callback();
 			return;
 		}
-		
+
 		const scope = this;
 		const request = indexedDB.open(this.name, this.version);
 		request.onupgradeneeded = function (event) {
@@ -3326,7 +3326,7 @@ class Storage {
 			callback();
 			return;
 		}
-		
+
 		const transaction = this.database.transaction(['entries'], 'readwrite');
 		const objectStore = transaction.objectStore('entries');
 		const request = objectStore.get(0);
@@ -3338,12 +3338,12 @@ class Storage {
 	}
 
 	set(data, callback) {
-		
+
 		if (this.database === undefined) {
 			callback();
 			return;
 		}
-		
+
 		const transaction = this.database.transaction(['entries'], 'readwrite');
 		const objectStore = transaction.objectStore('entries');
 		const request = objectStore.put(data, 0);
@@ -3375,12 +3375,13 @@ class Storage {
 
 "use strict";
 
+window.ResizeObserver = undefined;
 window.onload = function () {
 
 	const storage = new Storage();
 	const url = new URL(window.location);
-	const path = url.search.length > 0 
-		? url.searchParams.get("bookPath") 
+	const path = url.search.length > 0
+		? url.searchParams.get("bookPath")
 		: "https://s3.amazonaws.com/moby-dick/";
 
 	storage.init(function () {
@@ -3400,6 +3401,7 @@ window.onload = function () {
 
 	window.storage = storage;
 };
+
 })();
 
 /******/ })()
