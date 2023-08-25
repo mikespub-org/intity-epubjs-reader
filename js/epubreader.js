@@ -1961,9 +1961,9 @@ class Toolbar {
 			}, false);
 
 			document.addEventListener('fullscreenchange', (e) => {
-
-				const w = window.screen.width === e.path[2].innerWidth;
-				const h = window.screen.height === e.path[2].innerHeight;
+				
+				const w = window.screen.width === e.target.clientWidth;
+				const h = window.screen.height === e.target.clientHeight;
 
 				if (w && h) {
 					fullscreen.addClass('resize-small');
@@ -2502,29 +2502,53 @@ class SettingsPanel extends UIPanel {
 		languageRow.add(new UILabel(languageStr));
 		languageRow.add(language);
 
-		const fontSizeStr = strings.get('sidebar/settings/fontsize');
+		const fontSizeStr = strings.get("sidebar/settings/fontsize");
 		const fontSizeRow = new UIRow();
 		const fontSize = new UIInteger(100, 1);
-		fontSize.dom.addEventListener('change', (e) => {
+		fontSize.dom.onchange = (e) => {
 
-			reader.emit('fontresize', e.target.value);
-		});
+			reader.emit("styleschanged", {
+				fontSize: parseInt(e.target.value)
+			});
+		};
 
 		fontSizeRow.add(new UILabel(fontSizeStr));
 		fontSizeRow.add(fontSize);
 
-		const reflowTextStr = strings.get('sidabar/settings/reflowtext');
-		const reflowTextRow = new UIRow();
-		const reflowText = new UIInput('checkbox', false, reflowTextStr[1]);
-		reflowText.setId('reflowtext');
-		reflowText.dom.addEventListener('click', (e) => {
+		// -- spdead configure -- //
 
-			reader.settings.reflowText = e.target.checked;
-			reader.rendition.resize();
+		const spreadStr = strings.get("sidebar/settings/spread");
+		const spreadRow = new UIRow();
+		const spread = new UISelect().setOptions({
+			none: "None",
+			auto: "Auto"
 		});
+		spread.dom.onchange = (e) => {
 
-		reflowTextRow.add(new UILabel(reflowTextStr[0], 'reflowtext'));
-		reflowTextRow.add(reflowText);
+			reader.emit("spreadchanged", {
+				mod: e.target.value,
+				min: reader.settings.spread["min"]
+			});
+		};
+
+		spreadRow.add(new UILabel(spreadStr));
+		spreadRow.add(spread);
+
+		const minSpreadWidthStr = strings.get("sidebar/settings/spread/pagewidth");
+		const minSpreadWidthRow = new UIRow();
+		const minSpreadWidth = new UIInteger(800, 1);
+		minSpreadWidth.dom.onchange = (e) => {
+
+			reader.emit("spreadchanged", {
+				mod: reader.settings.spread["mod"],
+				min: e.target.value
+			});
+		};
+
+		minSpreadWidthRow.add(new UILabel(minSpreadWidthStr));
+		minSpreadWidthRow.add(minSpreadWidth);
+
+		// -- pagination -- //
 
 		const paginationStr = strings.get('sidebar/settings/pagination');
 		const paginationRow = new UIRow();
@@ -2542,7 +2566,8 @@ class SettingsPanel extends UIPanel {
 		super.add([
 			languageRow,
 			fontSizeRow,
-			//reflowTextRow,
+			spreadRow,
+			minSpreadWidthRow,
 			//paginationRow
 		]);
 
@@ -2553,10 +2578,21 @@ class SettingsPanel extends UIPanel {
 			language.setValue(reader.settings.language);
 		});
 
-		reader.on('fontresize', (value) => {
+		reader.on("styleschanged", (value) => {
 
-			if (fontSize.getValue() !== value) {
-				fontSize.setValue(value);
+			if (fontSize.getValue() !== value["fontSize"]) {
+				fontSize.setValue(value["fontSize"]);
+			}
+		});
+
+		reader.on("spreadchanged", (value) => {
+
+			if (spread.getValue() !== value["mod"]) {
+				spread.setValue(value["mod"]);
+			}
+
+			if (minSpreadWidth.getValue() !== value["min"]) {
+				minSpreadWidth.setValue(value["min"]);
 			}
 		});
 	}
@@ -2782,8 +2818,9 @@ class Strings {
 				'sidebar/settings': 'Settings',
 				'sidebar/settings/language': 'Language',
 				'sidebar/settings/fontsize': 'Font size (%)',
-				'sidabar/settings/reflowtext': ['Reflow text', 'Reflow text when sidebars are open'],
-				'sidebar/settings/pagination': ['Pagination', 'Generate pagination']
+				'sidebar/settings/pagination': ['Pagination', 'Generate pagination'],
+				'sidebar/settings/spread': 'Spread',
+				'sidebar/settings/spread/pagewidth': 'Page width'
 			},
 			fr: {
 				'toolbar/opener': 'Barre latérale',
@@ -2807,8 +2844,9 @@ class Strings {
 				'sidebar/settings': 'Réglages',
 				'sidebar/settings/language': 'Langue',
 				'sidebar/settings/fontsize': '???',
-				'sidabar/settings/reflowtext': ['Réagencer', 'Réagencer les lignes lorsque le panneau latéral est ouvert'],
-				'sidebar/settings/pagination': ['Pagination', 'Établir une pagination']
+				'sidebar/settings/pagination': ['Pagination', 'Établir une pagination'],
+				'sidebar/settings/spread': '???',
+				'sidebar/settings/spread/pagewidth': '???'
 			},
 			ja: {
 				'toolbar/opener': 'サイドバー',
@@ -2832,8 +2870,9 @@ class Strings {
 				'sidebar/settings': '設定',
 				'sidebar/settings/language': '表示言語',
 				'sidebar/settings/fontsize': '???',
-				'sidabar/settings/reflowtext': ['再配置', 'サイドバーを開いた時に、テキストを再配置します。'],
-				'sidebar/settings/pagination': ['ページネーション', 'ページネーションを生成します。']
+				'sidebar/settings/pagination': ['ページネーション', 'ページネーションを生成します。'],
+				'sidebar/settings/spread': '???',
+				'sidebar/settings/spread/pagewidth': '???'
 			},
 			ru: {
 				'toolbar/opener': 'Боковая панель',
@@ -2857,8 +2896,9 @@ class Strings {
 				'sidebar/settings': 'Настройки',
 				'sidebar/settings/language': 'Язык',
 				'sidebar/settings/fontsize': 'Размер шрифта',
-				'sidabar/settings/reflowtext': ['Перекомпоновать текст', 'Перекомпоновать текст при открытых боковых панелях'],
-				'sidebar/settings/pagination': ['Нумерация страниц', 'Генерировать нумерацию страниц']
+				'sidebar/settings/pagination': ['Нумерация страниц', 'Генерировать нумерацию страниц'],
+				'sidebar/settings/spread': 'Разворот',
+				'sidebar/settings/spread/pagewidth': 'Ширина страницы'
 			}
 		};
 	}
@@ -2938,7 +2978,8 @@ class Reader {
 				this.generatePagination();
 			}
 			this.emit('bookready');
-			this.emit('fontresize', parseInt(this.settings.styles.fontSize));
+			this.emit("spreadchanged", this.settings.spread);
+			this.emit("styleschanged", this.settings.styles);
 		}.bind(this)).then(function () {
 			this.emit('bookloaded');
 		}.bind(this));
@@ -2973,12 +3014,6 @@ class Reader {
 			this.emit('relocated', location);
 		});
 
-		this.on('fontresize', (value) => {
-			const fontSize = value + "%";
-			this.settings.styles.fontSize = fontSize;
-			this.rendition.themes.fontSize(fontSize);
-		});
-
 		this.on('prev', () => {
 			if (this.book.package.metadata.direction === 'rtl') {
 				this.rendition.next();
@@ -2997,6 +3032,18 @@ class Reader {
 
 		this.on('tocselected', (sectionId) => {
 			this.settings.sectionId = sectionId;
+		});
+
+		this.on("spreadchanged", (value) => {
+			this.settings.spread["mod"] = value["mod"];
+			this.settings.spread["min"] = value["min"];
+			this.rendition.spread(value["mod"], value["min"]);
+		});
+
+		this.on("styleschanged", (value) => {
+			const fontSize = value["fontSize"];
+			this.settings.styles.fontSize = fontSize;
+			this.rendition.themes.fontSize(fontSize + "%");
 		});
 	}
 
@@ -3063,8 +3110,8 @@ class Reader {
 			annotations: undefined,
 			contained: undefined,
 			sectionId: undefined,
+			spread: undefined,
 			styles: undefined,
-			reflowText: false, // ??
 			pagination: false, // ??
 			language: undefined
 		});
@@ -3081,8 +3128,17 @@ class Reader {
 			this.settings.annotations = [];
 		}
 
+		if (this.settings.spread === undefined) {
+			this.settings.spread = {
+				mod: "auto",
+				min: 800
+			};
+		}
+
 		if (this.settings.styles === undefined) {
-			this.settings.styles = { fontSize: '100%' };
+			this.settings.styles = {
+				fontSize: 100
+			};
 		}
 
 		if (this.settings.language === undefined) {
@@ -3152,6 +3208,11 @@ class Reader {
 		}
 
 		if (stored) {
+			// Merge spread
+			if (stored.spread) {
+				this.settings.spread = this.defaults(this.settings.spread || {}, 
+					stored.spread);
+			}
 			// Merge styles
 			if (stored.styles) {
 				this.settings.styles = this.defaults(this.settings.styles || {},
@@ -3228,24 +3289,24 @@ class Reader {
 		if (MOD) {
 
 			const step = 2;
-			let value = parseInt(this.settings.styles.fontSize);
+			let value = this.settings.styles.fontSize;
 
 			switch (e.key) {
 
 				case '=':
 					e.preventDefault();
 					value += step;
-					this.emit('fontresize', value);
+					this.emit("styleschanged", { fontSize: value });
 					break;
 				case '-':
 					e.preventDefault();
 					value -= step;
-					this.emit('fontresize', value);
+					this.emit("styleschanged", { fontSize: value });
 					break;
 				case '0':
 					e.preventDefault();
 					value = 100;
-					this.emit('fontresize', value);
+					this.emit("styleschanged", { fontSize: value });
 					break;
 			}
 		} else {

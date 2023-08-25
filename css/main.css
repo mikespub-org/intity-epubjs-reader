@@ -63,6 +63,7 @@ body {
 }
 
 #viewer {
+    display: flex;
 	width: calc(100% - 384px);
 	height: 82%;
 	margin: 0 auto;
@@ -77,13 +78,11 @@ body {
 }
 
 #prev {
-	align-items: flex-start;
 	padding-left: 10px;
 }
 
 #next {
 	text-align: end;
-	align-items: flex-end;
 	padding-right: 10px;
 }
 
