@@ -73,6 +73,10 @@ body {
 	vertical-align: middle;
 }
 
+#viewer .epub-view {
+    width: auto !important;
+}
+
 #viewer iframe {
 	border: none;
 }

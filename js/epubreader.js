@@ -1827,7 +1827,7 @@ class UITreeViewItem extends UIElement {
 
 
 
-;// CONCATENATED MODULE: ./src/panels/metadata_panel.js
+;// CONCATENATED MODULE: ./src/sidebar/metadata.js
 
 
 class MetadataPanel extends UIPanel {
@@ -2013,7 +2013,7 @@ class Toolbar {
 	}
 }
 
-;// CONCATENATED MODULE: ./src/panels/toc_panel.js
+;// CONCATENATED MODULE: ./src/sidebar/toc.js
 
 
 class TocPanel extends UIPanel {
@@ -2078,7 +2078,7 @@ class TocPanel extends UIPanel {
 	}
 }
 
-;// CONCATENATED MODULE: ./src/panels/bookmarks_panel.js
+;// CONCATENATED MODULE: ./src/sidebar/bookmarks.js
 
 
 class BookmarksPanel extends UIPanel {
@@ -2226,7 +2226,7 @@ class BookmarksPanel extends UIPanel {
 	}
 }
 
-;// CONCATENATED MODULE: ./src/panels/annotations_panel.js
+;// CONCATENATED MODULE: ./src/sidebar/annotations.js
 
 
 class AnnotationsPanel extends UIPanel {
@@ -2390,7 +2390,7 @@ class AnnotationsPanel extends UIPanel {
 	}
 }
 
-;// CONCATENATED MODULE: ./src/panels/search_panel.js
+;// CONCATENATED MODULE: ./src/sidebar/search.js
 
 
 class SearchPanel extends UIPanel {
@@ -2474,7 +2474,7 @@ class SearchPanel extends UIPanel {
 	}
 }
 
-;// CONCATENATED MODULE: ./src/panels/settings_panel.js
+;// CONCATENATED MODULE: ./src/sidebar/settings.js
 
 
 class SettingsPanel extends UIPanel {
@@ -2494,10 +2494,10 @@ class SettingsPanel extends UIPanel {
 			ja: 'Japanese',
 			ru: 'Russian'
 		});
-		language.dom.addEventListener('change', (e) => {
+		language.dom.onchange = (e) => {
 
 			reader.settings.language = e.target.value;
-		});
+		};
 
 		languageRow.add(new UILabel(languageStr));
 		languageRow.add(language);
@@ -2514,6 +2514,34 @@ class SettingsPanel extends UIPanel {
 
 		fontSizeRow.add(new UILabel(fontSizeStr));
 		fontSizeRow.add(fontSize);
+
+		// -- layout configure -- //
+
+		const layoutStr = strings.get("sidebar/settings/layout");
+		const layoutRow = new UIRow();
+		const layout = new UISelect().setOptions({
+			paginated: "Paginated",
+			scrolled: "Scrolled"
+		});
+		layout.dom.onchange = (e) => {
+
+			reader.emit("layoutchanged", e.target.value);
+
+			if (e.target.value === "scrolled") {
+				reader.emit("spreadchanged", {
+					mod: "none",
+					min: reader.settings.spread["min"]
+				});
+			} else {
+				reader.emit("spreadchanged", {
+					mod: reader.settings.spread["mod"],
+					min: reader.settings.spread["min"]
+				});
+			}
+		};
+
+		layoutRow.add(new UILabel(layoutStr));
+		layoutRow.add(layout);
 
 		// -- spdead configure -- //
 
@@ -2566,6 +2594,7 @@ class SettingsPanel extends UIPanel {
 		super.add([
 			languageRow,
 			fontSizeRow,
+			layoutRow,
 			spreadRow,
 			minSpreadWidthRow,
 			//paginationRow
@@ -2573,9 +2602,22 @@ class SettingsPanel extends UIPanel {
 
 		//-- events --//
 
-		reader.on('bookready', () => {
+		reader.on("bookready", () => {
 
 			language.setValue(reader.settings.language);
+		});
+
+		reader.on("layout", (props) => {
+
+			const value = props["flow"] === "scrolled";
+			spread.dom.disabled = value;
+		});
+
+		reader.on("layoutchanged", (value) => {
+
+			if (layout.getValue() !== value) {
+				layout.setValue(value);
+			}
 		});
 
 		reader.on("styleschanged", (value) => {
@@ -2619,23 +2661,16 @@ class Sidebar {
 			strings.get('sidebar/settings')
 		];
 
-		this.toc = new TocPanel(reader);
-		this.bookmarks = new BookmarksPanel(reader);
-		this.annotations = new AnnotationsPanel(reader);
-		this.search = new SearchPanel(reader);
-		this.settings = new SettingsPanel(reader);
+		const container = new UITabbedPanel('vertical').setId('sidebar');
 
-		this.container = new UITabbedPanel('vertical').setId('sidebar');
+		container.addTab('tab-t', tabs[0], new TocPanel(reader));
+		container.addTab('tab-b', tabs[1], new BookmarksPanel(reader));
+		container.addTab('tab-n', tabs[2], new AnnotationsPanel(reader));
+		container.addTab('tab-s', tabs[3], new SearchPanel(reader));
+		container.addTab('tab-c', tabs[4], new SettingsPanel(reader));
+		container.select('tab-t');
 
-		this.container.addTab('tab-t', tabs[0], this.toc);
-		this.container.addTab('tab-b', tabs[1], this.bookmarks);
-		this.container.addTab('tab-n', tabs[2], this.annotations);
-		this.container.addTab('tab-s', tabs[3], this.search);
-		this.container.addTab('tab-c', tabs[4], this.settings);
-
-		this.container.select('tab-t');
-
-		document.body.appendChild(this.container.dom);
+		document.body.appendChild(container.dom);
 	}
 }
 
@@ -2818,6 +2853,7 @@ class Strings {
 				'sidebar/settings': 'Settings',
 				'sidebar/settings/language': 'Language',
 				'sidebar/settings/fontsize': 'Font size (%)',
+				'sidebar/settings/layout': 'Layout',
 				'sidebar/settings/pagination': ['Pagination', 'Generate pagination'],
 				'sidebar/settings/spread': 'Spread',
 				'sidebar/settings/spread/pagewidth': 'Page width'
@@ -2844,6 +2880,7 @@ class Strings {
 				'sidebar/settings': 'Réglages',
 				'sidebar/settings/language': 'Langue',
 				'sidebar/settings/fontsize': '???',
+				'sidebar/settings/layout': '???',
 				'sidebar/settings/pagination': ['Pagination', 'Établir une pagination'],
 				'sidebar/settings/spread': '???',
 				'sidebar/settings/spread/pagewidth': '???'
@@ -2870,6 +2907,7 @@ class Strings {
 				'sidebar/settings': '設定',
 				'sidebar/settings/language': '表示言語',
 				'sidebar/settings/fontsize': '???',
+				'sidebar/settings/layout': '???',
 				'sidebar/settings/pagination': ['ページネーション', 'ページネーションを生成します。'],
 				'sidebar/settings/spread': '???',
 				'sidebar/settings/spread/pagewidth': '???'
@@ -2896,6 +2934,7 @@ class Strings {
 				'sidebar/settings': 'Настройки',
 				'sidebar/settings/language': 'Язык',
 				'sidebar/settings/fontsize': 'Размер шрифта',
+				'sidebar/settings/layout': 'Макет',
 				'sidebar/settings/pagination': ['Нумерация страниц', 'Генерировать нумерацию страниц'],
 				'sidebar/settings/spread': 'Разворот',
 				'sidebar/settings/spread/pagewidth': 'Ширина страницы'
@@ -2958,8 +2997,9 @@ class Reader {
 
 		this.book = ePub(this.settings.bookPath);
 		this.rendition = this.book.renderTo('viewer', {
-			width: '100%',
-			height: '100%'
+			flow: this.settings.flow || "paginated",
+			width: "100%",
+			height: "100%"
 		});
 
 		const cfi = this.settings.previousLocationCfi;
@@ -2974,10 +3014,8 @@ class Reader {
 		});
 
 		this.book.ready.then(function () {
-			if (this.settings.pagination) {
-				this.generatePagination();
-			}
-			this.emit('bookready');
+			this.emit("bookready");
+			this.emit("layoutchanged", this.settings.flow);
 			this.emit("spreadchanged", this.settings.spread);
 			this.emit("styleschanged", this.settings.styles);
 		}.bind(this)).then(function () {
@@ -3034,10 +3072,17 @@ class Reader {
 			this.settings.sectionId = sectionId;
 		});
 
+		this.on("layoutchanged", (value) => {
+			this.settings.flow = value;
+			this.rendition.flow(value);
+		});
+		
 		this.on("spreadchanged", (value) => {
-			this.settings.spread["mod"] = value["mod"];
-			this.settings.spread["min"] = value["min"];
-			this.rendition.spread(value["mod"], value["min"]);
+			const mod = value["mod"];
+			const min = value["min"];
+			this.settings.spread["mod"] = mod;
+			this.settings.spread["min"] = min;
+			this.rendition.spread(mod, min);
 		});
 
 		this.on("styleschanged", (value) => {
@@ -3103,6 +3148,7 @@ class Reader {
 		this.settings = this.defaults(_options || {}, {
 			bookKey: this.getBookKey(bookPath),
 			bookPath: bookPath,
+			flow: undefined,
 			restore: false,
 			history: true,
 			reload: false, // ??
@@ -3126,6 +3172,10 @@ class Reader {
 
 		if (this.settings.annotations === undefined) {
 			this.settings.annotations = [];
+		}
+
+		if (this.settings.flow === undefined) {
+			this.settings.flow = "paginated";
 		}
 
 		if (this.settings.spread === undefined) {
