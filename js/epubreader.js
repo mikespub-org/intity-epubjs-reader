@@ -588,17 +588,17 @@ var event_emitter_default = /*#__PURE__*/__webpack_require__.n(event_emitter);
  * @author mrdoob https://github.com/mrdoob/ui.js
  */
 
-const errormsg = 'is not an instance of UIElement.';
+const ERROR_MSG = "is not an instance of UIElement.";
 
 /**
  * UIElement
- * @param {object} dom
+ * @param {string} tag
  */
 class UIElement {
+	
+	constructor(tag) {
 
-	constructor(dom) {
-
-		this.dom = dom;
+		this.dom = document.createElement(tag); 
 	}
 
 	add() {
@@ -620,19 +620,16 @@ class UIElement {
 					if (element instanceof UIElement) {
 
 						this.dom.appendChild(element.dom);
-
 					} else {
 
-						console.error('UIElement:', element, errormsg);
+						console.error("UIElement:", element, ERROR_MSG);
 					}
 				}
-
 			} else {
 
-				console.error('UIElement:', argument, errormsg);
+				console.error("UIElement:", argument, ERROR_MSG);
 			}
 		}
-
 		return this;
 	}
 
@@ -646,12 +643,14 @@ class UIElement {
 
 				this.dom.removeChild(argument.dom);
 
+			} else if (Number.isInteger(argument)) {
+
+				this.dom.removeChild(this.dom.childNodes[argument]);
 			} else {
 
-				console.error('UIElement:', argument, errormsg);
+				console.error("UIElement:", argument, ERROR_MSG);
 			}
 		}
-
 		return this;
 	}
 
@@ -661,6 +660,7 @@ class UIElement {
 
 			this.dom.removeChild(this.dom.lastChild);
 		}
+		return this;
 	}
 
 	setId(id) {
@@ -692,113 +692,23 @@ class UIElement {
 		return this;
 	}
 
-	setStyle(style, array) {
+	setStyle(key, value) {
 
-		for (let i = 0; i < array.length; i++) {
-
-			this.dom.style[style] = array[i];
-		}
-
+		this.dom.style[key] = value;
 		return this;
 	}
 
-	setDisabled(value) {
+	setTextContent(text) {
 
-		this.dom.disabled = value;
+		this.dom.textContent = text;
 		return this;
 	}
 
-	setTextContent(value) {
+	getBoundingClientRect() {
 
-		this.dom.textContent = value;
-		return this;
-	}
-
-	getRect() {
-
-		this.dom.getBoundingClientRect();
-		return this;
+		return this.dom.getBoundingClientRect();
 	}
 }
-
-// properties
-
-const properties = [
-	'position',
-	'left',
-	'top',
-	'right',
-	'bottom',
-	'width',
-	'height',
-	'border',
-	'borderLeft',
-	'borderTop',
-	'borderRight',
-	'borderBottom',
-	'borderColor',
-	'display',
-	'overflow',
-	'margin',
-	'marginLeft',
-	'marginTop',
-	'marginRight',
-	'marginBottom',
-	'padding',
-	'paddingLeft',
-	'paddingTop',
-	'paddingRight',
-	'paddingBottom',
-	'color',
-	'background',
-	'backgroundColor',
-	'opacity',
-	'fontSize',
-	'fontWeight',
-	'textAlign',
-	'textDecoration',
-	'textTransform',
-	'cursor',
-	'zIndex'
-];
-
-properties.forEach(function (property) {
-
-	const method = 'set' +
-		property.substr(0, 1).toUpperCase() +
-		property.substr(1, property.length);
-
-	UIElement.prototype[method] = function () {
-
-		this.setStyle(property, arguments);
-
-		return this;
-	};
-});
-
-// events
-
-const events = [
-	'KeyUp',
-	'KeyDown',
-	'MouseOver',
-	'MouseOut',
-	'Click',
-	'DblClick',
-	'Change',
-	'Input'
-];
-
-events.forEach(function (event) {
-
-	const method = 'on' + event;
-
-	UIElement.prototype[method] = function (callback) {
-
-		this.dom.addEventListener(event.toLowerCase(), callback.bind(this), false);
-		return this;
-	};
-});
 
 /**
  * UISpan
@@ -807,7 +717,7 @@ class UISpan extends UIElement {
 
 	constructor() {
 
-		super(document.createElement('span'));
+		super("span");
 	}
 }
 
@@ -818,7 +728,7 @@ class UIDiv extends UIElement {
 
 	constructor() {
 
-		super(document.createElement('div'));
+		super("div");
 	}
 }
 
@@ -830,7 +740,8 @@ class UIRow extends UIDiv {
 	constructor() {
 
 		super();
-		this.dom.className = 'row';
+
+		this.dom.className = "row";
 	}
 }
 
@@ -842,30 +753,60 @@ class UIPanel extends UIDiv {
 	constructor() {
 
 		super();
-		this.dom.className = 'panel';
+
+		this.dom.className = "panel";
 	}
 }
 
+/**
+ * UILabel
+ * @param {string} text
+ * @param {string} id
+ */
 class UILabel extends UIElement {
 
 	constructor(text, id) {
 
-		super(document.createElement('label'));
+		super("label");
+
 		this.dom.textContent = text;
 		if (id) this.dom.htmlFor = id;
 	}
 }
 
 /**
+ * UILink
+ * @param {string} href
+ * @param {string} text
+ */
+class UILink extends UIElement {
+
+	constructor(href, text) {
+
+		super("a");
+
+		this.dom.href = href || "#";
+		this.dom.textContent = text || "";
+	}
+
+	setHref(url) {
+
+		this.dom.href = url;
+		return this;
+	}
+}
+
+/**
  * UIText
- * @param {any} text
+ * @param {string} text
  */
 class UIText extends UISpan {
 
 	constructor(text) {
 
 		super();
-		this.setValue(text);
+
+		this.dom.textContent = text;
 	}
 
 	getValue() {
@@ -873,49 +814,114 @@ class UIText extends UISpan {
 		return this.dom.textContent;
 	}
 
-	setValue(value) {
+	setValue(text) {
 
-		if (value !== undefined) {
-
-			this.dom.textContent = value;
-		}
-
+		this.dom.textContent = text;
 		return this;
 	}
 }
 
 /**
- * UILink
- * @param {*} uri
- * @param {*} label
+ * UITextArea
  */
-class UILink extends UIElement {
+class UITextArea extends UIElement {
 
-	constructor(uri, label) {
+	constructor() {
 
-		super(document.createElement('a'));
-		this.dom.href = uri;
-		this.dom.textContent = label;
+		super("textarea");
+
+		this.dom.spellcheck = false;
+		this.dom.onkeydown = (e) => {
+
+			e.stopPropagation();
+
+			if (e.key === "Tab") {
+
+				const cursor = this.dom.selectionStart;
+				this.dom.value = this.dom.value.substring(0, cursor) + "\t" + this.dom.value.substring(cursor);
+				this.dom.selectionStart = cursor + 1;
+				this.dom.selectionEnd = this.dom.selectionStart;
+				e.preventDefault();
+			}
+		};
+	}
+
+	getValue() {
+
+		return this.dom.value;
+	}
+
+	setValue(value) {
+
+		this.dom.value = value;
+		return this;
+	}
+}
+
+/**
+ * UISelect
+ */
+class UISelect extends UIElement {
+
+	constructor() {
+
+		super("select");
+	}
+
+	setMultiple(boolean) {
+
+		this.dom.multiple = boolean || false;
+		return this;
+	}
+
+	setOptions(options) {
+
+		const selected = this.dom.value;
+		this.clear();
+
+		for (const key in options) {
+
+			const option = document.createElement("option");
+			option.value = key;
+			option.text = options[key];
+			this.dom.appendChild(option);
+		}
+		this.dom.value = selected;
+		return this;
+	}
+
+	getValue() {
+
+		return this.dom.value;
+	}
+
+	setValue(value) {
+
+		value = String(value);
+
+		if (this.dom.value !== value)
+			this.dom.value = value;
+		return this;
 	}
 }
 
 /**
  * UIInput
- * @param {any} value
+ * @param {*} type
+ * @param {*} value
+ * @param {*} title
  */
 class UIInput extends UIElement {
 
 	constructor(type, value, title) {
 
-		super(document.createElement('input'));
+		super("input");
 
 		this.dom.type = type;
-		this.dom.addEventListener('keydown', function (event) {
+		this.dom.onkeydown = (e) => {
 
-			event.stopPropagation();
-
-		}, false);
-
+			e.stopPropagation();
+		};
 		this.setValue(value);
 		this.setTitle(title);
 	}
@@ -928,6 +934,18 @@ class UIInput extends UIElement {
 	setName(name) {
 
 		this.dom.name = name;
+		return this;
+	}
+
+	getTitle() {
+
+		return this.dom.title;
+	}
+
+	setTitle(title) {
+
+		if (this.dom.title !== title && title)
+			this.dom.title = title;
 		return this;
 	}
 
@@ -949,164 +967,8 @@ class UIInput extends UIElement {
 
 	setValue(value) {
 
-		if (value !== undefined) {
+		if (this.dom.value !== value && value)
 			this.dom.value = value;
-		}
-		return this;
-	}
-
-	getTitle() {
-
-		return this.dom.title;
-	}
-
-	setTitle(text) {
-
-		if (text !== undefined) {
-			this.dom.title = text;
-		}
-		return this;
-	}
-
-	readonly(value) {
-
-		this.dom.readOnly = value;
-		return this;
-	}
-}
-
-/**
- * UITextArea
- */
-class UITextArea extends UIElement {
-
-	constructor() {
-
-		super(document.createElement('textarea'));
-
-		this.dom.spellcheck = false;
-		this.dom.addEventListener('keydown', function (event) {
-
-			event.stopPropagation();
-
-			if (event.keyCode === 9) {
-
-				event.preventDefault();
-
-				const cursor = dom.selectionStart;
-
-				this.dom.value = this.dom.value.substring(0, cursor) + '\t' + this.dom.value.substring(cursor);
-				this.dom.selectionStart = cursor + 1;
-				this.dom.selectionEnd = this.dom.selectionStart;
-			}
-
-		}, false);
-	}
-
-	getValue() {
-
-		return this.dom.value;
-	}
-
-	setValue(value) {
-
-		this.dom.value = value;
-		return this;
-	}
-}
-
-/**
- * The <select> element is used to create a drop-down list.
- */
-class UISelect extends UIElement {
-
-	constructor() {
-
-		super(document.createElement('select'));
-	}
-
-	setMultiple(boolean) {
-
-		this.dom.multiple = boolean || false;
-		return this;
-	}
-
-	setOptions(options) {
-
-		const selected = this.dom.value;
-
-		while (this.dom.children.length > 0) {
-
-			this.dom.removeChild(this.dom.firstChild);
-		}
-
-		for (const key in options) {
-
-			const option = document.createElement('option');
-			option.value = key;
-			option.innerHTML = options[key];
-			this.dom.appendChild(option);
-		}
-
-		this.dom.value = selected;
-
-		return this;
-	}
-
-	getValue() {
-
-		return this.dom.value;
-	}
-
-	setValue(value) {
-
-		value = String(value);
-
-		if (this.dom.value !== value) {
-
-			this.dom.value = value;
-		}
-
-		return this;
-	}
-}
-
-/**
- * UICheckbox
- * @param {boolean} value
- */
-class UICheckbox extends (/* unused pure expression or super */ null && (UIElement)) {
-
-	constructor(value) {
-
-		super(document.createElement('input'));
-
-		this.dom.type = 'checkbox';
-		this.setValue(value);
-	}
-
-	getName() {
-
-		return this.dom.name;
-	}
-
-	setName(name) {
-
-		this.dom.name = name;
-		return this;
-	}
-
-	getValue() {
-
-		return this.dom.checked;
-	}
-
-	setValue(value) {
-
-		if (value !== undefined) {
-
-			this.dom.checked = value;
-		}
 		return this;
 	}
 }
@@ -1118,12 +980,12 @@ class UIColor extends (/* unused pure expression or super */ null && (UIElement)
 
 	constructor() {
 
-		super(document.createElement('input'));
+		super("input");
 
 		try {
 
-			this.dom.type = 'color';
-			this.dom.value = '#ffffff';
+			this.dom.type = "color";
+			this.dom.value = "#ffffff";
 
 		} catch (e) {
 
@@ -1149,187 +1011,40 @@ class UIColor extends (/* unused pure expression or super */ null && (UIElement)
 
 	setHexValue(hex) {
 
-		this.dom.value = '#' + ('000000' + hex.toString(16)).slice(-6);
+		this.dom.value = "#" + ("000000" + hex.toString(16)).slice(-6);
 		return this;
 	}
 }
 
 /**
  * UINumber
- * @param {any} number
+ * @param {number} value
+ * @param {number} step
+ * @param {number} min
+ * @param {number} max
+ * @param {number} precision
  */
-class UINumber extends (/* unused pure expression or super */ null && (UIElement)) {
+class UINumber extends UIElement {
 
-	constructor(number) {
+	constructor(value, step, min, max, precision) {
 
-		super(document.createElement('input'));
+		super("input");
 
+		this.dom.type = "number";
+		this.dom.step = step || 1;
+		this.dom.onkeydown = (e) => {
 
-		this.dom.type = 'number';
-		this.dom.value = '0.00';
+			e.stopPropagation();
+		};
+		this.value = value || 0;
+		this.min = min || -Infinity;
+		this.max = max || +Infinity;
+		this.precision = precision || 0;
+		this.setValue(value);
+		this.dom.onchange = (e) => {
 
-		this.value = 0;
-
-		this.min = - Infinity;
-		this.max = + Infinity;
-
-		this.precision = 2;
-		this.step = 1;
-		this.unit = '';
-		this.nudge = 0.01;
-
-		this.setValue(number);
-
-		const scope = this;
-
-		const changeEvent = document.createEvent('HTMLEvents');
-		changeEvent.initEvent('change', true, true);
-
-		let distance = 0;
-		let onMouseDownValue = 0;
-
-		const pointer = { x: 0, y: 0 };
-		const prevPointer = { x: 0, y: 0 };
-
-		function onMouseDown(event) {
-
-			event.preventDefault();
-
-			distance = 0;
-
-			onMouseDownValue = scope.value;
-
-			prevPointer.x = event.clientX;
-			prevPointer.y = event.clientY;
-
-			document.addEventListener('mousemove', onMouseMove, false);
-			document.addEventListener('mouseup', onMouseUp, false);
-		}
-
-		function onMouseMove(event) {
-
-			const currentValue = scope.value;
-
-			pointer.x = event.clientX;
-			pointer.y = event.clientY;
-
-			distance += (pointer.x - prevPointer.x) - (pointer.y - prevPointer.y);
-
-			let value = onMouseDownValue + (distance / (event.shiftKey ? 5 : 50)) * scope.step;
-			value = Math.min(scope.max, Math.max(scope.min, value));
-
-			if (currentValue !== value) {
-
-				scope.setValue(value);
-				scope.dom.dispatchEvent(changeEvent);
-			}
-
-			prevPointer.x = event.clientX;
-			prevPointer.y = event.clientY;
-		}
-
-		function onMouseUp() {
-
-			document.removeEventListener('mousemove', onMouseMove, false);
-			document.removeEventListener('mouseup', onMouseUp, false);
-
-			if (Math.abs(distance) < 2) {
-
-				scope.dom.focus();
-				scope.dom.select();
-			}
-		}
-
-		function onTouchStart(event) {
-
-			if (event.touches.length === 1) {
-
-				distance = 0;
-
-				onMouseDownValue = scope.value;
-
-				prevPointer.x = event.touches[0].pageX;
-				prevPointer.y = event.touches[0].pageY;
-
-				document.addEventListener('touchmove', onTouchMove, false);
-				document.addEventListener('touchend', onTouchEnd, false);
-			}
-		}
-
-		function onTouchMove(event) {
-
-			const currentValue = scope.value;
-
-			pointer.x = event.touches[0].pageX;
-			pointer.y = event.touches[0].pageY;
-
-			distance += (pointer.x - prevPointer.x) - (pointer.y - prevPointer.y);
-
-			let value = onMouseDownValue + (distance / (event.shiftKey ? 5 : 50)) * scope.step;
-			value = Math.min(scope.max, Math.max(scope.min, value));
-
-			if (currentValue !== value) {
-
-				scope.setValue(value);
-				scope.dom.dispatchEvent(changeEvent);
-			}
-
-			prevPointer.x = event.touches[0].pageX;
-			prevPointer.y = event.touches[0].pageY;
-		}
-
-		function onTouchEnd(event) {
-
-			if (event.touches.length === 0) {
-
-				document.removeEventListener('touchmove', onTouchMove, false);
-				document.removeEventListener('touchend', onTouchEnd, false);
-			}
-		}
-
-		function onChange() {
-
-			scope.setValue(this.value);
-		}
-
-		//function onFocus() {
-		//    dom.style.backgroundColor = '';
-		//    dom.style.cursor = '';
-		//}
-		//function onBlur() {
-		//    dom.style.backgroundColor = 'transparent';
-		//    dom.style.cursor = 'ns-resize';
-		//}
-
-		function onKeyDown(event) {
-
-			event.stopPropagation();
-
-			switch (event.keyCode) {
-
-				//case 13: // enter
-				//    dom.blur();
-				//    break;
-				case 38: // up
-					event.preventDefault();
-					scope.setValue(scope.getValue() + scope.nudge);
-					scope.dom.dispatchEvent(changeEvent);
-					break;
-				case 40: // down
-					event.preventDefault();
-					scope.setValue(scope.getValue() - scope.nudge);
-					scope.dom.dispatchEvent(changeEvent);
-					break;
-			}
-		}
-
-		//onBlur();
-		this.dom.addEventListener('keydown', onKeyDown, false);
-		this.dom.addEventListener('mousedown', onMouseDown, false);
-		this.dom.addEventListener('touchstart', onTouchStart, false);
-		this.dom.addEventListener('change', onChange, false);
-		//dom.addEventListener('focus', onFocus, false);
-		//dom.addEventListener('blur', onBlur, false);
+			this.setValue(this.value);
+		};
 	}
 
 	getName() {
@@ -1343,6 +1058,34 @@ class UINumber extends (/* unused pure expression or super */ null && (UIElement
 		return this;
 	}
 
+	setPrecision(precision) {
+
+		this.precision = precision;
+		this.setValue(this.value);
+		return this;
+	}
+
+	setRange(min, max) {
+
+		this.min = min;
+		this.max = max;
+		this.dom.min = min;
+		this.dom.max = max;
+		return this;
+	}
+
+	setStep(step) {
+
+		this.dom.step = step;
+		return this;
+	}
+
+	setTitle(text) {
+
+		this.dom.title = text;
+		return this;
+	}
+
 	getValue() {
 
 		return parseFloat(this.dom.value);
@@ -1351,7 +1094,6 @@ class UINumber extends (/* unused pure expression or super */ null && (UIElement
 	setValue(value) {
 
 		if (value !== undefined) {
-
 			value = parseFloat(value);
 
 			if (value < this.min)
@@ -1361,92 +1103,6 @@ class UINumber extends (/* unused pure expression or super */ null && (UIElement
 
 			this.value = value;
 			this.dom.value = value.toFixed(this.precision);
-
-			if (this.unit !== '')
-				this.dom.value += ' ' + this.unit;
-		}
-
-		return this;
-	}
-
-	setPrecision(precision) {
-
-		this.precision = precision;
-		return this;
-	}
-
-	setStep(step) {
-
-		this.step = step;
-		return this;
-	}
-
-	setNudge(nudge) {
-
-		this.nudge = nudge;
-		return this;
-	}
-
-	setRange(min, max) {
-
-		this.min = min;
-		this.max = max;
-
-		return this;
-	}
-
-	setUnit(unit) {
-
-		this.unit = unit;
-		return this;
-	}
-
-	setTitle(text) {
-
-		this.dom.title = text;
-		return this;
-	}
-}
-
-/**
- * UIInteger
- * @param {number} value
- * @param {number} step
- * @param {number} min
- * @param {number} max
- */
-class UIInteger extends UIElement {
-
-	constructor(value, step, min, max) {
-
-		super(document.createElement('input'));
-
-		this.dom.type = 'number';
-		this.dom.value = value;
-
-		if (step != undefined) {
-			this.dom.step = step;
-		}
-
-		if (min !== undefined) {
-			this.dom.min = min;
-		}
-
-		if (max !== undefined) {
-			this.dom.max = max;
-		}
-	}
-
-	getValue() {
-
-		return this.dom.value;
-	}
-
-	setValue(value) {
-
-		if (value !== undefined) {
-
-			this.dom.value = value;
 		}
 		return this;
 	}
@@ -1459,9 +1115,7 @@ class UIBreak extends (/* unused pure expression or super */ null && (UIElement)
 
 	constructor() {
 
-		super(document.createElement('br'));
-
-		this.dom.className = 'Break';
+		super("br");
 	}
 }
 
@@ -1472,44 +1126,19 @@ class UIHorizontalRule extends (/* unused pure expression or super */ null && (U
 
 	constructor() {
 
-		super(document.createElement('hr'));
-
-		this.dom.className = 'HorizontalRule';
+		super("hr");
 	}
 }
 
 /**
- * UIButton
- * @param {any} value
+ * UIProgress
+ * @param {*} value
  */
-class UIButton extends (/* unused pure expression or super */ null && (UIElement)) {
-
-	constructor(value) {
-
-		super(document.createElement('input'));
-
-		this.dom.type = 'button';
-
-		if (value !== undefined) {
-
-			this.dom.value = value;
-		}
-
-		return this;
-	}
-
-	setValue(value) {
-
-		this.dom.value = value;
-		return this;
-	}
-}
-
 class UIProgress extends (/* unused pure expression or super */ null && (UIElement)) {
 
 	constructor(value) {
 
-		super(document.createElement('progress'));
+		super("progress");
 
 		this.dom.value = value;
 	}
@@ -1517,225 +1146,151 @@ class UIProgress extends (/* unused pure expression or super */ null && (UIEleme
 	setValue(value) {
 
 		this.dom.value = value;
+		return this;
 	}
 }
 
 /**
  * UITabbedPanel
+ * @param {string} align (horizontal | vertical)
  */
 class UITabbedPanel extends UIDiv {
 
-	/**
-	 * Constructor
-	 * @param {*} align (horizontal | vertical)
-	 */
 	constructor(align) {
 
 		super();
 
+		this.align = align || "horizontal";
 		this.tabs = [];
 		this.panels = [];
-		this.selector = new UISpan().setClass('tab-selector');
-
-		this.tabsDiv = new UIDiv();
-		this.tabsDiv.dom.className = 'tabs';
+		this.selector = new UISpan().setClass("tab-selector");
+		this.tabsDiv = new UIDiv().setClass("tabs");
 		this.tabsDiv.add(this.selector);
-
-		this.panelsDiv = new UIDiv();
-		this.panelsDiv.dom.className = 'panels';
-
+		this.panelsDiv = new UIDiv().setClass("panels");
+		this.selected = "";
 		this.add(this.tabsDiv);
 		this.add(this.panelsDiv);
-
-		this.align = align || 'horizontal';
-		this.selected = '';
-	}
-
-	select(id) {
-
-		let tab;
-		let panel;
-
-		// Deselect current selection
-		if (this.selected && this.selected.length) {
-
-			tab = this.tabs.find((item) => {
-
-				return item.dom.id === this.selected;
-			});
-
-			panel = this.panels.find((item) => {
-
-				return item.dom.id === this.selected;
-			});
-
-			if (tab) {
-
-				tab.removeClass('selected');
-			}
-
-			if (panel) {
-
-				panel.setDisplay('none');
-			}
-		}
-
-		tab = this.tabs.find(function (item) {
-
-			return item.dom.id === id;
-		});
-
-		panel = this.panels.find(function (item) {
-
-			return item.dom.id === id;
-		});
-
-		if (tab) {
-
-			tab.addClass('selected');
-			//
-			// transforming the tab-selector element
-			//
-			let size;
-			const rect = tab.dom.getBoundingClientRect();
-			if (this.align === 'horizontal') {
-				size = rect.width * this.tabs.indexOf(tab);
-				this.selector.dom.style.transform = `translateX(${size}px)`;
-			} else {
-				size = rect.height * this.tabs.indexOf(tab);
-				this.selector.dom.style.transform = `translateY(${size}px)`;
-			}
-		}
-
-		if (panel) {
-
-			panel.setDisplay('');
-		}
-
-		this.selected = id;
-
-		return this;
 	}
 
 	addTab(id, label, items) {
 
 		const tab = new UITab(label, this);
 		tab.setId(id);
-		tab.setClass('tab');
+		tab.setClass("tab");
 		this.tabs.push(tab);
 		this.tabsDiv.add(tab);
 
 		const panel = new UIDiv();
 		panel.setId(id);
 		panel.add(items);
-		panel.setDisplay('none');
 		this.panels.push(panel);
 		this.panelsDiv.add(panel);
-
 		this.select(id);
+	}
+
+	select(id) {
+
+		for (let tab of this.tabs) {
+			if (tab.dom.id === id) {
+				tab.addClass("selected");
+				this.transformSelector(tab);
+			} else if (tab.dom.id === this.selected) {
+				tab.removeClass("selected");
+			}
+		}
+
+		for (let panel of this.panels) {
+			if (panel.dom.id === id) {
+				panel.dom.style.display = "block";
+			} else if (panel.dom.id === this.selected) {
+				panel.dom.style.display = "none";
+			}
+		}
+
+		this.selected = id;
+		return this;
+	}
+
+	transformSelector(tab) {
+
+		let size;
+		const rect = tab.getBoundingClientRect();
+		if (this.align === "horizontal") {
+			size = rect.width * this.tabs.indexOf(tab);
+			this.selector.dom.style.transform = `translateX(${size}px)`;
+		} else {
+			size = rect.height * this.tabs.indexOf(tab);
+			this.selector.dom.style.transform = `translateY(${size}px)`;
+		}
 	}
 }
 
 /**
  * UITab
+ * @param {*} label
+ * @param {*} parent
  */
 class UITab extends UIDiv {
 
-	constructor(text, parent) {
+	constructor(label, parent) {
 
-		super(text);
+		super();
+		const button = new UIInput("button");
+		button.dom.title = label;
+		this.dom.onclick = (e) => {
 
-		this.button = new UIInput('button');
-		this.button.dom.title = text;
-		this.parent = parent;
-		this.dom.addEventListener('click', () => {
-
-			this.parent.select(this.dom.id);
-
-		});
-		this.add(this.button);
+			parent.select(this.dom.id);
+			e.preventDefault();
+		};
+		this.add(button);
 	}
 }
 
 /**
- * UIListbox
+ * UIList
  */
-class UIListbox extends (/* unused pure expression or super */ null && (UIElement)) {
+class UIList extends UIElement {
 
 	constructor() {
 
-		super(document.createElement('select'));
+		super("div");
+		this.setClass("list-container");
+		this.list = document.createElement("ul");
+		this.dom.appendChild(this.list);
+	}
 
-		this.dom.multiple = true;
+	add(item, id) {
 
-		this.items = [];
-		this.listItems = [];
-		this.selectedIndex = -1;
-		this.selectedValue = null;
-
+		const listItem = document.createElement("li");
+		listItem.id = id;
+		if (Array.isArray(item)) {
+			item.forEach((i) => { listItem.appendChild(i.dom) });
+		} else {
+			listItem.appendChild(item.dom);
+		}
+		this.list.appendChild(listItem);
 		return this;
 	}
 
-	setItems(items) {
+	remove() {
 
-		this.items = items;
-		this.dom.options.length = 0;
-
-		for (let i = 0; i < items.length; i++) {
-
-			this.setItem(items[i]);
-		}
-	}
-
-	selectIndex(index) {
-
-		this.selectValue(index);
-	}
-
-	selectValue(index) {
-
-		let value = null;
-
-		for (let i = 0; i < this.dom.options.length; i++) {
-
-			const option = this.dom.options[i];
-
-			if (index === i) {
-
-				option.selected = true;
-				option.className = 'selected';
-				value = parseInt(option.value);
-
+		for (let i = 0; i < arguments.length; i++) {
+			const argument = arguments[i];
+			if (argument instanceof UIElement) {
+				this.list.removeChild(argument.dom);
+			} else if (Number.isInteger(argument)) {
+				this.list.removeChild(this.list.childNodes[argument]);
 			} else {
-
-				option.selected = false;
-				option.className = '';
+				console.error("UIList:", argument, ERROR_MSG);
 			}
 		}
-
-		this.selectedValue = value;
-		this.selectedIndex = index;
+		return this;
 	}
 
-	getValue() {
+	clear() {
 
-		return this.selectedValue;
-	}
-
-	setItem(item) {
-
-		const option = document.createElement('option');
-		option.value = item.id;
-		option.text = item.type;
-		option.addEventListener('click', (event) => {
-
-			this.selectValue(event.target.index);
-
-		}, false);
-
-		this.dom.appendChild(option);
-		this.listItems.push(item);
-
+		while (this.list.children.length)
+			this.list.removeChild(this.list.lastChild);
 		return this;
 	}
 }
@@ -1747,34 +1302,33 @@ class UITreeView extends UIElement {
 
 	constructor() {
 
-		super(document.createElement('ul'));
+		super("ul");
 	}
 }
 
 /**
  * UITreeViewItem
- * @param {*} id
- * @param {*} link
- * @param {*} parent
+ * @param {string} id
+ * @param {UILink} link
  */
 class UITreeViewItem extends UIElement {
 
-	constructor(id, link, parent) {
+	constructor(id, link) {
 
-		super(document.createElement('li'));
+		super("li");
+
 		this.dom.id = id;
 		this.link = link;
-		this.parent = parent;
-		this.toggle = new UISpan().setClass('toggle-collapsed');
-		this.expander = new UIDiv().setId('expander');
+		this.toggle = new UISpan().setClass("toggle-collapsed");
+		this.expander = new UIDiv().setId("expander");
 		this.expanded = false;
 		this.selected = false;
 		this.add([this.expander, this.link]);
 	}
 
-	setItems(subItems) {
+	setItem(subItem) {
 
-		this.add(subItems);
+		this.add(subItem);
 		this.toggle.dom.onclick = () => {
 
 			if (this.expanded) {
@@ -1788,9 +1342,9 @@ class UITreeViewItem extends UIElement {
 
 		if (!this.expanded) {
 
-			const items = subItems.dom.getElementsByTagName('li');
+			const items = subItem.dom.getElementsByTagName("li");
 			for (let item of items) {
-				if (item.className === 'selected') {
+				if (item.className === "selected") {
 					this.expand();
 					break;
 				}
@@ -1801,33 +1355,30 @@ class UITreeViewItem extends UIElement {
 	select() {
 
 		this.selected = true;
-		this.setClass('selected');
+		this.setClass("selected");
 	}
 
 	unselect() {
 
 		this.selected = false;
-		this.dom.removeAttribute('class');
+		this.dom.removeAttribute("class");
 	}
 
 	expand() {
 
-		this.toggle.setClass('toggle-expanded');
-		this.dom.children[2].style.display = 'block';
+		this.toggle.setClass("toggle-expanded");
+		this.dom.children[2].style.display = "block";
 		this.expanded = true;
 	}
 
 	collaps() {
 
-		this.toggle.setClass('toggle-collapsed');
-		this.dom.children[2].style.display = 'none';
+		this.toggle.setClass("toggle-collapsed");
+		this.dom.children[2].style.display = "none";
 		this.expanded = false;
 	}
 }
-
-
-
-;// CONCATENATED MODULE: ./src/sidebar/metadata.js
+;// CONCATENATED MODULE: ./src/toolbar/metadata.js
 
 
 class MetadataPanel extends UIPanel {
@@ -1835,29 +1386,26 @@ class MetadataPanel extends UIPanel {
 	constructor(reader) {
 
 		super();
-		super.setId('metadata');
+		super.setId("metadata");
 
-		this.title = new UIText().setId('book-title');
-		this.creator = new UIText().setId('book-creator');
-		this.separator = new UIText().setId('book-title-separator');
+		const title = new UIText().setId("book-title");
+		const creator = new UIText().setId("book-creator");
+		const separator = new UIText().setId("book-title-separator");
 
-		super.add([this.title, this.separator, this.creator]);
+		super.add([title, separator, creator]);
 
 		//-- events --//
 
-		reader.on('metadata', (meta) => {
+		reader.on("metadata", (meta) => {
 
-			this.init(meta);
+			document.title = meta.title;
+			document.title = meta.creator ? " - " + meta.creator : "";
+			title.setValue(meta.title);
+			if (meta.creator) {
+				creator.setValue(meta.creator);
+				separator.dom.style.display = "inline-block";
+			}
 		});
-	}
-
-	init(meta) {
-
-		document.title = meta.title + " – " + meta.creator;
-
-		this.title.setValue(meta.title);
-		this.creator.setValue(meta.creator);
-		this.separator.dom.style.display = 'inline-block';
 	}
 }
 
@@ -1871,36 +1419,52 @@ class Toolbar {
 
 		const strings = reader.strings;
 
-		const container = new UIDiv().setId('toolbar');
+		const container = new UIDiv().setId("toolbar");
+		const keys = [
+			"toolbar/opener",
+			"toolbar/openbook",
+			"toolbar/openbook/error",
+			"toolbar/bookmark",
+			"toolbar/fullsceen"
+		];
 
-		const start = new UIPanel().setId('start');
-		const opener = new UIInput('button').setId('btn-s');
-		const openerStr = strings.get('toolbar/opener');
-		opener.dom.title = openerStr;
+		const start = new UIPanel().setId("start");
+		const opener = new UIInput("button").setId("btn-s");
+		opener.dom.title = strings.get(keys[0]);
 		opener.dom.onclick = () => {
 
 			const isOpen = opener.dom.classList.length > 0;
 
-			reader.emit('sidebaropener', !isOpen);
+			reader.emit("sidebaropener", !isOpen);
 
 			if (!isOpen) {
-				opener.addClass('open');
+				opener.addClass("open");
 			} else {
-				opener.removeClass('open');
+				opener.removeClass("open");
 			}
 		};
 
 		start.add(opener);
 
-		const center = new MetadataPanel(reader);
+		const onload = (e) => {
 
-		const end = new UIPanel().setId('end');
-		const open = new UIInput('file').setId('btn-o');
-		const uploadStr = strings.get('toolbar/openbook');
+			storage.clear();
+			storage.set(e.target.result, () => {
+				reader.unload();
+				reader.init(e.target.result, { restore: true });
+				const url = new URL(window.location.origin);
+				window.history.pushState({}, "", url);
+			});
+		};
+		const onerror = (e) => {
+			console.error(e);
+		};
 		const storage = window.storage;
-		open.dom.title = uploadStr;
-		open.dom.accept = 'application/epub+zip';
-		open.dom.addEventListener('change', function (e) {
+		const end = new UIPanel().setId("end");
+		const openbook = new UIInput("file").setId("btn-o");
+		openbook.dom.title = strings.get(keys[1]);
+		openbook.dom.accept = "application/epub+zip";
+		openbook.dom.onchange = (e) => {
 
 			if (e.target.files.length === 0)
 				return;
@@ -1908,95 +1472,94 @@ class Toolbar {
 			if (window.FileReader) {
 
 				const fr = new FileReader();
-				fr.onload = function (e) {
-					storage.clear();
-					storage.set(e.target.result, () => {
-						reader.unload();
-						reader.init(e.target.result, { restore: true });
-					});
-				};
+				fr.onload = onload;
 				fr.readAsArrayBuffer(e.target.files[0]);
-				fr.onerror = function (e) {
-					console.error(e);
-				};
-
-				if (window.location.href.includes("?bookPath=")) {
-					window.location.href = window.location.origin + window.location.pathname;
-				}
-
+				fr.onerror = onerror;
 			} else {
-				alert(strings.get('toolbar/openbook/error'));
+				alert(strings.get(keys[2]));
 			}
-		}, false);
+		};
 
-		end.add(open);
+		end.add(openbook);
 
-		const bookmark = new UIInput('button').setId('btn-b');
-		const bookmarkStr = strings.get('toolbar/bookmark');
-		bookmark.dom.title = bookmarkStr;
-		bookmark.dom.addEventListener('click', () => {
+		const bookmark = new UIInput("button").setId("btn-b");
+		bookmark.dom.title = strings.get(keys[3]);
+		bookmark.dom.onclick = (e) => {
 
-			const cfi = reader.rendition.currentLocation().start.cfi;
-			reader.emit('bookmarked', reader.isBookmarked(cfi) === -1);
-		});
+			const cfi = this.locationCfi;
+			const val = reader.isBookmarked(cfi) === -1;
+			reader.emit("bookmarked", val);
+		};
 
 		end.add(bookmark);
 
+		let fullscreen = null;
 		if (document.fullscreenEnabled) {
 
-			const fullscreen = new UIInput('button').setId('btn-f');
-			const fullscreenStr = strings.get('toolbar/fullsceen');
-			fullscreen.dom.title = fullscreenStr;
-			fullscreen.dom.addEventListener('click', () => {
+			fullscreen = new UIInput("button").setId("btn-f");
+			fullscreen.dom.title = strings.get(keys[4]);
+			fullscreen.dom.onclick = (e) => {
 
 				this.toggleFullScreen();
-			});
+			};
 
-			document.addEventListener('keydown', (e) => {
+			document.onkeydown = (e) => {
 
-				if (e.key === 'F11') {
+				if (e.key === "F11") {
 					e.preventDefault();
 					this.toggleFullScreen();
 				}
-			}, false);
+			};
 
-			document.addEventListener('fullscreenchange', (e) => {
+			document.onfullscreenchange = (e) => {
 				
 				const w = window.screen.width === e.target.clientWidth;
 				const h = window.screen.height === e.target.clientHeight;
 
 				if (w && h) {
-					fullscreen.addClass('resize-small');
+					fullscreen.addClass("resize-small");
 				} else {
-					fullscreen.removeClass('resize-small');
+					fullscreen.removeClass("resize-small");
 				}
-			}, false);
+			};
 
 			end.add(fullscreen);
 		}
 
-		container.add([start, center, end]);
+		container.add([start, new MetadataPanel(reader), end]);
 		document.body.appendChild(container.dom);
 
 		//-- events --//
 
-		reader.on('relocated', (location) => {
+		reader.on("relocated", (location) => {
 
 			const cfi = location.start.cfi;
-
-			if (reader.isBookmarked(cfi) === -1) {
-				bookmark.removeClass('bookmarked');
+			const val = reader.isBookmarked(cfi) === -1;
+			if (val) {
+				bookmark.removeClass("bookmarked");
 			} else {
-				bookmark.addClass('bookmarked');
+				bookmark.addClass("bookmarked");
+			}
+			this.locationCfi = cfi; // save location cfi
+		});
+
+		reader.on("bookmarked", (boolean) => {
+
+			if (boolean) {
+				bookmark.addClass("bookmarked");
+			} else {
+				bookmark.removeClass("bookmarked");
 			}
 		});
 
-		reader.on('bookmarked', (value) => {
+		reader.on("languagechanged", (value) => {
 
-			if (value) {
-				bookmark.addClass('bookmarked');
-			} else {
-				bookmark.removeClass('bookmarked');
+			opener.dom.title = strings.get(keys[0]);
+			openbook.dom.title = strings.get(keys[1]);
+			bookmark.dom.title = strings.get(keys[3]);
+
+			if (fullscreen) {
+				fullscreen.dom.title = strings.get(keys[4]);
 			}
 		});
 	}
@@ -2021,57 +1584,53 @@ class TocPanel extends UIPanel {
 	constructor(reader) {
 
 		super();
-		super.setId('contents');
 
+		this.setId("contents");
 		this.reader = reader;
 		this.selector = undefined; // save reference to selected tree item
+		const container = new UIDiv().setClass("list-container");
 
 		//-- events --//
 
-		reader.on('navigation', (toc) => {
+		reader.on("navigation", (toc) => {
 
-			this.init(toc);
+			container.clear();
+			container.add(this.generateToc(toc));
+			this.add(container);
 		});
 	}
 
-	init(toc) {
-
-		super.clear();
-		super.add(this.generateToc(toc));
-	}
-
-	generateToc(toc, parent) {
+	generateToc(toc) {
 
 		const container = new UITreeView();
 
 		toc.forEach((chapter) => {
 
 			const link = new UILink(chapter.href, chapter.label);
-			const treeItem = new UITreeViewItem(chapter.id, link, parent);
+			const item = new UITreeViewItem(chapter.id, link);
 
 			link.dom.onclick = () => {
 
-				this.reader.rendition.display(chapter.href);
-				if (this.selector && this.selector !== treeItem) {
+				if (this.selector && this.selector !== item) {
 					this.selector.unselect();
 				}
-				treeItem.select();
-				this.selector = treeItem;
-				this.reader.emit('tocselected', chapter.id);
+				item.select();
+				this.selector = item;
+				this.reader.emit("tocselected", chapter);
 				return false;
 			};
 
 			if (this.reader.settings.sectionId === chapter.id) {
-				treeItem.select();
-				this.selector = treeItem;
+				item.select();
+				this.selector = item;
 			}
 
 			if (chapter.subitems && chapter.subitems.length > 0) {
 
-				treeItem.setItems(this.generateToc(chapter.subitems, treeItem));
+				item.setItem(this.generateToc(chapter.subitems));
 			}
 
-			container.add(treeItem);
+			container.add(item);
 		});
 
 		return container;
@@ -2086,46 +1645,45 @@ class BookmarksPanel extends UIPanel {
 	constructor(reader) {
 
 		super();
-		super.setId('bookmarks');
 
 		const strings = reader.strings;
 
 		const ctrlRow = new UIRow();
 		const ctrlStr = [
-			strings.get('sidebar/bookmarks/add'),
-			strings.get('sidebar/bookmarks/remove'),
-			strings.get('sidebar/bookmarks/clear'),
+			strings.get("sidebar/bookmarks/add"),
+			strings.get("sidebar/bookmarks/remove"),
+			strings.get("sidebar/bookmarks/clear"),
 		];
-		const btn_a = new UIInput('button', ctrlStr[0]).addClass('btn-start');
-		const btn_r = new UIInput('button', ctrlStr[1]).addClass('btn-medium');
-		const btn_c = new UIInput('button', ctrlStr[2]).addClass('btn-end');
+		const btn_a = new UIInput("button", ctrlStr[0]).addClass("btn-start");
+		const btn_r = new UIInput("button", ctrlStr[1]).addClass("btn-medium");
+		const btn_c = new UIInput("button", ctrlStr[2]).addClass("btn-end");
 
 		btn_a.dom.onclick = () => {
 
-			reader.emit('bookmarked', true);
+			reader.emit("bookmarked", true);
 			return false;
 		};
 
 		btn_r.dom.onclick = () => {
 
-			reader.emit('bookmarked', false);
+			reader.emit("bookmarked", false);
 			return false;
 		};
 
 		btn_c.dom.onclick = () => {
 
 			this.clearBookmarks();
-			reader.emit('bookmarked', false);
+			reader.emit("bookmarked", false);
 			return false;
 		};
 
 		ctrlRow.add([btn_a, btn_r, btn_c]);
 
 		this.reader = reader;
-		this.bookmarks = document.createElement('ul');
-
-		super.add(ctrlRow);
-		this.dom.appendChild(this.bookmarks);
+		this.bookmarks = new UIList();
+		this.setId("bookmarks");
+		this.add(ctrlRow);
+		this.add(this.bookmarks);
 
 		const update = () => {
 
@@ -2135,94 +1693,88 @@ class BookmarksPanel extends UIPanel {
 
 		//-- events --//
 
-		reader.on('bookready', () => {
+		reader.on("bookready", (cfg) => {
 
-			reader.settings.bookmarks.forEach((cfi) => {
+			cfg.bookmarks.forEach((cfi) => {
 
-				const bookmark = this.createBookmarkItem(cfi);
-				this.bookmarks.appendChild(bookmark);
+				this.setBookmark(cfi);
 			});
-
 			update();
 		});
 
-		reader.on('relocated', (location) => {
+		reader.on("relocated", (location) => {
 
 			const cfi = location.start.cfi;
 			const val = reader.isBookmarked(cfi) === -1;
 			btn_a.dom.disabled = !val;
 			btn_r.dom.disabled = val;
+			this.locationCfi = cfi; // save location cfi
 		});
 
-		reader.on('bookmarked', (value) => {
+		reader.on("bookmarked", (boolean) => {
 
-			const cfi = reader.rendition.currentLocation().start.cfi;
-
-			if (value) {
-				this.addBookmark(cfi);
+			if (boolean) {
+				this.appendBookmark();
 				btn_a.dom.disabled = true;
 			} else {
-				this.removeBookmark(cfi);
+				this.removeBookmark();
 				btn_a.dom.disabled = false;
 			}
-
 			update();
 		});
 	}
 
-	addBookmark(cfi) {
+	appendBookmark() {
 
-		if (this.reader.isBookmarked(cfi) > -1)
+		const cfi = this.locationCfi;
+		if (this.reader.isBookmarked(cfi) > -1) {
 			return;
-
-		const bookmark = this.createBookmarkItem(cfi);
-		this.bookmarks.appendChild(bookmark);
+		}
+		this.setBookmark(cfi);
 		this.reader.settings.bookmarks.push(cfi);
 	}
 
-	removeBookmark(cfi) {
+	removeBookmark() {
 
+		const cfi = this.locationCfi;
 		const index = this.reader.isBookmarked(cfi);
-		if (index === -1)
+		if (index === -1) {
 			return;
-
-		this.bookmarks.removeChild(this.bookmarks.childNodes[index]);
+		}
+		this.bookmarks.remove(index);
 		this.reader.settings.bookmarks.splice(index, 1);
 	}
 
 	clearBookmarks() {
 
+		this.bookmarks.clear();
 		this.reader.settings.bookmarks = [];
-		while (this.bookmarks.hasChildNodes()) {
-			this.bookmarks.removeChild(this.bookmarks.lastChild);
-		}
 	}
 
-	createBookmarkItem(cfi) {
+	setBookmark(cfi) {
 
-		const item = document.createElement('li');
-		const link = document.createElement('a');
-
+		const link = new UILink();
 		const book = this.reader.book;
 		const spineItem = book.spine.get(cfi);
+		const navItem = book.navigation.get(spineItem.href);
+		let itemId;
 
-		if (spineItem.index in book.navigation.toc) {
-			const tocItem = book.navigation.toc[spineItem.index];
-			item.id = tocItem.id;
-			link.textContent = tocItem.label;
+		if (navItem === undefined) {
+			itemId = spineItem.idref;
+			link.setTextContent(spineItem.idref);
 		} else {
-			link.textContent = cfi;
+			itemId = navItem.id;
+			link.setTextContent(navItem.label);
 		}
 
-		link.href = "#" + cfi;
-		link.onclick = () => {
+		link.setHref("#" + cfi);
+		link.dom.onclick = () => {
 
 			this.reader.rendition.display(cfi);
 			return false;
 		};
 
-		item.appendChild(link);
-		return item;
+		this.bookmarks.add(link, itemId);
 	}
 }
 
@@ -2234,26 +1786,22 @@ class AnnotationsPanel extends UIPanel {
 	constructor(reader) {
 
 		super();
-		super.setId('annotations');
 
 		const strings = reader.strings;
 		const ctrlStr = [
-			strings.get('sidebar/annotations/add'),
-			strings.get('sidebar/annotations/clear')
+			strings.get("sidebar/annotations/add"),
+			strings.get("sidebar/annotations/clear")
 		];
 
-		this.reader = reader;
-		this.notes = document.createElement('ul');
-
 		const textBox = new UITextArea();
-		textBox.dom.addEventListener('input', (e) => {
+		textBox.dom.oninput = (e) => {
 
 			if (isSelected() && e.target.value.length > 0) {
 				btn_a.dom.disabled = false;
 			} else {
 				btn_a.dom.disabled = true;
 			}
-		});
+		};
 
 		const selector = {
 			range: undefined,
@@ -2263,7 +1811,7 @@ class AnnotationsPanel extends UIPanel {
 		const textRow = new UIRow();
 		const ctrlRow = new UIRow();
 
-		const btn_a = new UIInput('button', ctrlStr[0]).addClass('btn-start');
+		const btn_a = new UIInput("button", ctrlStr[0]).addClass("btn-start");
 		btn_a.dom.disabled = true;
 		btn_a.dom.onclick = () => {
 
@@ -2276,14 +1824,14 @@ class AnnotationsPanel extends UIPanel {
 
 			reader.settings.annotations.push(note);
 
-			this.add(note);
+			this.set(note);
 
 			textBox.setValue('');
 			btn_a.dom.disabled = true;
 			return false;
 		};
 
-		const btn_c = new UIInput('button', ctrlStr[1]).addClass('btn-end');
+		const btn_c = new UIInput("button", ctrlStr[1]).addClass("btn-end");
 		btn_c.dom.disabled = true;
 		btn_c.dom.onclick = () => {
 
@@ -2294,9 +1842,11 @@ class AnnotationsPanel extends UIPanel {
 		textRow.add(textBox);
 		ctrlRow.add([btn_a, btn_c]);
 
-		super.add([textRow, ctrlRow]);
-		this.dom.appendChild(this.notes);
-
+		this.reader = reader;
+		this.notes = new UIList();
+		this.setId("annotations");
+		this.add([textRow, ctrlRow]);
+		this.add(this.notes);
 		this.update = () => {
 
 			btn_c.dom.disabled = reader.settings.annotations.length === 0;
@@ -2309,15 +1859,15 @@ class AnnotationsPanel extends UIPanel {
 
 		//-- events --//
 
-		reader.on('bookready', () => {
+		reader.on("bookready", (cfg) => {
 
-			reader.settings.annotations.forEach((note) => {
+			cfg.annotations.forEach((note) => {
 
-				this.add(note);
+				this.set(note);
 			});
 		});
 
-		reader.on('selected', (cfiRange, contents) => {
+		reader.on("selected", (cfiRange, contents) => {
 
 			selector.range = contents.range(cfiRange);
 			selector.cfiRange = cfiRange;
@@ -2329,52 +1879,43 @@ class AnnotationsPanel extends UIPanel {
 			}
 		});
 
-		reader.on('unselected', () => {
+		reader.on("unselected", () => {
 
 			btn_a.dom.disabled = true;
 		});
 	}
 
-	add(note) {
+	set(note) {
 
-		const item = document.createElement('li');
-		const link = document.createElement('a');
-		const btnr = document.createElement('span');
+		const link = new UILink("#" + note.href, note.text);
+		const btnr = new UISpan().setClass("btn-remove");
 		const call = () => { };
 
-		link.href = "#" + note.href;
-		link.textContent = note.text;
 		link.onclick = () => {
 
 			this.reader.rendition.display(note.href);
 			return false;
 		};
 
-		item.id = 'note-' + note.uuid;
-		item.appendChild(link);
+		btnr.dom.onclick = () => {
 
-		btnr.className = 'btn-remove';
-		btnr.onclick = () => {
-
-			this.remove(note);
+			this.removeNote(note);
 			return false;
 		};
 
-		item.appendChild(btnr);
-
-		this.notes.appendChild(item);
+		this.notes.add([link, btnr], "note-" + note.uuid);
 		this.reader.rendition.annotations.add(
 			"highlight", note.href, {}, call, "note-highlight", {});
 		this.update();
 	}
 
-	remove(note) {
+	removeNote(note) {
 
 		const index = this.reader.settings.annotations.indexOf(note);
 		if (index === -1)
 			return;
 
-		this.notes.removeChild(this.notes.childNodes[index]);
+		this.notes.remove(index);
 		this.reader.settings.annotations.splice(index, 1);
 		this.reader.rendition.annotations.remove(note.href, "highlight");
 		this.update();
@@ -2382,11 +1923,8 @@ class AnnotationsPanel extends UIPanel {
 
 	clearNotes() {
 
-		const len = this.reader.settings.annotations.length;
-		for (let i = 0; i < len; i++) {
-
-			this.remove(this.reader.settings.annotations[i]);
-		}
+		this.notes.clear();
+		this.reader.settings.annotations = [];
 	}
 }
 
@@ -2398,25 +1936,23 @@ class SearchPanel extends UIPanel {
 	constructor(reader) {
 
 		super();
-		super.setId('search');
-
 		const strings = reader.strings;
 
 		let searchQuery = undefined;
-		const searchBox = new UIInput('search');
-		searchBox.dom.placeholder = strings.get('sidebar/search/placeholder');
+		const searchBox = new UIInput("search");
+		searchBox.dom.placeholder = strings.get("sidebar/search/placeholder");
 		searchBox.dom.onsearch = () => {
 
 			const value = searchBox.getValue();
 
 			if (value.length === 0) {
-				this.clear();
+				this.items.clear();
 			} else if (searchQuery !== value) {
-				this.clear();
+				this.items.clear();
 				this.doSearch(value).then(results => {
 
-					results.forEach(item => {
-						this.set(item);
+					results.forEach(data => {
+						this.set(data);
 					});
 				});
 			}
@@ -2427,8 +1963,9 @@ class SearchPanel extends UIPanel {
 		ctrlRow.add(searchBox);
 		super.add(ctrlRow);
 
-		this.items = document.createElement('ul');
-		this.dom.appendChild(this.items);
+		this.setId("search");
+		this.items = new UIList();
+		this.add(this.items);
 		this.reader = reader;
 		//
 		// improvement of the highlighting of keywords is required...
@@ -2451,26 +1988,13 @@ class SearchPanel extends UIPanel {
 
 	set(data) {
 
-		const item = document.createElement('li');
-		const link = document.createElement('a');
-
-		link.href = "#" + data.cfi;
-		link.textContent = data.excerpt;
-		link.onclick = () => {
+		const link = new UILink("#" + data.cfi, data.excerpt);
+		link.dom.onclick = () => {
 
 			this.reader.rendition.display(data.cfi);
 			return false;
 		};
-
-		item.appendChild(link);
-		this.items.appendChild(item);
-	}
-
-	clear() {
-
-		while (this.items.hasChildNodes()) {
-			this.items.removeChild(this.items.lastChild);
-		}
+		this.items.add(link);
 	}
 }
 
@@ -2482,42 +2006,51 @@ class SettingsPanel extends UIPanel {
 	constructor(reader) {
 
 		super();
-		super.setId('settings');
+		super.setId("settings");
 
 		const strings = reader.strings;
+		const keys = [
+			"sidebar/settings/language",
+			"sidebar/settings/fontsize",
+			"sidebar/settings/layout",
+			"sidebar/settings/spread",
+			"sidebar/settings/spread/pagewidth"
+		];
 
-		const languageStr = strings.get('sidebar/settings/language');
+		const languageLabel = new UILabel(strings.get(keys[0]), "language-ui");
 		const languageRow = new UIRow();
 		const language = new UISelect().setOptions({
-			en: 'English',
-			fr: 'French',
-			ja: 'Japanese',
-			ru: 'Russian'
+			en: "English",
+			fr: "French",
+			ja: "Japanese",
+			ru: "Russian"
 		});
 		language.dom.onchange = (e) => {
 
-			reader.settings.language = e.target.value;
+			reader.emit("languagechanged", e.target.value);
 		};
+		language.setId("language-ui");
 
-		languageRow.add(new UILabel(languageStr));
+		languageRow.add(languageLabel);
 		languageRow.add(language);
 
-		const fontSizeStr = strings.get("sidebar/settings/fontsize");
+		const fontSizeLabel = new UILabel(strings.get(keys[1]), "fontsize");
 		const fontSizeRow = new UIRow();
-		const fontSize = new UIInteger(100, 1);
+		const fontSize = new UINumber(100, 1);
 		fontSize.dom.onchange = (e) => {
 
 			reader.emit("styleschanged", {
 				fontSize: parseInt(e.target.value)
 			});
 		};
+		fontSize.setId("fontsize")
 
-		fontSizeRow.add(new UILabel(fontSizeStr));
+		fontSizeRow.add(fontSizeLabel);
 		fontSizeRow.add(fontSize);
 
-		// -- layout configure -- //
+		//-- layout configure --//
 
-		const layoutStr = strings.get("sidebar/settings/layout");
+		const layoutLabel = new UILabel(strings.get(keys[2]), "layout");
 		const layoutRow = new UIRow();
 		const layout = new UISelect().setOptions({
 			paginated: "Paginated",
@@ -2525,27 +2058,28 @@ class SettingsPanel extends UIPanel {
 		});
 		layout.dom.onchange = (e) => {
 
-			reader.emit("layoutchanged", e.target.value);
+			reader.emit("flowchanged", e.target.value);
 
 			if (e.target.value === "scrolled") {
 				reader.emit("spreadchanged", {
 					mod: "none",
-					min: reader.settings.spread["min"]
+					min: undefined
 				});
 			} else {
 				reader.emit("spreadchanged", {
-					mod: reader.settings.spread["mod"],
-					min: reader.settings.spread["min"]
+					mod: undefined,
+					min: undefined
 				});
 			}
 		};
+		layout.setId("layout");
 
-		layoutRow.add(new UILabel(layoutStr));
+		layoutRow.add(layoutLabel);
 		layoutRow.add(layout);
 
-		// -- spdead configure -- //
+		//-- spdead configure --//
 
-		const spreadStr = strings.get("sidebar/settings/spread");
+		const spreadLabel = new UILabel(strings.get(keys[3]), "spread");
 		const spreadRow = new UIRow();
 		const spread = new UISelect().setOptions({
 			none: "None",
@@ -2555,40 +2089,41 @@ class SettingsPanel extends UIPanel {
 
 			reader.emit("spreadchanged", {
 				mod: e.target.value,
-				min: reader.settings.spread["min"]
+				min: undefined
 			});
 		};
+		spread.setId("spread");
 
-		spreadRow.add(new UILabel(spreadStr));
+		spreadRow.add(spreadLabel);
 		spreadRow.add(spread);
 
-		const minSpreadWidthStr = strings.get("sidebar/settings/spread/pagewidth");
+		const minSpreadWidthLabel = new UILabel(strings.get(keys[4]), "min-spread-width");
 		const minSpreadWidthRow = new UIRow();
-		const minSpreadWidth = new UIInteger(800, 1);
+		const minSpreadWidth = new UINumber(800, 1);
 		minSpreadWidth.dom.onchange = (e) => {
 
 			reader.emit("spreadchanged", {
-				mod: reader.settings.spread["mod"],
-				min: e.target.value
+				mod: undefined,
+				min: parseInt(e.target.value)
 			});
 		};
+		minSpreadWidth.setId("min-spread-width");
 
-		minSpreadWidthRow.add(new UILabel(minSpreadWidthStr));
+		minSpreadWidthRow.add(minSpreadWidthLabel);
 		minSpreadWidthRow.add(minSpreadWidth);
 
-		// -- pagination -- //
+		//-- pagination --//
 
-		const paginationStr = strings.get('sidebar/settings/pagination');
+		const paginationStr = strings.get("sidebar/settings/pagination");
 		const paginationRow = new UIRow();
-		const pagination = new UIInput('checkbox', false, paginationStr[1]);
-		pagination.setId('pagination');
-		pagination.dom.addEventListener('click', (e) => {
+		const pagination = new UIInput("checkbox", false, paginationStr[1]);
+		pagination.setId("pagination");
+		pagination.dom.onclick = (e) => {
 
-			reader.settings.pagination = e.target.checked;
-			reader.generatePagination(); // not implemented
-		});
+			// not implemented
+		};
 
-		paginationRow.add(new UILabel(paginationStr[0], 'pagination'));
+		paginationRow.add(new UILabel(paginationStr[0], "pagination"));
 		paginationRow.add(pagination);
 
 		super.add([
@@ -2602,40 +2137,32 @@ class SettingsPanel extends UIPanel {
 
 		//-- events --//
 
-		reader.on("bookready", () => {
+		reader.on("bookready", (cfg) => {
 
-			language.setValue(reader.settings.language);
+			language.setValue(cfg.language);
+			fontSize.setValue(cfg.styles.fontSize);
+			layout.setValue(cfg.flow);
+			spread.setValue(cfg.spread.mod);
+			minSpreadWidth.setValue(cfg.spread.min);
 		});
 
 		reader.on("layout", (props) => {
 
-			const value = props["flow"] === "scrolled";
-			spread.dom.disabled = value;
-		});
-
-		reader.on("layoutchanged", (value) => {
-
-			if (layout.getValue() !== value) {
-				layout.setValue(value);
+			if (props.flow === "scrolled") {
+				spread.dom.disabled = true;
+				spread.setValue("none");
+			} else {
+				spread.dom.disabled = false;
 			}
 		});
 
-		reader.on("styleschanged", (value) => {
+		reader.on("languagechanged", (value) => {
 
-			if (fontSize.getValue() !== value["fontSize"]) {
-				fontSize.setValue(value["fontSize"]);
-			}
-		});
-
-		reader.on("spreadchanged", (value) => {
-
-			if (spread.getValue() !== value["mod"]) {
-				spread.setValue(value["mod"]);
-			}
-
-			if (minSpreadWidth.getValue() !== value["min"]) {
-				minSpreadWidth.setValue(value["min"]);
-			}
+			languageLabel.dom.textContent = strings.get(keys[0]);
+			fontSizeLabel.dom.textContent = strings.get(keys[1]);
+			layoutLabel.dom.textContent = strings.get(keys[2]);
+			spreadLabel.dom.textContent = strings.get(keys[3]);
+			minSpreadWidthLabel.dom.textContent = strings.get(keys[4]);
 		});
 	}
 }
@@ -2681,146 +2208,97 @@ class Content {
 
 	constructor(reader) {
 
-		this.main = new UIDiv().setId('content');
-		this.main.dom.addEventListener('transitionend', (e) => {
+		const container = new UIDiv().setId("content");
+		container.dom.ontransitionend = (e) => {
 
-			if (reader.settings.sidebarReflow) {
-				reader.rendition.resize();
-			}
-		});
+			reader.emit("sidebarreflow");
+			e.preventDefault();
+		};
 
-		const prev = new UIDiv().setId('prev').setClass('arrow');
+		const prev = new UIDiv().setId("prev").setClass("arrow");
 		prev.dom.onclick = (e) => {
 
-			reader.emit('prev');
+			reader.emit("prev");
 			e.preventDefault();
 		};
-		prev.add(new UILabel('<'));
+		prev.add(new UILabel("<"));
 
-		const next = new UIDiv().setId('next').setClass('arrow');
+		const next = new UIDiv().setId("next").setClass("arrow");
 		next.dom.onclick = (e) => {
 
-			reader.emit('next');
+			reader.emit("next");
 			e.preventDefault();
 		};
-		next.add(new UILabel('>'));
+		next.add(new UILabel(">"));
 
-		const viewer = new UIDiv().setId('viewer');
-		const divider = new UIDiv().setId('divider');
-		const loader = new UIDiv().setId('loader');
+		const viewer = new UIDiv().setId("viewer");
+		const divider = new UIDiv().setId("divider");
+		const loader = new UIDiv().setId("loader");
 
-		const showDivider = () => {
-			divider.dom.style.display = 'block';
-		};
-
-		const hideDivider = () => {
-			divider.dom.style.display = 'none';
-		};
-
-		const showLoader = () => {
-			loader.dom.style.display = 'block';
-			hideDivider();
-		};
-
-		const hideLoader = () => {
-			loader.dom.style.display = 'none';
-
-			//-- If the book is using spreads, show the divider
-			if (reader.book.settings.spreads) {
-				showDivider();
-			}
-		};
-
-		this.main.add([prev, viewer, next, divider, loader]);
-
-		this.reader = reader;
-
-		document.body.appendChild(this.main.dom);
+		container.add([prev, viewer, next, divider, loader]);
+		document.body.appendChild(container.dom);
 
 		//-- events --//
 
-		reader.on('bookloaded', () => {
+		reader.on("bookready", (cfg) => {
 
-			hideLoader();
+			loader.dom.style.display = "block";
 		});
 
-		reader.on('sidebaropener', (value) => {
+		reader.on("bookloaded", () => {
+
+			loader.dom.style.display = "none";
+		});
+
+		reader.on("sidebaropener", (value) => {
 
 			if (value) {
-				this.slideOut();
+				container.addClass("closed");
 			} else {
-				this.slideIn();
+				container.removeClass("closed");
 			}
 		});
 
-		reader.on('layout', (props) => {
+		reader.on("layout", (props) => {
 
-			if (props.spread === true && props.width > props.spreadWidth) {
-				showDivider();
+			if (props.spread && props.width > props.spreadWidth) {
+				divider.dom.style.display = "block";
 			} else {
-				hideDivider();
+				divider.dom.style.display = "none";
 			}
 		});
 
-		reader.on('relocated', (location) => {
+		reader.on("relocated", (location) => {
 
 			if (location.atStart) {
-				prev.addClass('disabled');
+				prev.addClass("disabled");
 			} else {
-				prev.removeClass('disabled');
+				prev.removeClass("disabled");
 			}
 
 			if (location.atEnd) {
-				next.addClass('disabled');
+				next.addClass("disabled");
 			} else {
-				next.removeClass('disabled');
+				next.removeClass("disabled");
 			}
 		});
 
-		reader.on('prev', () => {
+		reader.on("prev", () => {
 
-			prev.addClass('active');
-			setTimeout(() => { prev.removeClass('active'); }, 100);
+			prev.addClass("active");
+			setTimeout(() => { prev.removeClass("active"); }, 100);
 		});
 
-		reader.on('next', () => {
+		reader.on("next", () => {
 
-			next.addClass('active');
-			setTimeout(() => { next.removeClass('active'); }, 100);
+			next.addClass("active");
+			setTimeout(() => { next.removeClass("active"); }, 100);
 		});
 
-		reader.on('viewercleanup', () => {
+		reader.on("viewercleanup", () => {
 
 			viewer.clear();
 		});
-	}
-
-	slideIn() {
-
-		//var currentPosition = rendition.currentLocation().start.cfi;
-		if (this.reader.settings.sidebarReflow) {
-			//this.main.removeClass('single');
-		} else {
-			//this.main.removeClass('closed');
-		}
-
-		this.main.removeClass('single');
-		this.main.removeClass('closed');
-	}
-
-	slideOut() {
-		/*
-		var location = rendition.currentLocation();
-		if (!location) {
-			return;
-		}
-		var currentPosition = location.start.cfi;
-		*/
-		if (this.reader.settings.sidebarReflow) {
-			this.main.addClass('single');
-		} else {
-			this.main.addClass('closed');
-		}
 	}
 }
 
@@ -2829,120 +2307,124 @@ class Strings {
 
 	constructor(reader) {
 
-		this.language = reader.settings.language || 'en';
+		this.language = reader.settings.language || "en";
 		this.values = {
 			en: {
-				'toolbar/opener': 'Sidebar',
-				'toolbar/openbook': 'Open book',
-				'toolbar/openbook/error': 'Your browser does not support the required features.\nPlease use a modern browser such as Google Chrome, or Mozilla Firefox.',
-				'toolbar/bookmark': 'Add this page to bookmarks',
-				'toolbar/fullsceen': 'Fullscreen',
+				"toolbar/opener": "Sidebar",
+				"toolbar/openbook": "Open book",
+				"toolbar/openbook/error": "Your browser does not support the required features.\nPlease use a modern browser such as Google Chrome, or Mozilla Firefox.",
+				"toolbar/bookmark": "Add this page to bookmarks",
+				"toolbar/fullsceen": "Fullscreen",
 
-				'sidebar/contents': 'Contents',
-				'sidebar/bookmarks': 'Bookmarks',
-				'sidebar/bookmarks/add': 'Add',
-				'sidebar/bookmarks/remove': 'Remove',
-				'sidebar/bookmarks/clear': 'Clear',
-				'sidebar/annotations': 'Annotations',
-				'sidebar/annotations/add': 'Add',
-				'sidebar/annotations/clear': 'Clear',
-				'sidebar/annotations/anchor': 'Anchor',
-				'sidebar/annotations/cancel': 'Cancel',
-				'sidebar/search': 'Search',
-				'sidebar/search/placeholder': 'search',
-				'sidebar/settings': 'Settings',
-				'sidebar/settings/language': 'Language',
-				'sidebar/settings/fontsize': 'Font size (%)',
-				'sidebar/settings/layout': 'Layout',
-				'sidebar/settings/pagination': ['Pagination', 'Generate pagination'],
-				'sidebar/settings/spread': 'Spread',
-				'sidebar/settings/spread/pagewidth': 'Page width'
+				"sidebar/contents": "Contents",
+				"sidebar/bookmarks": "Bookmarks",
+				"sidebar/bookmarks/add": "Add",
+				"sidebar/bookmarks/remove": "Remove",
+				"sidebar/bookmarks/clear": "Clear",
+				"sidebar/annotations": "Annotations",
+				"sidebar/annotations/add": "Add",
+				"sidebar/annotations/clear": "Clear",
+				"sidebar/annotations/anchor": "Anchor",
+				"sidebar/annotations/cancel": "Cancel",
+				"sidebar/search": "Search",
+				"sidebar/search/placeholder": "Search",
+				"sidebar/settings": "Settings",
+				"sidebar/settings/language": "Language",
+				"sidebar/settings/fontsize": "Font size (%)",
+				"sidebar/settings/layout": "Layout",
+				"sidebar/settings/pagination": ["Pagination", "Generate pagination"],
+				"sidebar/settings/spread": "Spread",
+				"sidebar/settings/spread/pagewidth": "Page width"
 			},
 			fr: {
-				'toolbar/opener': 'Barre latérale',
-				'toolbar/openbook': 'Ouvrir un livre local',
-				'toolbar/openbook/error': 'Votre navigateur ne prend pas en charge les fonctions nécessaires.\nVeuillez utiliser un navigateur moderne tel que Google Chrome ou Mozilla Firefox.',
-				'toolbar/bookmark': 'Insérer un marque page ici',
-				'toolbar/fullsceen': 'Plein écran',
+				"toolbar/opener": "Barre latérale",
+				"toolbar/openbook": "Ouvrir un livre local",
+				"toolbar/openbook/error": "Votre navigateur ne prend pas en charge les fonctions nécessaires.\nVeuillez utiliser un navigateur moderne tel que Google Chrome ou Mozilla Firefox.",
+				"toolbar/bookmark": "Insérer un marque page ici",
+				"toolbar/fullsceen": "Plein écran",
 
-				'sidebar/contents': 'Sommaire',
-				'sidebar/bookmarks': 'Marque-pages',
-				'sidebar/bookmarks/add': 'Ajouter',
-				'sidebar/bookmarks/remove': 'Retirer',
-				'sidebar/bookmarks/clear': 'Tout enlever',
-				'sidebar/annotations': 'Annotations',
-				'sidebar/annotations/add': 'Ajouter',
-				'sidebar/annotations/clear': 'Tout enlever',
-				'sidebar/annotations/anchor': 'Ancre',
-				'sidebar/annotations/cancel': 'Annuler',
-				'sidebar/search': 'Rechercher',
-				'sidebar/search/placeholder': 'rechercher',
-				'sidebar/settings': 'Réglages',
-				'sidebar/settings/language': 'Langue',
-				'sidebar/settings/fontsize': '???',
-				'sidebar/settings/layout': '???',
-				'sidebar/settings/pagination': ['Pagination', 'Établir une pagination'],
-				'sidebar/settings/spread': '???',
-				'sidebar/settings/spread/pagewidth': '???'
+				"sidebar/contents": "Sommaire",
+				"sidebar/bookmarks": "Marque-pages",
+				"sidebar/bookmarks/add": "Ajouter",
+				"sidebar/bookmarks/remove": "Retirer",
+				"sidebar/bookmarks/clear": "Tout enlever",
+				"sidebar/annotations": "Annotations",
+				"sidebar/annotations/add": "Ajouter",
+				"sidebar/annotations/clear": "Tout enlever",
+				"sidebar/annotations/anchor": "Ancre",
+				"sidebar/annotations/cancel": "Annuler",
+				"sidebar/search": "Rechercher",
+				"sidebar/search/placeholder": "rechercher",
+				"sidebar/settings": "Réglages",
+				"sidebar/settings/language": "Langue",
+				"sidebar/settings/fontsize": "???",
+				"sidebar/settings/layout": "???",
+				"sidebar/settings/pagination": ["Pagination", "Établir une pagination"],
+				"sidebar/settings/spread": "???",
+				"sidebar/settings/spread/pagewidth": "???"
 			},
 			ja: {
-				'toolbar/opener': 'サイドバー',
-				'toolbar/openbook': '本を開く',
-				'toolbar/openbook/error': 'ご利用のブラウザは必要な機能をサポートしていません。\nGoogle Chrome、Mozilla Firefox、その他のモダンなブラウザでご利用ください。',
-				'toolbar/bookmark': 'このページに栞を設定する',
-				'toolbar/fullsceen': 'フルスクリーン',
+				"toolbar/opener": "サイドバー",
+				"toolbar/openbook": "本を開く",
+				"toolbar/openbook/error": "ご利用のブラウザは必要な機能をサポートしていません。\nGoogle Chrome、Mozilla Firefox、その他のモダンなブラウザでご利用ください。",
+				"toolbar/bookmark": "このページに栞を設定する",
+				"toolbar/fullsceen": "フルスクリーン",
 
-				'sidebar/contents': '目次',
-				'sidebar/bookmarks': '栞',
-				'sidebar/bookmarks/add': '追加',
-				'sidebar/bookmarks/remove': '削除',
-				'sidebar/bookmarks/clear': 'クリア',
-				'sidebar/annotations': '注釈',
-				'sidebar/annotations/add': '追加',
-				'sidebar/annotations/clear': 'クリア',
-				'sidebar/annotations/anchor': 'アンカー',
-				'sidebar/annotations/cancel': 'キャンセル',
-				'sidebar/search': '検索',
-				'sidebar/search/placeholder': '検索',
-				'sidebar/settings': '設定',
-				'sidebar/settings/language': '表示言語',
-				'sidebar/settings/fontsize': '???',
-				'sidebar/settings/layout': '???',
-				'sidebar/settings/pagination': ['ページネーション', 'ページネーションを生成します。'],
-				'sidebar/settings/spread': '???',
-				'sidebar/settings/spread/pagewidth': '???'
+				"sidebar/contents": "目次",
+				"sidebar/bookmarks": "栞",
+				"sidebar/bookmarks/add": "追加",
+				"sidebar/bookmarks/remove": "削除",
+				"sidebar/bookmarks/clear": "クリア",
+				"sidebar/annotations": "注釈",
+				"sidebar/annotations/add": "追加",
+				"sidebar/annotations/clear": "クリア",
+				"sidebar/annotations/anchor": "アンカー",
+				"sidebar/annotations/cancel": "キャンセル",
+				"sidebar/search": "検索",
+				"sidebar/search/placeholder": "検索",
+				"sidebar/settings": "設定",
+				"sidebar/settings/language": "表示言語",
+				"sidebar/settings/fontsize": "???",
+				"sidebar/settings/layout": "???",
+				"sidebar/settings/pagination": ["ページネーション", "ページネーションを生成します。"],
+				"sidebar/settings/spread": "???",
+				"sidebar/settings/spread/pagewidth": "???"
 			},
 			ru: {
-				'toolbar/opener': 'Боковая панель',
-				'toolbar/openbook': 'Открыть книгу',
-				'toolbar/openbook/error': 'Ваш браузер не поддерживает необходимые функции.\nПожалуйста, используйте современный браузер, такой как Google Chrome или Mozilla Firefox.',
-				'toolbar/bookmark': 'Добавить эту страницу в закладки',
-				'toolbar/fullsceen': 'Полноэкранный режим',
+				"toolbar/opener": "Боковая панель",
+				"toolbar/openbook": "Открыть книгу",
+				"toolbar/openbook/error": "Ваш браузер не поддерживает необходимые функции.\nПожалуйста, используйте современный браузер, такой как Google Chrome или Mozilla Firefox.",
+				"toolbar/bookmark": "Добавить эту страницу в закладки",
+				"toolbar/fullsceen": "Полноэкранный режим",
 
-				'sidebar/contents': 'Содержание',
-				'sidebar/bookmarks': 'Закладки',
-				'sidebar/bookmarks/add': 'Добавить',
-				'sidebar/bookmarks/remove': 'Удалить',
-				'sidebar/bookmarks/clear': 'Очистить',
-				'sidebar/annotations': 'Аннотации',
-				'sidebar/annotations/add': 'Добавить',
-				'sidebar/annotations/clear': 'Очистить',
-				'sidebar/annotations/anchor': 'Метка',
-				'sidebar/annotations/cancel': 'Отмена',
-				'sidebar/search': 'Поиск',
-				'sidebar/search/placeholder': 'поиск...',
-				'sidebar/settings': 'Настройки',
-				'sidebar/settings/language': 'Язык',
-				'sidebar/settings/fontsize': 'Размер шрифта',
-				'sidebar/settings/layout': 'Макет',
-				'sidebar/settings/pagination': ['Нумерация страниц', 'Генерировать нумерацию страниц'],
-				'sidebar/settings/spread': 'Разворот',
-				'sidebar/settings/spread/pagewidth': 'Ширина страницы'
+				"sidebar/contents": "Содержание",
+				"sidebar/bookmarks": "Закладки",
+				"sidebar/bookmarks/add": "Добавить",
+				"sidebar/bookmarks/remove": "Удалить",
+				"sidebar/bookmarks/clear": "Очистить",
+				"sidebar/annotations": "Аннотации",
+				"sidebar/annotations/add": "Добавить",
+				"sidebar/annotations/clear": "Очистить",
+				"sidebar/annotations/anchor": "Метка",
+				"sidebar/annotations/cancel": "Отмена",
+				"sidebar/search": "Поиск",
+				"sidebar/search/placeholder": "Поиск",
+				"sidebar/settings": "Настройки",
+				"sidebar/settings/language": "Язык",
+				"sidebar/settings/fontsize": "Размер шрифта",
+				"sidebar/settings/layout": "Макет",
+				"sidebar/settings/pagination": ["Нумерация страниц", "Генерировать нумерацию страниц"],
+				"sidebar/settings/spread": "Разворот",
+				"sidebar/settings/spread/pagewidth": "Ширина страницы"
 			}
 		};
+
+		reader.on("languagechanged", (value) => {
+			this.language = value;
+		});
 	}
 
-	get(key) { return this.values[this.language][key] || '???'; }
+	get(key) { return this.values[this.language][key] || "???"; }
 }
 
 ;// CONCATENATED MODULE: ./src/reader.js
@@ -2971,14 +2453,14 @@ class Reader {
 
 		this.init();
 
-		window.addEventListener('beforeunload', this.unload.bind(this), false);
-		window.addEventListener('hashchange', this.hashChanged.bind(this), false);
-		window.addEventListener('keydown', this.keyboardHandler.bind(this), false);
-		window.addEventListener('wheel', (e) => {
+		window.onbeforeunload = this.unload.bind(this);
+		window.onhashchange = this.hashChanged.bind(this);
+		window.onkeydown = this.keyboardHandler.bind(this);
+		window.onwheel = (e) => {
 			if (e.ctrlKey) {
 				e.preventDefault();
 			}
-		}, { passive: false });
+		};
 	}
 
 	/**
@@ -2988,7 +2470,7 @@ class Reader {
 	 */
 	init(bookPath, _options) {
 
-		this.emit('viewercleanup');
+		this.emit("viewercleanup");
 
 		if (arguments.length > 0) {
 
@@ -2996,8 +2478,10 @@ class Reader {
 		}
 
 		this.book = ePub(this.settings.bookPath);
-		this.rendition = this.book.renderTo('viewer', {
-			flow: this.settings.flow || "paginated",
+		this.rendition = this.book.renderTo("viewer", {
+			flow: this.settings.flow,
+			spread: this.settings.spread.mod,
+			minSpreadWidth: this.settings.spread.min,
 			width: "100%",
 			height: "100%"
 		});
@@ -3010,49 +2494,46 @@ class Reader {
 		}
 
 		this.displayed.then((renderer) => {
-			this.emit('renderered', renderer);
+			this.emit("renderered", renderer);
 		});
 
 		this.book.ready.then(function () {
-			this.emit("bookready");
-			this.emit("layoutchanged", this.settings.flow);
-			this.emit("spreadchanged", this.settings.spread);
-			this.emit("styleschanged", this.settings.styles);
+			this.emit("bookready", this.settings);
 		}.bind(this)).then(function () {
-			this.emit('bookloaded');
+			this.emit("bookloaded");
 		}.bind(this));
 
 		this.book.loaded.metadata.then((meta) => {
-			this.emit('metadata', meta);
+			this.emit("metadata", meta);
 		});
 
 		this.book.loaded.navigation.then((toc) => {
-			this.emit('navigation', toc);
+			this.emit("navigation", toc);
 		});
 
-		this.rendition.on('click', (e) => {
+		this.rendition.on("click", (e) => {
 			const selection = e.view.document.getSelection();
 			const range = selection.getRangeAt(0);
 			if (range.startOffset === range.endOffset) {
-				this.emit('unselected');
+				this.emit("unselected");
 			}
 		});
 
-		this.rendition.on('layout', (props) => {
-			this.emit('layout', props);
+		this.rendition.on("layout", (props) => {
+			this.emit("layout", props);
 		});
 
-		this.rendition.on('selected', (cfiRange, contents) => {
+		this.rendition.on("selected", (cfiRange, contents) => {
 			this.setLocation(cfiRange);
-			this.emit('selected', cfiRange, contents);
+			this.emit("selected", cfiRange, contents);
 		});
 
-		this.rendition.on('relocated', (location) => {
+		this.rendition.on("relocated", (location) => {
 			this.setLocation(location.start.cfi);
-			this.emit('relocated', location);
+			this.emit("relocated", location);
 		});
 
-		this.on('prev', () => {
+		this.on("prev", () => {
 			if (this.book.package.metadata.direction === 'rtl') {
 				this.rendition.next();
 			} else {
@@ -3060,7 +2541,7 @@ class Reader {
 			}
 		});
 
-		this.on('next', () => {
+		this.on("next", () => {
 			if (this.book.package.metadata.direction === 'rtl') {
 				this.rendition.prev();
 			} else {
@@ -3068,25 +2549,35 @@ class Reader {
 			}
 		});
 
-		this.on('tocselected', (sectionId) => {
-			this.settings.sectionId = sectionId;
+		this.on("sidebarreflow", () => {
+			// no implementation sidebarReflow setting
+			//this.rendition.resize();
 		});
 
-		this.on("layoutchanged", (value) => {
+		this.on("tocselected", (chapter) => {
+			this.settings.sectionId = chapter.id;
+			this.rendition.display(chapter.href);
+		});
+
+		this.on("languagechanged", (value) => {
+			this.settings.language = value;
+		});
+
+		this.on("flowchanged", (value) => {
 			this.settings.flow = value;
 			this.rendition.flow(value);
 		});
 		
 		this.on("spreadchanged", (value) => {
-			const mod = value["mod"];
-			const min = value["min"];
-			this.settings.spread["mod"] = mod;
-			this.settings.spread["min"] = min;
+			const mod = value.mod || this.settings.spread.mod;
+			const min = value.min || this.settings.spread.min;
+			this.settings.spread.mod = mod;
+			this.settings.spread.min = min;
 			this.rendition.spread(mod, min);
 		});
 
 		this.on("styleschanged", (value) => {
-			const fontSize = value["fontSize"];
+			const fontSize = value.fontSize;
 			this.settings.styles.fontSize = fontSize;
 			this.rendition.themes.fontSize(fontSize + "%");
 		});
@@ -3145,8 +2636,8 @@ class Reader {
 	 */
 	cfgInit(bookPath, _options) {
 
+		this.entryKey = md5(bookPath).toString();
 		this.settings = this.defaults(_options || {}, {
-			bookKey: this.getBookKey(bookPath),
 			bookPath: bookPath,
 			flow: undefined,
 			restore: false,
@@ -3192,31 +2683,8 @@ class Reader {
 		}
 
 		if (this.settings.language === undefined) {
-			this.settings.language = 'en';
+			this.settings.language = "en";
 		}
-	}
-
-	/**
-	 * Get book key.
-	 * @param {*} identifier (url | blob)
-	 * @returns Book key (MD5).
-	 */
-	getBookKey(identifier) {
-
-		return 'epubjs-reader:' + md5(identifier);
-	}
-
-	/**
-	 * Set book key in settings.
-	 * @param {*} identifier (url | blob)
-	 * @returns Current book key.
-	 */
-	setBookKey(identifier) {
-
-		if (this.settings.bookKey === undefined) {
-			this.settings.bookKey = this.getBookKey(identifier);
-		}
-		return this.settings.bookKey;
 	}
 
 	/**
@@ -3228,7 +2696,7 @@ class Reader {
 		if (!localStorage)
 			return false;
 
-		return localStorage.getItem(this.settings.bookKey) !== null;
+		return localStorage.getItem(this.entryKey) !== null;
 	}
 
 	/**
@@ -3241,7 +2709,7 @@ class Reader {
 		if (!this.isSaved())
 			return false;
 
-		localStorage.removeItem(this.settings.bookKey);
+		localStorage.removeItem(this.entryKey);
 		return true;
 	}
 
@@ -3252,7 +2720,7 @@ class Reader {
 
 		let stored;
 		try {
-			stored = JSON.parse(localStorage.getItem(this.settings.bookKey));
+			stored = JSON.parse(localStorage.getItem(this.entryKey));
 		} catch (e) { // parsing error of localStorage
 			console.exception(e);
 		}
@@ -3282,32 +2750,8 @@ class Reader {
 	 */
 	saveSettings() {
 
-		if (this.book) {
-
-			if (this.rendition.location) {
-				const curLocation = this.rendition.currentLocation();
-				this.settings.previousLocationCfi = curLocation.start.cfi;
-			}
-		}
-
-		if (!localStorage)
-			return false;
-
-		localStorage.setItem(this.settings.bookKey, JSON.stringify(this.settings));
-		return true;
-	}
-
-	unload() {
-
-		if (this.settings.restore && localStorage) {
-			this.saveSettings();
-		}
-	}
-
-	hashChanged() {
-
-		const hash = window.location.hash.slice(1);
-		this.rendition.display(hash);
+		this.settings.previousLocationCfi = this.rendition.location.start.cfi;
+		localStorage.setItem(this.entryKey, JSON.stringify(this.settings));
 	}
 
 	setLocation(cfi) {
@@ -3324,12 +2768,19 @@ class Reader {
 		}
 	}
 
-	generatePagination() {
-		//
-		// no implemented
-		//
-		//const rect = this.content.viewer.getRect();
-		//this.book.generatePagination(rect.width, rect.height);
+	//-- event handlers --//
+
+	unload() {
+
+		if (this.settings.restore && localStorage) {
+			this.saveSettings();
+		}
+	}
+
+	hashChanged() {
+
+		const hash = window.location.hash.slice(1);
+		this.rendition.display(hash);
 	}
 
 	keyboardHandler(e) {
