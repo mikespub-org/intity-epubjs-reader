@@ -91,7 +91,7 @@ body {
 	visibility: hidden;
 }
 
-.arrow label {
+.arrow span {
 	color: #E2E2E2;
 	cursor: pointer;
 	overflow: hidden;
@@ -106,12 +106,12 @@ body {
 	-ms-user-select: none;
 }
 
-.arrow label:hover {
+.arrow span:hover {
 	color: #777;
 }
 
-.arrow:active>label,
-.arrow.active>label {
+.arrow:active > span,
+.arrow.active > span {
 	color: #000;
 }
 

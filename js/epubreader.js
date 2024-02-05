@@ -712,12 +712,14 @@ class UIElement {
 
 /**
  * UISpan
+ * @param {string} text
  */
 class UISpan extends UIElement {
 
-	constructor() {
+	constructor(text) {
 
 		super("span");
+		this.setTextContent(text);
 	}
 }
 
@@ -1248,134 +1250,59 @@ class UITab extends UIDiv {
 
 /**
  * UIList
+ * @param {UIItem} parent
  */
 class UIList extends UIElement {
 
-	constructor() {
-
-		super("div");
-		this.setClass("list-container");
-		this.list = document.createElement("ul");
-		this.dom.appendChild(this.list);
-	}
-
-	add(item, id) {
-
-		const listItem = document.createElement("li");
-		listItem.id = id;
-		if (Array.isArray(item)) {
-			item.forEach((i) => { listItem.appendChild(i.dom) });
-		} else {
-			listItem.appendChild(item.dom);
-		}
-		this.list.appendChild(listItem);
-		return this;
-	}
-
-	remove() {
-
-		for (let i = 0; i < arguments.length; i++) {
-			const argument = arguments[i];
-			if (argument instanceof UIElement) {
-				this.list.removeChild(argument.dom);
-			} else if (Number.isInteger(argument)) {
-				this.list.removeChild(this.list.childNodes[argument]);
-			} else {
-				console.error("UIList:", argument, ERROR_MSG);
-			}
-		}
-		return this;
-	}
-
-	clear() {
-
-		while (this.list.children.length)
-			this.list.removeChild(this.list.lastChild);
-		return this;
-	}
-}
-
-/**
- * UITreeView
- */
-class UITreeView extends UIElement {
-
-	constructor() {
+	constructor(parent) {
 
 		super("ul");
+		this.parent = parent && parent.parent; // LI->UL
+		this.expanded = false;
+	}
+
+	expand() {
+
+		this.expanded = true;
+		this.dom.style.display = "block";
+		if (this.parent)
+			this.parent.expand();
+		return this;
+	}
+
+	collaps() {
+
+		this.expanded = false;
+		this.dom.style.display = "none";
+		return this;
 	}
 }
 
 /**
- * UITreeViewItem
- * @param {string} id
- * @param {UILink} link
+ * UIItem
+ * @param {UIList} parent
  */
-class UITreeViewItem extends UIElement {
+class UIItem extends UIElement {
 
-	constructor(id, link) {
+	constructor(parent) {
 
 		super("li");
-
-		this.dom.id = id;
-		this.link = link;
-		this.toggle = new UISpan().setClass("toggle-collapsed");
-		this.expander = new UIDiv().setId("expander");
-		this.expanded = false;
+		this.parent = parent; // UL
 		this.selected = false;
-		this.add([this.expander, this.link]);
-	}
-
-	setItem(subItem) {
-
-		this.add(subItem);
-		this.toggle.dom.onclick = () => {
-
-			if (this.expanded) {
-				this.collaps();
-			} else {
-				this.expand();
-			}
-			return false;
-		};
-		this.expander.add(this.toggle);
-
-		if (!this.expanded) {
-
-			const items = subItem.dom.getElementsByTagName("li");
-			for (let item of items) {
-				if (item.className === "selected") {
-					this.expand();
-					break;
-				}
-			}
-		}
 	}
 
 	select() {
 
 		this.selected = true;
 		this.setClass("selected");
+		return this;
 	}
 
 	unselect() {
 
 		this.selected = false;
 		this.dom.removeAttribute("class");
-	}
-
-	expand() {
-
-		this.toggle.setClass("toggle-expanded");
-		this.dom.children[2].style.display = "block";
-		this.expanded = true;
-	}
-
-	collaps() {
-
-		this.toggle.setClass("toggle-collapsed");
-		this.dom.children[2].style.display = "none";
-		this.expanded = false;
+		return this;
 	}
 }
 ;// CONCATENATED MODULE: ./src/toolbar/metadata.js
@@ -1584,11 +1511,10 @@ class TocPanel extends UIPanel {
 	constructor(reader) {
 
 		super();
-
+		const container = new UIDiv().setClass("list-container");
 		this.setId("contents");
 		this.reader = reader;
 		this.selector = undefined; // save reference to selected tree item
-		const container = new UIDiv().setClass("list-container");
 
 		//-- events --//
 
@@ -1600,40 +1526,58 @@ class TocPanel extends UIPanel {
 		});
 	}
 
-	generateToc(toc) {
+	generateToc(toc, parent) {
 
-		const container = new UITreeView();
+		const list = new UIList(parent);
 
 		toc.forEach((chapter) => {
 
 			const link = new UILink(chapter.href, chapter.label);
-			const item = new UITreeViewItem(chapter.id, link);
+			const item = new UIItem(list).setId(chapter.id);
+			const tbox = new UIDiv().setId("expander");
 
 			link.dom.onclick = () => {
 
-				if (this.selector && this.selector !== item) {
+				if (this.selector && this.selector !== item)
 					this.selector.unselect();
-				}
+
 				item.select();
 				this.selector = item;
-				this.reader.emit("tocselected", chapter);
+				this.reader.settings.sectionId = chapter.id;
+				this.reader.rendition.display(chapter.href);
 				return false;
 			};
+			item.add([tbox, link]);
 
 			if (this.reader.settings.sectionId === chapter.id) {
+				list.expand();
 				item.select();
 				this.selector = item;
 			}
 
 			if (chapter.subitems && chapter.subitems.length > 0) {
 
-				item.setItem(this.generateToc(chapter.subitems));
+				const subItems = this.generateToc(chapter.subitems, item);
+				const tbtn = new UISpan().setClass("toggle-collapsed");
+				tbtn.dom.onclick = () => {
+
+					if (subItems.expanded) {
+						subItems.collaps();
+						tbtn.setClass("toggle-collapsed");
+					} else {
+						subItems.expand();
+						tbtn.setClass("toggle-expanded");
+					}
+					return false;
+				};
+				tbox.add(tbtn);
+				item.add(subItems);
 			}
 
-			container.add(item);
+			list.add(item);
 		});
 
-		return container;
+		return list;
 	}
 }
 
@@ -1645,9 +1589,8 @@ class BookmarksPanel extends UIPanel {
 	constructor(reader) {
 
 		super();
-
+		const container = new UIDiv().setClass("list-container");
 		const strings = reader.strings;
-
 		const ctrlRow = new UIRow();
 		const ctrlStr = [
 			strings.get("sidebar/bookmarks/add"),
@@ -1679,11 +1622,11 @@ class BookmarksPanel extends UIPanel {
 
 		ctrlRow.add([btn_a, btn_r, btn_c]);
 
-		this.reader = reader;
 		this.bookmarks = new UIList();
+		container.add(this.bookmarks);
 		this.setId("bookmarks");
-		this.add(ctrlRow);
-		this.add(this.bookmarks);
+		this.add([ctrlRow, container]);
+		this.reader = reader;
 
 		const update = () => {
 
@@ -1754,6 +1697,7 @@ class BookmarksPanel extends UIPanel {
 	setBookmark(cfi) {
 
 		const link = new UILink();
+		const item = new UIItem();
 		const book = this.reader.book;
 		const spineItem = book.spine.get(cfi);
 		const navItem = book.navigation.get(spineItem.href);
@@ -1774,7 +1718,9 @@ class BookmarksPanel extends UIPanel {
 			return false;
 		};
 
-		this.bookmarks.add(link, itemId);
+		item.add(link);
+		item.setId(itemId);
+		this.bookmarks.add(item);
 	}
 }
 
@@ -1786,8 +1732,10 @@ class AnnotationsPanel extends UIPanel {
 	constructor(reader) {
 
 		super();
-
+		const container = new UIDiv().setClass("list-container");
 		const strings = reader.strings;
+		const textRow = new UIRow();
+		const ctrlRow = new UIRow();
 		const ctrlStr = [
 			strings.get("sidebar/annotations/add"),
 			strings.get("sidebar/annotations/clear")
@@ -1807,9 +1755,6 @@ class AnnotationsPanel extends UIPanel {
 			range: undefined,
 			cfiRange: undefined
 		};
-
-		const textRow = new UIRow();
-		const ctrlRow = new UIRow();
 
 		const btn_a = new UIInput("button", ctrlStr[0]).addClass("btn-start");
 		btn_a.dom.disabled = true;
@@ -1842,11 +1787,11 @@ class AnnotationsPanel extends UIPanel {
 		textRow.add(textBox);
 		ctrlRow.add([btn_a, btn_c]);
 
-		this.reader = reader;
 		this.notes = new UIList();
+		container.add(this.notes);
 		this.setId("annotations");
-		this.add([textRow, ctrlRow]);
-		this.add(this.notes);
+		this.add([textRow, ctrlRow, container]);
+		this.reader = reader;
 		this.update = () => {
 
 			btn_c.dom.disabled = reader.settings.annotations.length === 0;
@@ -1888,6 +1833,7 @@ class AnnotationsPanel extends UIPanel {
 	set(note) {
 
 		const link = new UILink("#" + note.href, note.text);
+		const item = new UIItem().setId("note-" + note.uuid);
 		const btnr = new UISpan().setClass("btn-remove");
 		const call = () => { };
 
@@ -1903,7 +1849,8 @@ class AnnotationsPanel extends UIPanel {
 			return false;
 		};
 
-		this.notes.add([link, btnr], "note-" + note.uuid);
+		item.add([link, btnr]);
+		this.notes.add(item);
 		this.reader.rendition.annotations.add(
 			"highlight", note.href, {}, call, "note-highlight", {});
 		this.update();
@@ -1923,6 +1870,9 @@ class AnnotationsPanel extends UIPanel {
 
 	clearNotes() {
 
+		this.reader.settings.annotations.forEach(note => {
+			this.reader.rendition.annotations.remove(note.href, "highlight");
+		});
 		this.notes.clear();
 		this.reader.settings.annotations = [];
 	}
@@ -1936,6 +1886,7 @@ class SearchPanel extends UIPanel {
 	constructor(reader) {
 
 		super();
+		const container = new UIDiv().setClass("list-container");
 		const strings = reader.strings;
 
 		let searchQuery = undefined;
@@ -1961,11 +1912,11 @@ class SearchPanel extends UIPanel {
 
 		const ctrlRow = new UIRow();
 		ctrlRow.add(searchBox);
-		super.add(ctrlRow);
 
 		this.setId("search");
 		this.items = new UIList();
-		this.add(this.items);
+		container.add(this.items);
+		this.add([ctrlRow, container]);
 		this.reader = reader;
 		//
 		// improvement of the highlighting of keywords is required...
@@ -1989,12 +1940,14 @@ class SearchPanel extends UIPanel {
 	set(data) {
 
 		const link = new UILink("#" + data.cfi, data.excerpt);
+		const item = new UIItem();
 		link.dom.onclick = () => {
 
 			this.reader.rendition.display(data.cfi);
 			return false;
 		};
-		this.items.add(link);
+		item.add(link);
+		this.items.add(item);
 	}
 }
 
@@ -2221,7 +2174,7 @@ class Content {
 			reader.emit("prev");
 			e.preventDefault();
 		};
-		prev.add(new UILabel("<"));
+		prev.add(new UISpan("<"));
 
 		const next = new UIDiv().setId("next").setClass("arrow");
 		next.dom.onclick = (e) => {
@@ -2229,7 +2182,7 @@ class Content {
 			reader.emit("next");
 			e.preventDefault();
 		};
-		next.add(new UILabel(">"));
+		next.add(new UISpan(">"));
 
 		const viewer = new UIDiv().setId("viewer");
 		const divider = new UIDiv().setId("divider");
@@ -2552,11 +2505,6 @@ class Reader {
 		this.on("sidebarreflow", () => {
 			// no implementation sidebarReflow setting
 			//this.rendition.resize();
-		});
-
-		this.on("tocselected", (chapter) => {
-			this.settings.sectionId = chapter.id;
-			this.rendition.display(chapter.href);
 		});
 
 		this.on("languagechanged", (value) => {
