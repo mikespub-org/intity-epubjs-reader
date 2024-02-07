@@ -836,15 +836,6 @@ class UITextArea extends UIElement {
 		this.dom.onkeydown = (e) => {
 
 			e.stopPropagation();
-
-			if (e.key === "Tab") {
-
-				const cursor = this.dom.selectionStart;
-				this.dom.value = this.dom.value.substring(0, cursor) + "\t" + this.dom.value.substring(cursor);
-				this.dom.selectionStart = cursor + 1;
-				this.dom.selectionEnd = this.dom.selectionStart;
-				e.preventDefault();
-			}
 		};
 	}
 
@@ -1548,6 +1539,10 @@ class TocPanel extends UIPanel {
 				return false;
 			};
 			item.add([tbox, link]);
+			this.reader.navItems[chapter.href] = {
+				id: chapter.id,
+				label: chapter.label
+			};
 
 			if (this.reader.settings.sectionId === chapter.id) {
 				list.expand();
@@ -1636,7 +1631,7 @@ class BookmarksPanel extends UIPanel {
 
 		//-- events --//
 
-		reader.on("bookready", (cfg) => {
+		reader.on("displayed", (renderer, cfg) => {
 
 			cfg.bookmarks.forEach((cfi) => {
 
@@ -1698,17 +1693,17 @@ class BookmarksPanel extends UIPanel {
 
 		const link = new UILink();
 		const item = new UIItem();
-		const book = this.reader.book;
-		const spineItem = book.spine.get(cfi);
-		const navItem = book.navigation.get(spineItem.href);
-		let itemId;
+		const navItem = this.reader.navItemFromCfi(cfi);
+		let idref;
+		let label;
 
 		if (navItem === undefined) {
-			itemId = spineItem.idref;
-			link.setTextContent(spineItem.idref);
+			const spineItem = this.reader.book.spine.get(cfi);
+			idref = spineItem.idref;
+			label = spineItem.idref
 		} else {
-			itemId = navItem.id;
-			link.setTextContent(navItem.label);
+			idref = navItem.id;
+			label = navItem.label;
 		}
 
 		link.setHref("#" + cfi);
@@ -1717,9 +1712,10 @@ class BookmarksPanel extends UIPanel {
 			this.reader.rendition.display(cfi);
 			return false;
 		};
+		link.setTextContent(label);
 
 		item.add(link);
-		item.setId(itemId);
+		item.setId(idref);
 		this.bookmarks.add(item);
 	}
 }
@@ -1744,16 +1740,7 @@ class AnnotationsPanel extends UIPanel {
 		const textBox = new UITextArea();
 		textBox.dom.oninput = (e) => {
 
-			if (isSelected() && e.target.value.length > 0) {
-				btn_a.dom.disabled = false;
-			} else {
-				btn_a.dom.disabled = true;
-			}
-		};
-
-		const selector = {
-			range: undefined,
-			cfiRange: undefined
+			this.update();
 		};
 
 		const btn_a = new UIInput("button", ctrlStr[0]).addClass("btn-start");
@@ -1761,18 +1748,16 @@ class AnnotationsPanel extends UIPanel {
 		btn_a.dom.onclick = () => {
 
 			const note = {
+				cfi: this.cfiRange,
 				date: new Date(),
 				text: textBox.getValue(),
-				href: selector.cfiRange,
 				uuid: reader.uuid()
 			};
 
 			reader.settings.annotations.push(note);
 
+			textBox.setValue("");
 			this.set(note);
-
-			textBox.setValue('');
-			btn_a.dom.disabled = true;
 			return false;
 		};
 
@@ -1794,12 +1779,8 @@ class AnnotationsPanel extends UIPanel {
 		this.reader = reader;
 		this.update = () => {
 
+			btn_a.dom.disabled = !this.range || textBox.getValue().length === 0;
 			btn_c.dom.disabled = reader.settings.annotations.length === 0;
-		};
-
-		const isSelected = () => {
-
-			return selector.range && selector.range.startOffset !== selector.range.endOffset;
 		};
 
 		//-- events --//
@@ -1814,32 +1795,28 @@ class AnnotationsPanel extends UIPanel {
 
 		reader.on("selected", (cfiRange, contents) => {
 
-			selector.range = contents.range(cfiRange);
-			selector.cfiRange = cfiRange;
-
-			if (isSelected() && textBox.getValue().length > 0) {
-				btn_a.dom.disabled = false;
-			} else {
-				btn_a.dom.disabled = true;
-			}
+			this.cfiRange = cfiRange;
+			this.range = contents.range(cfiRange);
+			this.update();
 		});
 
 		reader.on("unselected", () => {
 
-			btn_a.dom.disabled = true;
+			this.range = undefined;
+			this.update();
 		});
 	}
 
 	set(note) {
 
-		const link = new UILink("#" + note.href, note.text);
+		const link = new UILink("#" + note.cfi, note.text);
 		const item = new UIItem().setId("note-" + note.uuid);
 		const btnr = new UISpan().setClass("btn-remove");
 		const call = () => { };
 
 		link.onclick = () => {
 
-			this.reader.rendition.display(note.href);
+			this.reader.rendition.display(note.cfi);
 			return false;
 		};
 
@@ -1852,7 +1829,7 @@ class AnnotationsPanel extends UIPanel {
 		item.add([link, btnr]);
 		this.notes.add(item);
 		this.reader.rendition.annotations.add(
-			"highlight", note.href, {}, call, "note-highlight", {});
+			"highlight", note.cfi, {}, call, "note-highlight", {});
 		this.update();
 	}
 
@@ -1864,17 +1841,18 @@ class AnnotationsPanel extends UIPanel {
 
 		this.notes.remove(index);
 		this.reader.settings.annotations.splice(index, 1);
-		this.reader.rendition.annotations.remove(note.href, "highlight");
+		this.reader.rendition.annotations.remove(note.cfi, "highlight");
 		this.update();
 	}
 
 	clearNotes() {
 
 		this.reader.settings.annotations.forEach(note => {
-			this.reader.rendition.annotations.remove(note.href, "highlight");
+			this.reader.rendition.annotations.remove(note.cfi, "highlight");
 		});
 		this.notes.clear();
 		this.reader.settings.annotations = [];
+		this.update();
 	}
 }
 
@@ -2424,6 +2402,7 @@ class Reader {
 	init(bookPath, _options) {
 
 		this.emit("viewercleanup");
+		this.navItems = {};
 
 		if (arguments.length > 0) {
 
@@ -2447,14 +2426,14 @@ class Reader {
 		}
 
 		this.displayed.then((renderer) => {
-			this.emit("renderered", renderer);
+			this.emit("displayed", renderer, this.settings);
 		});
 
-		this.book.ready.then(function () {
+		this.book.ready.then(() => {
 			this.emit("bookready", this.settings);
-		}.bind(this)).then(function () {
+		}).then(() => {
 			this.emit("bookloaded");
-		}.bind(this));
+		});
 
 		this.book.loaded.metadata.then((meta) => {
 			this.emit("metadata", meta);
@@ -2466,8 +2445,7 @@ class Reader {
 
 		this.rendition.on("click", (e) => {
 			const selection = e.view.document.getSelection();
-			const range = selection.getRangeAt(0);
-			if (range.startOffset === range.endOffset) {
+			if (selection.type !== "Range") {
 				this.emit("unselected");
 			}
 		});
@@ -2554,6 +2532,15 @@ class Reader {
 			return (c === 'x' ? r : (r & 0x7 | 0x8)).toString(16);
 		});
 		return uuid;
+	}
+
+	navItemFromCfi(cfi) {
+
+		const range = this.rendition.getRange(cfi);
+		const idref = range.startContainer.parentNode.id;
+		const location = this.rendition.currentLocation();
+		const href = location.start.href;
+		return this.navItems[href + "#" + idref] || this.navItems[href];
 	}
 
 	/* ------------------------------ Bookmarks ----------------------------- */

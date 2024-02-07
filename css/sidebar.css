@@ -173,7 +173,7 @@
 	color: #E2E2E2 !important;
 }
 
-#sidebar .panel li.selected>a {
+#sidebar .panel li.selected > a {
 	color: #E2E2E2 !important;
 }
 
@@ -364,7 +364,7 @@
 	max-width: calc(100% - 6px);
 	min-width: calc(100% - 6px);
 	min-height: 30px;
-	border-radius: 3px;
+	border-radius: 2px;
 	background: #545A5F !important;
 }
 
