@@ -2879,7 +2879,7 @@ window.onload = function () {
 	const url = new URL(window.location);
 	const path = url.search.length > 0
 		? url.searchParams.get("bookPath")
-		: "https://s3.amazonaws.com/moby-dick/";
+		: ((window.bookPath !== undefined) ? window.bookPath : "https://s3.amazonaws.com/moby-dick/");
 
 	storage.init(function () {
 
