@@ -1,7 +1,7 @@
 {
-    "name": "epubjs-reader",
-    "version": "0.3.1",
-    "repository": "https://github.com/futurepress/epubjs-reader",
+    "name": "@mikespub/epubjs-reader",
+    "version": "2024.3.4",
+    "repository": "https://github.com/mikespub-org/intity-epubjs-reader",
     "description": "ePub.js Reader",
     "main": "src/main.js",
     "scripts": {
@@ -10,7 +10,7 @@
         "minify": "webpack --mode=production --optimization-minimize --progress",
         "prepare": "npm run build && npm run minify"
     },
-    "author": "fchasen@gmail.com",
+    "author": "mikespub",
     "license": "MIT",
     "devDependencies": {
         "copy-webpack-plugin": "^8.1.1",
