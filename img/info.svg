@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="36mm"
+   height="36mm"
+   viewBox="0 0 36 36"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25, custom)"
+   sodipodi:docname="info.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs2">
+    <pattern
+       id="EMFhbasepattern"
+       patternUnits="userSpaceOnUse"
+       width="6"
+       height="6"
+       x="0"
+       y="0" />
+    <pattern
+       id="EMFhbasepattern-8"
+       patternUnits="userSpaceOnUse"
+       width="6"
+       height="6"
+       x="0"
+       y="0" />
+    <pattern
+       id="EMFhbasepattern-2"
+       patternUnits="userSpaceOnUse"
+       width="6"
+       height="6"
+       x="0"
+       y="0" />
+    <pattern
+       id="EMFhbasepattern-0"
+       patternUnits="userSpaceOnUse"
+       width="6"
+       height="6"
+       x="0"
+       y="0" />
+    <pattern
+       id="EMFhbasepattern-7"
+       patternUnits="userSpaceOnUse"
+       width="6"
+       height="6"
+       x="0"
+       y="0" />
+    <pattern
+       id="EMFhbasepattern-86"
+       patternUnits="userSpaceOnUse"
+       width="6"
+       height="6"
+       x="0"
+       y="0" />
+    <pattern
+       id="EMFhbasepattern-6"
+       patternUnits="userSpaceOnUse"
+       width="6"
+       height="6"
+       x="0"
+       y="0" />
+    <pattern
+       id="EMFhbasepattern-5"
+       patternUnits="userSpaceOnUse"
+       width="6"
+       height="6"
+       x="0"
+       y="0" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.8284271"
+     inkscape:cx="95.105863"
+     inkscape:cy="135.0574"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     showborder="true"
+     inkscape:showpageshadow="false"
+     inkscape:window-width="960"
+     inkscape:window-height="1080"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     objecttolerance="10.0"
+     gridtolerance="10.0"
+     guidetolerance="10.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:none;stroke:none;stroke-width:0.012648px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 0,36 H 36 V 0 H 0 Z"
+       id="path908" />
+    <path
+       id="path1"
+       style="fill:#8cb6f8;stroke-width:0.0168842;stroke-dasharray:none;stroke:none;fill-opacity:1"
+       d="M 17.999935 6.0001506 A 12 12 0 0 0 6.0001506 17.999935 A 12 12 0 0 0 17.999935 30.000236 A 12 12 0 0 0 30.000236 17.999935 A 12 12 0 0 0 17.999935 6.0001506 z M 19.458761 9.3818563 C 20.39856 9.3818563 21.211625 10.169084 21.211625 11.108883 C 21.211625 12.048682 20.42396 12.811104 19.458761 12.811104 C 18.518962 12.811104 17.782377 12.048839 17.782377 11.05824 C 17.782377 10.169241 18.569761 9.3818563 19.458761 9.3818563 z M 20.195667 15.04611 L 17.88418 23.52983 C 17.80798 23.83463 17.65577 24.69828 17.65577 24.85068 C 17.65577 25.053879 17.833425 25.231535 18.036625 25.231535 C 18.417625 25.231535 19.001966 24.698196 19.662366 23.707597 L 20.0179 23.199618 L 20.576522 23.555151 C 18.798524 26.222149 17.858919 27.009204 16.33492 27.009204 C 15.293521 27.009204 14.582056 26.349101 14.582056 25.409302 C 14.582056 25.079102 14.709068 24.367636 14.912268 23.656437 L 16.385563 18.195789 C 16.487163 17.763989 16.56333 17.38303 16.56333 17.17983 C 16.56333 16.64643 16.156912 16.442924 15.064714 16.442924 L 15.064714 15.757178 C 17.045912 15.604778 18.824068 15.35091 20.195667 15.04611 z " />
+  </g>
+</svg>

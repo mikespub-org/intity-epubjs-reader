@@ -40,31 +40,11 @@
 }
 
 #start {
-	flex: 0.6;
-}
-
-#metadata {
-	flex: 1.8;
-	text-align: center;
-	align-items: center;
-	color: gray;
-}
-
-#book-title {
-	font-weight: 600;
-}
-
-#book-title-separator {
-	display: none;
-	margin: 0 10px;
-}
-
-#book-title-separator::after {
-	content: '–';
+	flex: 0.5;
 }
 
 #end {
-	flex: 0.6;
+	flex: 0.5;
 	text-align: end;
 }
 
