@@ -88,6 +88,10 @@
 	background-image: url('../img/settings.svg');
 }
 
+#tab-i.tab input {
+	background-image: url('../img/info.svg');
+}
+
 /* sidebar panels */
 
 #sidebar .panels {
@@ -190,6 +194,9 @@
 	color: #AAA !important;
 	padding: 1px;
 	font-weight: 500;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 #sidebar .row select {
@@ -368,4 +375,20 @@
 	background: #545A5F !important;
 }
 
-/* settings panel */
+/* metadata panel */
+
+#metadata.panel > .row > span {
+	color: #AAA !important;
+	margin: 3px 0px 3px 0px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+#metadata.panel > .row > span.label {
+	flex: .5;
+}
+
+#metadata.panel > .row > span.value {
+	flex: 1;
+}
