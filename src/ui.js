@@ -618,6 +618,16 @@ export class UITabbedPanel extends UIDiv {
 		return this;
 	}
 
+	setLabel(id, text) {
+
+		for (let tab of this.tabs) {
+			if (tab.dom.id === id) {
+				tab.setTitle(text);
+				break;
+			}
+		}
+	}
+
 	transformSelector(tab) {
 
 		let size;
@@ -634,22 +644,32 @@ export class UITabbedPanel extends UIDiv {
 
 /**
  * UITab
- * @param {*} label
- * @param {*} parent
+ * @param {string} text
+ * @param {UITabbedPanel} parent
  */
 export class UITab extends UIDiv {
 
-	constructor(label, parent) {
+	constructor(text, parent) {
 
 		super();
-		const button = new UIInput("button");
-		button.dom.title = label;
+		this.button = new UIInput("button");
+		this.button.dom.title = text;
 		this.dom.onclick = (e) => {
 
 			parent.select(this.dom.id);
 			e.preventDefault();
 		};
-		this.add(button);
+		this.add(this.button);
+	}
+
+	getTitle() {
+
+		return this.button.dom.title;
+	}
+
+	setTitle(text) {
+
+		this.button.dom.title = text;
 	}
 }
 

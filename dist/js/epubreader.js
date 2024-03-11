@@ -2,16 +2,16 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 804:
+/***/ 263:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-var isValue         = __webpack_require__(618)
-  , isPlainFunction = __webpack_require__(205)
-  , assign          = __webpack_require__(191)
-  , normalizeOpts   = __webpack_require__(516)
-  , contains        = __webpack_require__(981);
+var isValue         = __webpack_require__(175)
+  , isPlainFunction = __webpack_require__(873)
+  , assign          = __webpack_require__(596)
+  , normalizeOpts   = __webpack_require__(148)
+  , contains        = __webpack_require__(214);
 
 var d = (module.exports = function (dscr, value/*, options*/) {
 	var c, e, w, options, desc;
@@ -71,7 +71,7 @@ d.gs = function (dscr, get, set/*, options*/) {
 
 /***/ }),
 
-/***/ 430:
+/***/ 11:
 /***/ ((module) => {
 
 
@@ -82,17 +82,17 @@ module.exports = function () {};
 
 /***/ }),
 
-/***/ 191:
+/***/ 596:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-module.exports = __webpack_require__(560)() ? Object.assign : __webpack_require__(346);
+module.exports = __webpack_require__(339)() ? Object.assign : __webpack_require__(595);
 
 
 /***/ }),
 
-/***/ 560:
+/***/ 339:
 /***/ ((module) => {
 
 
@@ -108,13 +108,13 @@ module.exports = function () {
 
 /***/ }),
 
-/***/ 346:
+/***/ 595:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-var keys  = __webpack_require__(103)
-  , value = __webpack_require__(745)
+var keys  = __webpack_require__(93)
+  , value = __webpack_require__(134)
   , max   = Math.max;
 
 module.exports = function (dest, src /*, …srcn*/) {
@@ -138,29 +138,29 @@ module.exports = function (dest, src /*, …srcn*/) {
 
 /***/ }),
 
-/***/ 914:
+/***/ 762:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-var _undefined = __webpack_require__(430)(); // Support ES3 engines
+var _undefined = __webpack_require__(11)(); // Support ES3 engines
 
 module.exports = function (val) { return val !== _undefined && val !== null; };
 
 
 /***/ }),
 
-/***/ 103:
+/***/ 93:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-module.exports = __webpack_require__(446)() ? Object.keys : __webpack_require__(137);
+module.exports = __webpack_require__(380)() ? Object.keys : __webpack_require__(232);
 
 
 /***/ }),
 
-/***/ 446:
+/***/ 380:
 /***/ ((module) => {
 
 
@@ -177,12 +177,12 @@ module.exports = function () {
 
 /***/ }),
 
-/***/ 137:
+/***/ 232:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-var isValue = __webpack_require__(914);
+var isValue = __webpack_require__(762);
 
 var keys = Object.keys;
 
@@ -191,12 +191,12 @@ module.exports = function (object) { return keys(isValue(object) ? Object(object
 
 /***/ }),
 
-/***/ 516:
+/***/ 148:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-var isValue = __webpack_require__(914);
+var isValue = __webpack_require__(762);
 
 var forEach = Array.prototype.forEach, create = Object.create;
 
@@ -218,7 +218,7 @@ module.exports = function (opts1 /*, …options*/) {
 
 /***/ }),
 
-/***/ 290:
+/***/ 499:
 /***/ ((module) => {
 
 
@@ -231,12 +231,12 @@ module.exports = function (fn) {
 
 /***/ }),
 
-/***/ 745:
+/***/ 134:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-var isValue = __webpack_require__(914);
+var isValue = __webpack_require__(762);
 
 module.exports = function (value) {
 	if (!isValue(value)) throw new TypeError("Cannot use null or undefined");
@@ -246,17 +246,17 @@ module.exports = function (value) {
 
 /***/ }),
 
-/***/ 981:
+/***/ 214:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-module.exports = __webpack_require__(591)() ? String.prototype.contains : __webpack_require__(42);
+module.exports = __webpack_require__(525)() ? String.prototype.contains : __webpack_require__(521);
 
 
 /***/ }),
 
-/***/ 591:
+/***/ 525:
 /***/ ((module) => {
 
 
@@ -271,7 +271,7 @@ module.exports = function () {
 
 /***/ }),
 
-/***/ 42:
+/***/ 521:
 /***/ ((module) => {
 
 
@@ -285,13 +285,13 @@ module.exports = function (searchString /*, position*/) {
 
 /***/ }),
 
-/***/ 370:
+/***/ 68:
 /***/ ((module, exports, __webpack_require__) => {
 
 
 
-var d        = __webpack_require__(804)
-  , callable = __webpack_require__(290)
+var d        = __webpack_require__(263)
+  , callable = __webpack_require__(499)
 
   , apply = Function.prototype.apply, call = Function.prototype.call
   , create = Object.create, defineProperty = Object.defineProperty
@@ -424,12 +424,12 @@ exports.methods = methods;
 
 /***/ }),
 
-/***/ 372:
+/***/ 80:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-var isPrototype = __webpack_require__(60);
+var isPrototype = __webpack_require__(202);
 
 module.exports = function (value) {
 	if (typeof value !== "function") return false;
@@ -450,12 +450,12 @@ module.exports = function (value) {
 
 /***/ }),
 
-/***/ 940:
+/***/ 181:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-var isValue = __webpack_require__(618);
+var isValue = __webpack_require__(175);
 
 // prettier-ignore
 var possibleTypes = { "object": true, "function": true, "undefined": true /* document.all */ };
@@ -468,12 +468,12 @@ module.exports = function (value) {
 
 /***/ }),
 
-/***/ 205:
+/***/ 873:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-var isFunction = __webpack_require__(372);
+var isFunction = __webpack_require__(80);
 
 var classRe = /^\s*class[\s{/}]/, functionToString = Function.prototype.toString;
 
@@ -486,12 +486,12 @@ module.exports = function (value) {
 
 /***/ }),
 
-/***/ 60:
+/***/ 202:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-var isObject = __webpack_require__(940);
+var isObject = __webpack_require__(181);
 
 module.exports = function (value) {
 	if (!isObject(value)) return false;
@@ -506,7 +506,7 @@ module.exports = function (value) {
 
 /***/ }),
 
-/***/ 618:
+/***/ 175:
 /***/ ((module) => {
 
 
@@ -581,7 +581,7 @@ var __webpack_exports__ = {};
 (() => {
 
 // EXTERNAL MODULE: ./node_modules/event-emitter/index.js
-var event_emitter = __webpack_require__(370);
+var event_emitter = __webpack_require__(68);
 var event_emitter_default = /*#__PURE__*/__webpack_require__.n(event_emitter);
 ;// CONCATENATED MODULE: ./src/ui.js
 /**
@@ -969,7 +969,7 @@ class UIInput extends UIElement {
 /**
  * UIColor
  */
-class UIColor extends (/* unused pure expression or super */ null && (UIElement)) {
+class UIColor extends UIElement {
 
 	constructor() {
 
@@ -1104,7 +1104,7 @@ class UINumber extends UIElement {
 /**
  * UIBreak
  */
-class UIBreak extends (/* unused pure expression or super */ null && (UIElement)) {
+class UIBreak extends UIElement {
 
 	constructor() {
 
@@ -1115,7 +1115,7 @@ class UIBreak extends (/* unused pure expression or super */ null && (UIElement)
 /**
  * UIHorizontalRule
  */
-class UIHorizontalRule extends (/* unused pure expression or super */ null && (UIElement)) {
+class UIHorizontalRule extends UIElement {
 
 	constructor() {
 
@@ -1127,7 +1127,7 @@ class UIHorizontalRule extends (/* unused pure expression or super */ null && (U
  * UIProgress
  * @param {*} value
  */
-class UIProgress extends (/* unused pure expression or super */ null && (UIElement)) {
+class UIProgress extends UIElement {
 
 	constructor(value) {
 
@@ -1204,6 +1204,16 @@ class UITabbedPanel extends UIDiv {
 		return this;
 	}
 
+	setLabel(id, text) {
+
+		for (let tab of this.tabs) {
+			if (tab.dom.id === id) {
+				tab.setTitle(text);
+				break;
+			}
+		}
+	}
+
 	transformSelector(tab) {
 
 		let size;
@@ -1220,22 +1230,32 @@ class UITabbedPanel extends UIDiv {
 
 /**
  * UITab
- * @param {*} label
- * @param {*} parent
+ * @param {string} text
+ * @param {UITabbedPanel} parent
  */
 class UITab extends UIDiv {
 
-	constructor(label, parent) {
+	constructor(text, parent) {
 
 		super();
-		const button = new UIInput("button");
-		button.dom.title = label;
+		this.button = new UIInput("button");
+		this.button.dom.title = text;
 		this.dom.onclick = (e) => {
 
 			parent.select(this.dom.id);
 			e.preventDefault();
 		};
-		this.add(button);
+		this.add(this.button);
+	}
+
+	getTitle() {
+
+		return this.button.dom.title;
+	}
+
+	setTitle(text) {
+
+		this.button.dom.title = text;
 	}
 }
 
@@ -1296,39 +1316,7 @@ class UIItem extends UIElement {
 		return this;
 	}
 }
-;// CONCATENATED MODULE: ./src/toolbar/metadata.js
-
-
-class MetadataPanel extends UIPanel {
-
-	constructor(reader) {
-
-		super();
-		super.setId("metadata");
-
-		const title = new UIText().setId("book-title");
-		const creator = new UIText().setId("book-creator");
-		const separator = new UIText().setId("book-title-separator");
-
-		super.add([title, separator, creator]);
-
-		//-- events --//
-
-		reader.on("metadata", (meta) => {
-
-			document.title = meta.title;
-			document.title = meta.creator ? " - " + meta.creator : "";
-			title.setValue(meta.title);
-			if (meta.creator) {
-				creator.setValue(meta.creator);
-				separator.dom.style.display = "inline-block";
-			}
-		});
-	}
-}
-
 ;// CONCATENATED MODULE: ./src/toolbar.js
-
 
 
 class Toolbar {
@@ -1444,7 +1432,7 @@ class Toolbar {
 			end.add(fullscreen);
 		}
 
-		container.add([start, new MetadataPanel(reader), end]);
+		container.add([start, end]);
 		document.body.appendChild(container.dom);
 
 		//-- events --//
@@ -2098,7 +2086,143 @@ class SettingsPanel extends UIPanel {
 	}
 }
 
+;// CONCATENATED MODULE: ./src/sidebar/metadata.js
+
+
+class MetadataPanel extends UIPanel {
+
+	constructor(reader) {
+
+		super();
+		const strings = reader.strings;
+		const keys = [
+			"sidebar/metadata",
+			"sidebar/metadata/creator",
+			"sidebar/metadata/description",
+			"sidebar/metadata/identifier",
+			"sidebar/metadata/language",
+			"sidebar/metadata/pubdate",
+			"sidebar/metadata/publisher",
+			"sidebar/metadata/title"
+		];
+
+		const creatorLabel = new UIText(strings.get(keys[1])).setClass("label");
+		const creatorValue = new UIText().setClass("value");
+		const creatorRow = new UIRow();
+		creatorRow.add([creatorLabel, creatorValue]);
+
+		const descriptionLabel = new UIText(strings.get(keys[2])).setClass("label");
+		const descriptionValue = new UIText().setClass("value");
+		const descriptionRow = new UIRow();
+		descriptionRow.add([descriptionLabel, descriptionValue]);
+
+		const identifierLabel = new UIText(strings.get(keys[3])).setClass("label");
+		const identifierValue = new UIText().setClass("value");
+		const identifierRow = new UIRow();
+		identifierRow.add([identifierLabel, identifierValue]);
+
+		const languageLabel = new UIText(strings.get(keys[4])).setClass("label");
+		const languageValue = new UIText().setClass("value");
+		const languageRow = new UIRow();
+		languageRow.add([languageLabel, languageValue]);
+
+		const pubdateLabel = new UIText(strings.get(keys[5])).setClass("label");
+		const pubdateValue = new UIText().setClass("value");
+		const pubdateRow = new UIRow();
+		pubdateRow.add([pubdateLabel, pubdateValue]);
+
+		const publisherLabel = new UIText(strings.get(keys[6])).setClass("label");
+		const publisherValue = new UIText().setClass("value");
+		const publisherRow = new UIRow();
+		publisherRow.add([publisherLabel, publisherValue]);
+
+		const titleLabel = new UIText(strings.get(keys[7])).setClass("label");
+		const titleValue = new UIText().setClass("value");
+		const titleRow = new UIRow();
+		titleRow.add([titleLabel, titleValue]);
+
+		this.setId("metadata");
+		this.add([
+			creatorRow,
+			descriptionRow,
+			identifierRow,
+			languageRow,
+			pubdateRow,
+			publisherRow,
+			titleRow
+		]);
+
+		//-- events --//
+
+		reader.on("metadata", (meta) => {
+
+			document.title = meta.title;
+
+			if (meta.creator) {
+				creatorValue.setValue(meta.creator);
+				creatorValue.dom.title = meta.creator;
+			} else {
+				creatorValue.setValue("-");
+			}
+
+			if (meta.description) {
+				descriptionValue.setValue(meta.description);
+				descriptionValue.dom.title = meta.description;
+			} else {
+				descriptionValue.setValue("-");
+			}
+
+			if (meta.identifier) {
+				identifierValue.setValue(meta.identifier);
+				identifierValue.dom.title = meta.identifier;
+			} else {
+				identifierValue.setValue("-");
+			}
+
+			if (meta.language) {
+				languageValue.setValue(meta.language);
+				languageValue.dom.title = meta.language;
+			} else {
+				languageValue.setValue("-");
+			}
+
+			if (meta.pubdate) {
+				pubdateValue.setValue(meta.pubdate);
+				pubdateValue.dom.title = meta.pubdate;
+			} else {
+				pubdateValue.setValue("-");
+			}
+
+			if (meta.publisher) {
+				publisherValue.setValue(meta.publisher);
+				publisherValue.dom.title = meta.publisher;
+			} else {
+				publisherValue.setValue("-");
+			}
+
+			if (meta.title) {
+				titleValue.setValue(meta.title);
+				titleValue.dom.title = meta.title;
+			} else {
+				titleValue.setValue("-");
+			}
+		});
+
+		reader.on("languagechanged", (value) => {
+
+			creatorLabel.setValue(strings.get(keys[1]));
+			descriptionLabel.setValue(strings.get(keys[2]));
+			identifierLabel.setValue(strings.get(keys[3]));
+			languageLabel.setValue(strings.get(keys[4]));
+			pubdateLabel.setValue(strings.get(keys[5]));
+			publisherLabel.setValue(strings.get(keys[6]));
+			titleLabel.setValue(strings.get(keys[7]));
+		});
+	}
+}
+
 ;// CONCATENATED MODULE: ./src/sidebar.js
+
 
 
 
@@ -2111,24 +2235,38 @@ class Sidebar {
 	constructor(reader) {
 
 		const strings = reader.strings;
-		const tabs = [
-			strings.get('sidebar/contents'),
-			strings.get('sidebar/bookmarks'),
-			strings.get('sidebar/annotations'),
-			strings.get('sidebar/search'),
-			strings.get('sidebar/settings')
+		const keys = [
+			"sidebar/contents",
+			"sidebar/bookmarks",
+			"sidebar/annotations",
+			"sidebar/search",
+			"sidebar/settings",
+			"sidebar/metadata"
 		];
 
-		const container = new UITabbedPanel('vertical').setId('sidebar');
+		const container = new UITabbedPanel("vertical").setId("sidebar");
 
-		container.addTab('tab-t', tabs[0], new TocPanel(reader));
-		container.addTab('tab-b', tabs[1], new BookmarksPanel(reader));
-		container.addTab('tab-n', tabs[2], new AnnotationsPanel(reader));
-		container.addTab('tab-s', tabs[3], new SearchPanel(reader));
-		container.addTab('tab-c', tabs[4], new SettingsPanel(reader));
-		container.select('tab-t');
+		container.addTab("tab-t", strings.get(keys[0]), new TocPanel(reader));
+		container.addTab("tab-b", strings.get(keys[1]), new BookmarksPanel(reader));
+		container.addTab("tab-n", strings.get(keys[2]), new AnnotationsPanel(reader));
+		container.addTab("tab-s", strings.get(keys[3]), new SearchPanel(reader));
+		container.addTab("tab-c", strings.get(keys[4]), new SettingsPanel(reader));
+		container.addTab("tab-i", strings.get(keys[5]), new MetadataPanel(reader));
+		container.select("tab-t");
 
 		document.body.appendChild(container.dom);
+
+		//-- events --//
+
+		reader.on("languagechanged", (value) => {
+
+			container.setLabel("tab-t", strings.get(keys[0]));
+			container.setLabel("tab-b", strings.get(keys[1]));
+			container.setLabel("tab-n", strings.get(keys[2]));
+			container.setLabel("tab-s", strings.get(keys[3]));
+			container.setLabel("tab-c", strings.get(keys[4]));
+			container.setLabel("tab-i", strings.get(keys[5]));
+		});
 	}
 }
 
@@ -2265,7 +2403,15 @@ class Strings {
 				"sidebar/settings/layout": "Layout",
 				"sidebar/settings/pagination": ["Pagination", "Generate pagination"],
 				"sidebar/settings/spread": "Spread",
-				"sidebar/settings/spread/pagewidth": "Page width"
+				"sidebar/settings/spread/pagewidth": "Page width",
+				"sidebar/metadata": "Metadata",
+				"sidebar/metadata/creator": "Creator",
+				"sidebar/metadata/description": "Description",
+				"sidebar/metadata/identifier": "Identifier",
+				"sidebar/metadata/language": "Language",
+				"sidebar/metadata/pubdate": "Pubdate",
+				"sidebar/metadata/publisher": "Publisher",
+				"sidebar/metadata/title": "Title"
 			},
 			fr: {
 				"toolbar/opener": "Barre latérale",
@@ -2292,7 +2438,15 @@ class Strings {
 				"sidebar/settings/layout": "???",
 				"sidebar/settings/pagination": ["Pagination", "Établir une pagination"],
 				"sidebar/settings/spread": "???",
-				"sidebar/settings/spread/pagewidth": "???"
+				"sidebar/settings/spread/pagewidth": "???",
+				"sidebar/metadata": "???",
+				"sidebar/metadata/creator": "???",
+				"sidebar/metadata/description": "???",
+				"sidebar/metadata/identifier": "???",
+				"sidebar/metadata/language": "Langue",
+				"sidebar/metadata/pubdate": "???",
+				"sidebar/metadata/publisher": "???",
+				"sidebar/metadata/title": "???"
 			},
 			ja: {
 				"toolbar/opener": "サイドバー",
@@ -2319,7 +2473,15 @@ class Strings {
 				"sidebar/settings/layout": "???",
 				"sidebar/settings/pagination": ["ページネーション", "ページネーションを生成します。"],
 				"sidebar/settings/spread": "???",
-				"sidebar/settings/spread/pagewidth": "???"
+				"sidebar/settings/spread/pagewidth": "???",
+				"sidebar/metadata": "???",
+				"sidebar/metadata/creator": "???",
+				"sidebar/metadata/description": "???",
+				"sidebar/metadata/identifier": "???",
+				"sidebar/metadata/language": "表示言語",
+				"sidebar/metadata/pubdate": "???",
+				"sidebar/metadata/publisher": "???",
+				"sidebar/metadata/title": "???"
 			},
 			ru: {
 				"toolbar/opener": "Боковая панель",
@@ -2346,7 +2508,15 @@ class Strings {
 				"sidebar/settings/layout": "Макет",
 				"sidebar/settings/pagination": ["Нумерация страниц", "Генерировать нумерацию страниц"],
 				"sidebar/settings/spread": "Разворот",
-				"sidebar/settings/spread/pagewidth": "Ширина страницы"
+				"sidebar/settings/spread/pagewidth": "Ширина страницы",
+				"sidebar/metadata": "Метаданные",
+				"sidebar/metadata/creator": "Автор",
+				"sidebar/metadata/description": "Описание",
+				"sidebar/metadata/identifier": "Идентификатор",
+				"sidebar/metadata/language": "Язык",
+				"sidebar/metadata/pubdate": "Дата публикации",
+				"sidebar/metadata/publisher": "Издатель",
+				"sidebar/metadata/title": "Заголовок"
 			}
 		};
 

@@ -1,5 +1,4 @@
 import { UIPanel, UIDiv, UIInput } from "./ui.js";
-import { MetadataPanel } from "./toolbar/metadata.js";
 
 export class Toolbar {
 
@@ -114,7 +113,7 @@ export class Toolbar {
 			end.add(fullscreen);
 		}
 
-		container.add([start, new MetadataPanel(reader), end]);
+		container.add([start, end]);
 		document.body.appendChild(container.dom);
 
 		//-- events --//

@@ -29,7 +29,15 @@ export class Strings {
 				"sidebar/settings/layout": "Layout",
 				"sidebar/settings/pagination": ["Pagination", "Generate pagination"],
 				"sidebar/settings/spread": "Spread",
-				"sidebar/settings/spread/pagewidth": "Page width"
+				"sidebar/settings/spread/pagewidth": "Page width",
+				"sidebar/metadata": "Metadata",
+				"sidebar/metadata/creator": "Creator",
+				"sidebar/metadata/description": "Description",
+				"sidebar/metadata/identifier": "Identifier",
+				"sidebar/metadata/language": "Language",
+				"sidebar/metadata/pubdate": "Pubdate",
+				"sidebar/metadata/publisher": "Publisher",
+				"sidebar/metadata/title": "Title"
 			},
 			fr: {
 				"toolbar/opener": "Barre latérale",
@@ -56,7 +64,15 @@ export class Strings {
 				"sidebar/settings/layout": "???",
 				"sidebar/settings/pagination": ["Pagination", "Établir une pagination"],
 				"sidebar/settings/spread": "???",
-				"sidebar/settings/spread/pagewidth": "???"
+				"sidebar/settings/spread/pagewidth": "???",
+				"sidebar/metadata": "???",
+				"sidebar/metadata/creator": "???",
+				"sidebar/metadata/description": "???",
+				"sidebar/metadata/identifier": "???",
+				"sidebar/metadata/language": "Langue",
+				"sidebar/metadata/pubdate": "???",
+				"sidebar/metadata/publisher": "???",
+				"sidebar/metadata/title": "???"
 			},
 			ja: {
 				"toolbar/opener": "サイドバー",
@@ -83,7 +99,15 @@ export class Strings {
 				"sidebar/settings/layout": "???",
 				"sidebar/settings/pagination": ["ページネーション", "ページネーションを生成します。"],
 				"sidebar/settings/spread": "???",
-				"sidebar/settings/spread/pagewidth": "???"
+				"sidebar/settings/spread/pagewidth": "???",
+				"sidebar/metadata": "???",
+				"sidebar/metadata/creator": "???",
+				"sidebar/metadata/description": "???",
+				"sidebar/metadata/identifier": "???",
+				"sidebar/metadata/language": "表示言語",
+				"sidebar/metadata/pubdate": "???",
+				"sidebar/metadata/publisher": "???",
+				"sidebar/metadata/title": "???"
 			},
 			ru: {
 				"toolbar/opener": "Боковая панель",
@@ -110,7 +134,15 @@ export class Strings {
 				"sidebar/settings/layout": "Макет",
 				"sidebar/settings/pagination": ["Нумерация страниц", "Генерировать нумерацию страниц"],
 				"sidebar/settings/spread": "Разворот",
-				"sidebar/settings/spread/pagewidth": "Ширина страницы"
+				"sidebar/settings/spread/pagewidth": "Ширина страницы",
+				"sidebar/metadata": "Метаданные",
+				"sidebar/metadata/creator": "Автор",
+				"sidebar/metadata/description": "Описание",
+				"sidebar/metadata/identifier": "Идентификатор",
+				"sidebar/metadata/language": "Язык",
+				"sidebar/metadata/pubdate": "Дата публикации",
+				"sidebar/metadata/publisher": "Издатель",
+				"sidebar/metadata/title": "Заголовок"
 			}
 		};
 
