@@ -141,7 +141,10 @@ body {
 @media only screen and (max-width: 812px){ /* This should catch smart phones with a screen width of, or narrower than, an iPhone X */
     #viewer {
         width: calc(100% - 60px);
-    }
+		height: calc(100% - 60px);
+        margin-top: 45px;
+        box-shadow: 0 0 5px rgba(0,0,0,.12), 0 5px 5px rgba(0,0,0,.24);
+	}
     .arrow span {
         font-size: 24px;
     }
