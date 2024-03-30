@@ -583,6 +583,190 @@ var __webpack_exports__ = {};
 // EXTERNAL MODULE: ./node_modules/event-emitter/index.js
 var event_emitter = __webpack_require__(68);
 var event_emitter_default = /*#__PURE__*/__webpack_require__.n(event_emitter);
+;// CONCATENATED MODULE: ./src/strings.js
+class Strings {
+
+	constructor(reader) {
+
+		this.language = reader.settings.language || "en";
+		this.values = {
+			en: {
+				"toolbar/sidebar": "Sidebar",
+				"toolbar/prev": "Previous page",
+				"toolbar/next": "Next page",
+				"toolbar/openbook": "Open book",
+				"toolbar/openbook/error": "Your browser does not support the required features.\nPlease use a modern browser such as Google Chrome, or Mozilla Firefox.",
+				"toolbar/bookmark": "Add this page to bookmarks",
+				"toolbar/fullscreen": "Fullscreen",
+
+				"sidebar/close": "Close Sidebar",
+				"sidebar/contents": "Contents",
+				"sidebar/bookmarks": "Bookmarks",
+				"sidebar/bookmarks/add": "Add",
+				"sidebar/bookmarks/remove": "Remove",
+				"sidebar/bookmarks/clear": "Clear",
+				"sidebar/annotations": "Annotations",
+				"sidebar/annotations/add": "Add",
+				"sidebar/annotations/remove": "Remove",
+				"sidebar/annotations/clear": "Clear",
+				"sidebar/annotations/anchor": "Anchor",
+				"sidebar/annotations/cancel": "Cancel",
+				"sidebar/search": "Search",
+				"sidebar/search/placeholder": "Search",
+				"sidebar/settings": "Settings",
+				"sidebar/settings/language": "Language",
+				"sidebar/settings/fontsize": "Font size (%)",
+				"sidebar/settings/layout": "Layout",
+				"sidebar/settings/pagination": ["Pagination", "Generate pagination"],
+				"sidebar/settings/spread": "Spread",
+				"sidebar/settings/spread/minwidth": "Minimum spread width",
+				"sidebar/metadata": "Metadata",
+				"sidebar/metadata/creator": "Creator",
+				"sidebar/metadata/description": "Description",
+				"sidebar/metadata/identifier": "Identifier",
+				"sidebar/metadata/language": "Language",
+				"sidebar/metadata/pubdate": "Pubdate",
+				"sidebar/metadata/publisher": "Publisher",
+				"sidebar/metadata/title": "Title",
+
+				"notedlg/label": "Note",
+				"notedlg/add": "Add"
+			},
+			fr: {
+				"toolbar/sidebar": "Barre latérale",
+				"toolbar/prev": "???",
+				"toolbar/next": "???",
+				"toolbar/openbook": "Ouvrir un livre local",
+				"toolbar/openbook/error": "Votre navigateur ne prend pas en charge les fonctions nécessaires.\nVeuillez utiliser un navigateur moderne tel que Google Chrome ou Mozilla Firefox.",
+				"toolbar/bookmark": "Insérer un marque page ici",
+				"toolbar/fullscreen": "Plein écran",
+
+				"sidebar/close": "???",
+				"sidebar/contents": "Sommaire",
+				"sidebar/bookmarks": "Marque-pages",
+				"sidebar/bookmarks/add": "Ajouter",
+				"sidebar/bookmarks/remove": "Retirer",
+				"sidebar/bookmarks/clear": "Tout enlever",
+				"sidebar/annotations": "Annotations",
+				"sidebar/annotations/add": "Ajouter",
+				"sidebar/annotations/remove": "Retirer",
+				"sidebar/annotations/clear": "Tout enlever",
+				"sidebar/annotations/anchor": "Ancre",
+				"sidebar/annotations/cancel": "Annuler",
+				"sidebar/search": "Rechercher",
+				"sidebar/search/placeholder": "rechercher",
+				"sidebar/settings": "Réglages",
+				"sidebar/settings/language": "Langue",
+				"sidebar/settings/fontsize": "???",
+				"sidebar/settings/layout": "???",
+				"sidebar/settings/pagination": ["Pagination", "Établir une pagination"],
+				"sidebar/settings/spread": "???",
+				"sidebar/settings/spread/minwidth": "???",
+				"sidebar/metadata": "???",
+				"sidebar/metadata/creator": "???",
+				"sidebar/metadata/description": "???",
+				"sidebar/metadata/identifier": "???",
+				"sidebar/metadata/language": "Langue",
+				"sidebar/metadata/pubdate": "???",
+				"sidebar/metadata/publisher": "???",
+				"sidebar/metadata/title": "???",
+
+				"notedlg/label": "???",
+				"notedlg/add": "Ajouter"
+			},
+			ja: {
+				"toolbar/sidebar": "サイドバー",
+				"toolbar/prev": "???",
+				"toolbar/next": "???",
+				"toolbar/openbook": "本を開く",
+				"toolbar/openbook/error": "ご利用のブラウザは必要な機能をサポートしていません。\nGoogle Chrome、Mozilla Firefox、その他のモダンなブラウザでご利用ください。",
+				"toolbar/bookmark": "このページに栞を設定する",
+				"toolbar/fullscreen": "フルスクリーン",
+
+				"sidebar/close": "???",
+				"sidebar/contents": "目次",
+				"sidebar/bookmarks": "栞",
+				"sidebar/bookmarks/add": "追加",
+				"sidebar/bookmarks/remove": "削除",
+				"sidebar/bookmarks/clear": "クリア",
+				"sidebar/annotations": "注釈",
+				"sidebar/annotations/add": "追加",
+				"sidebar/bookmarks/remove": "削除",
+				"sidebar/annotations/clear": "クリア",
+				"sidebar/annotations/anchor": "アンカー",
+				"sidebar/annotations/cancel": "キャンセル",
+				"sidebar/search": "検索",
+				"sidebar/search/placeholder": "検索",
+				"sidebar/settings": "設定",
+				"sidebar/settings/language": "表示言語",
+				"sidebar/settings/fontsize": "???",
+				"sidebar/settings/layout": "???",
+				"sidebar/settings/pagination": ["ページネーション", "ページネーションを生成します。"],
+				"sidebar/settings/spread": "???",
+				"sidebar/settings/spread/minwidth": "???",
+				"sidebar/metadata": "???",
+				"sidebar/metadata/creator": "???",
+				"sidebar/metadata/description": "???",
+				"sidebar/metadata/identifier": "???",
+				"sidebar/metadata/language": "表示言語",
+				"sidebar/metadata/pubdate": "???",
+				"sidebar/metadata/publisher": "???",
+				"sidebar/metadata/title": "???",
+
+				"notedlg/label": "???",
+				"notedlg/add": "追加"
+			},
+			ru: {
+				"toolbar/sidebar": "Боковая панель",
+				"toolbar/prev": "Предыдущая страница",
+				"toolbar/next": "Следущая страница",
+				"toolbar/openbook": "Открыть книгу",
+				"toolbar/openbook/error": "Ваш браузер не поддерживает необходимые функции.\nПожалуйста, используйте современный браузер, такой как Google Chrome или Mozilla Firefox.",
+				"toolbar/bookmark": "Добавить эту страницу в закладки",
+				"toolbar/fullscreen": "Полноэкранный режим",
+
+				"sidebar/close": "Закрыть боковую панель",
+				"sidebar/contents": "Содержание",
+				"sidebar/bookmarks": "Закладки",
+				"sidebar/bookmarks/add": "Добавить",
+				"sidebar/bookmarks/remove": "Удалить",
+				"sidebar/bookmarks/clear": "Очистить",
+				"sidebar/annotations": "Аннотации",
+				"sidebar/annotations/add": "Добавить",
+				"sidebar/annotations/remove": "Удалить",
+				"sidebar/annotations/clear": "Очистить",
+				"sidebar/annotations/anchor": "Метка",
+				"sidebar/annotations/cancel": "Отмена",
+				"sidebar/search": "Поиск",
+				"sidebar/search/placeholder": "Поиск",
+				"sidebar/settings": "Настройки",
+				"sidebar/settings/language": "Язык",
+				"sidebar/settings/fontsize": "Размер шрифта",
+				"sidebar/settings/layout": "Макет",
+				"sidebar/settings/pagination": ["Нумерация страниц", "Генерировать нумерацию страниц"],
+				"sidebar/settings/spread": "Разворот",
+				"sidebar/settings/spread/minwidth": "Мин. ширина колонки",
+				"sidebar/metadata": "Метаданные",
+				"sidebar/metadata/creator": "Автор",
+				"sidebar/metadata/description": "Описание",
+				"sidebar/metadata/identifier": "Идентификатор",
+				"sidebar/metadata/language": "Язык",
+				"sidebar/metadata/pubdate": "Дата публикации",
+				"sidebar/metadata/publisher": "Издатель",
+				"sidebar/metadata/title": "Заголовок",
+
+				"notedlg/label": "Заметка",
+				"notedlg/add": "Добавить"
+			}
+		};
+
+		reader.on("languagechanged", (value) => {
+			this.language = value;
+		});
+	}
+
+	get(key) { return this.values[this.language][key] || "???"; }
+}
 ;// CONCATENATED MODULE: ./src/ui.js
 /**
  * @author mrdoob https://github.com/mrdoob/ui.js
@@ -674,6 +858,12 @@ class UIElement {
 		return this.dom.id;
 	}
 
+	removeAttribute(name) {
+
+		this.dom.removeAttribute(name);
+		return this;
+	}
+
 	setClass(name) {
 
 		this.dom.className = name;
@@ -698,9 +888,27 @@ class UIElement {
 		return this;
 	}
 
+	getTitle() {
+
+		return this.dom.title;
+	}
+
+	setTitle(title) {
+
+		if (this.dom.title !== title && title)
+			this.dom.title = title;
+		return this;
+	}
+
+	getTextContent() {
+
+		return this.dom.textContent;
+	}
+
 	setTextContent(text) {
 
-		this.dom.textContent = text;
+		if (this.dom.textContent !== text && text)
+			this.dom.textContent = text;
 		return this;
 	}
 
@@ -930,18 +1138,6 @@ class UIInput extends UIElement {
 		return this;
 	}
 
-	getTitle() {
-
-		return this.dom.title;
-	}
-
-	setTitle(title) {
-
-		if (this.dom.title !== title && title)
-			this.dom.title = title;
-		return this;
-	}
-
 	getType() {
 
 		return this.dom.type;
@@ -960,7 +1156,7 @@ class UIInput extends UIElement {
 
 	setValue(value) {
 
-		if (this.dom.value !== value && value)
+		if (this.dom.value !== value && value !== undefined)
 			this.dom.value = value;
 		return this;
 	}
@@ -1073,12 +1269,6 @@ class UINumber extends UIElement {
 		return this;
 	}
 
-	setTitle(text) {
-
-		this.dom.title = text;
-		return this;
-	}
-
 	getValue() {
 
 		return parseFloat(this.dom.value);
@@ -1157,19 +1347,25 @@ class UITabbedPanel extends UIDiv {
 		this.tabs = [];
 		this.panels = [];
 		this.selector = new UISpan().setClass("tab-selector");
+		this.menuDiv = new UIDiv().setClass("menu");
 		this.tabsDiv = new UIDiv().setClass("tabs");
 		this.tabsDiv.add(this.selector);
 		this.panelsDiv = new UIDiv().setClass("panels");
 		this.selected = "";
+		this.add(this.menuDiv);
 		this.add(this.tabsDiv);
 		this.add(this.panelsDiv);
+	}
+
+	addMenu(items) {
+		this.menuDiv.add(items);
 	}
 
 	addTab(id, label, items) {
 
 		const tab = new UITab(label, this);
 		tab.setId(id);
-		tab.setClass("tab");
+		tab.setClass("box");
 		this.tabs.push(tab);
 		this.tabsDiv.add(tab);
 
@@ -1247,16 +1443,6 @@ class UITab extends UIDiv {
 		};
 		this.add(this.button);
 	}
-
-	getTitle() {
-
-		return this.button.dom.title;
-	}
-
-	setTitle(text) {
-
-		this.button.dom.title = text;
-	}
 }
 
 /**
@@ -1312,8 +1498,22 @@ class UIItem extends UIElement {
 	unselect() {
 
 		this.selected = false;
-		this.dom.removeAttribute("class");
+		this.removeAttribute("class");
 		return this;
+	}
+}
+
+/**
+ * UIBox
+ * @param {UIElement} items
+ */
+class UIBox extends UIElement {
+
+	constructor(items) {
+
+		super("div");
+		this.setClass("box");
+		this.add(items);
 	}
 }
 ;// CONCATENATED MODULE: ./src/toolbar.js
@@ -1327,31 +1527,49 @@ class Toolbar {
 
 		const container = new UIDiv().setId("toolbar");
 		const keys = [
-			"toolbar/opener",
+			"toolbar/sidebar",
+			"toolbar/prev",
+			"toolbar/next",
 			"toolbar/openbook",
 			"toolbar/openbook/error",
 			"toolbar/bookmark",
-			"toolbar/fullsceen"
+			"toolbar/fullscreen"
 		];
+		const menu1 = new UIDiv().setClass("menu-1");
+		const openerBox = new UIDiv().setId("btn-m").setClass("box");
+		const openerBtn = new UIInput("button");
+		openerBtn.dom.title = strings.get(keys[0]);
+		openerBtn.dom.onclick = (e) => {
 
-		const start = new UIPanel().setId("start");
-		const opener = new UIInput("button").setId("btn-s");
-		opener.dom.title = strings.get(keys[0]);
-		opener.dom.onclick = () => {
-
-			const isOpen = opener.dom.classList.length > 0;
-
-			reader.emit("sidebaropener", !isOpen);
-
-			if (!isOpen) {
-				opener.addClass("open");
-			} else {
-				opener.removeClass("open");
-			}
+			reader.emit("sidebaropener", true);
+			e.preventDefault();
 		};
+		openerBox.add(openerBtn);
+		menu1.add(openerBox);
 
-		start.add(opener);
+		const prevBox = new UIDiv().setId("btn-p").setClass("box");
+		const prevBtn = new UIInput("button");
+		prevBtn.setTitle(strings.get(keys[1]));
+		prevBtn.dom.onclick = (e) => {
 
+			reader.emit("prev");
+			e.preventDefault();
+		};
+		prevBox.add(prevBtn);
+		menu1.add(prevBox);
+
+		const nextBox = new UIDiv().setId("btn-n").setClass("box");
+		const next = new UIInput("button");
+		next.dom.title = strings.get(keys[2]);
+		next.dom.onclick = (e) => {
+
+			reader.emit("next");
+			e.preventDefault();
+		};
+		nextBox.add(next);
+		menu1.add(nextBox);
+
+		const menu2 = new UIDiv().setClass("menu-2");
 		const onload = (e) => {
 
 			storage.clear();
@@ -1366,11 +1584,11 @@ class Toolbar {
 			console.error(e);
 		};
 		const storage = window.storage;
-		const end = new UIPanel().setId("end");
-		const openbook = new UIInput("file").setId("btn-o");
-		openbook.dom.title = strings.get(keys[1]);
-		openbook.dom.accept = "application/epub+zip";
-		openbook.dom.onchange = (e) => {
+		const openbookBox = new UIDiv().setId("btn-o").setClass("box");
+		const openbookBtn = new UIInput("file");
+		openbookBtn.dom.title = strings.get(keys[3]);
+		openbookBtn.dom.accept = "application/epub+zip";
+		openbookBtn.dom.onchange = (e) => {
 
 			if (e.target.files.length === 0)
 				return;
@@ -1382,31 +1600,35 @@ class Toolbar {
 				fr.readAsArrayBuffer(e.target.files[0]);
 				fr.onerror = onerror;
 			} else {
-				alert(strings.get(keys[2]));
+				alert(strings.get(keys[4]));
 			}
 		};
+		openbookBox.add(openbookBtn);
+		menu2.add(openbookBox);
 
-		end.add(openbook);
-
-		const bookmark = new UIInput("button").setId("btn-b");
-		bookmark.dom.title = strings.get(keys[3]);
-		bookmark.dom.onclick = (e) => {
+		const bookmarkBox = new UIDiv().setId("btn-b").setClass("box");
+		const bookmarkBtn = new UIInput("button");
+		bookmarkBtn.setTitle(strings.get(keys[5]));
+		bookmarkBtn.dom.onclick = (e) => {
 
 			const cfi = this.locationCfi;
 			const val = reader.isBookmarked(cfi) === -1;
 			reader.emit("bookmarked", val);
+			e.preventDefault();
 		};
+		bookmarkBox.add(bookmarkBtn);
+		menu2.add(bookmarkBox);
 
-		end.add(bookmark);
-
-		let fullscreen = null;
+		let fullscreenBtn = null;
 		if (document.fullscreenEnabled) {
 
-			fullscreen = new UIInput("button").setId("btn-f");
-			fullscreen.dom.title = strings.get(keys[4]);
-			fullscreen.dom.onclick = (e) => {
+			const fullscreenBox = new UIDiv().setId("btn-f").setClass("box");
+			fullscreenBtn = new UIInput("button");
+			fullscreenBtn.setTitle(strings.get(keys[6]));
+			fullscreenBtn.dom.onclick = (e) => {
 
 				this.toggleFullScreen();
+				e.preventDefault();
 			};
 
 			document.onkeydown = (e) => {
@@ -1418,21 +1640,21 @@ class Toolbar {
 			};
 
 			document.onfullscreenchange = (e) => {
-				
+
 				const w = window.screen.width === e.target.clientWidth;
 				const h = window.screen.height === e.target.clientHeight;
 
 				if (w && h) {
-					fullscreen.addClass("resize-small");
+					fullscreenBox.addClass("resize-small");
 				} else {
-					fullscreen.removeClass("resize-small");
+					fullscreenBox.removeClass("resize-small");
 				}
 			};
-
-			end.add(fullscreen);
+			fullscreenBox.add(fullscreenBtn);
+			menu2.add(fullscreenBox);
 		}
 
-		container.add([start, end]);
+		container.add([menu1, menu2]);
 		document.body.appendChild(container.dom);
 
 		//-- events --//
@@ -1442,30 +1664,32 @@ class Toolbar {
 			const cfi = location.start.cfi;
 			const val = reader.isBookmarked(cfi) === -1;
 			if (val) {
-				bookmark.removeClass("bookmarked");
+				bookmarkBox.removeClass("bookmarked");
 			} else {
-				bookmark.addClass("bookmarked");
+				bookmarkBox.addClass("bookmarked");
 			}
+			prevBox.dom.style.display = location.atStart ? "none" : "block";
+			nextBox.dom.style.display = location.atEnd ? "none" : "block";
 			this.locationCfi = cfi; // save location cfi
 		});
 
 		reader.on("bookmarked", (boolean) => {
 
 			if (boolean) {
-				bookmark.addClass("bookmarked");
+				bookmarkBox.addClass("bookmarked");
 			} else {
-				bookmark.removeClass("bookmarked");
+				bookmarkBox.removeClass("bookmarked");
 			}
 		});
 
 		reader.on("languagechanged", (value) => {
 
-			opener.dom.title = strings.get(keys[0]);
-			openbook.dom.title = strings.get(keys[1]);
-			bookmark.dom.title = strings.get(keys[3]);
+			openerBtn.setTitle(strings.get(keys[0]));
+			openbookBtn.setTitle(strings.get(keys[1]));
+			bookmarkBtn.setTitle(strings.get(keys[3]));
 
-			if (fullscreen) {
-				fullscreen.dom.title = strings.get(keys[4]);
+			if (fullscreenBtn) {
+				fullscreenBtn.setTitle(strings.get(keys[4]));
 			}
 		});
 	}
@@ -1481,7 +1705,98 @@ class Toolbar {
 		}
 	}
 }
+;// CONCATENATED MODULE: ./src/content.js
 
+
+class Content {
+
+	constructor(reader) {
+
+		const container = new UIDiv().setId("content");
+
+		const prev = new UIDiv().setId("prev").setClass("arrow");
+		prev.dom.onclick = (e) => {
+
+			reader.emit("prev");
+			e.preventDefault();
+		};
+		prev.add(new UISpan("<"));
+
+		const next = new UIDiv().setId("next").setClass("arrow");
+		next.dom.onclick = (e) => {
+
+			reader.emit("next");
+			e.preventDefault();
+		};
+		next.add(new UISpan(">"));
+
+		const viewer = new UIDiv().setId("viewer");
+		const loader = new UIDiv().setId("loader");
+		const divider = new UIDiv().setId("divider");
+
+		container.add([prev, viewer, next, divider, loader]);
+		document.body.appendChild(container.dom);
+
+		//-- events --//
+
+		reader.on("bookready", (cfg) => {
+
+			viewer.setClass(cfg.flow);
+			loader.dom.style.display = "block";
+		});
+
+		reader.on("bookloaded", () => {
+
+			loader.dom.style.display = "none";
+		});
+
+		reader.on("layout", (props) => {
+
+			if (props.spread && props.width > props.spreadWidth) {
+				divider.dom.style.display = "block";
+			} else {
+				divider.dom.style.display = "none";
+			}
+		});
+
+		reader.on("flowchanged", (value) => {
+			
+			viewer.setClass(value);
+		});
+
+		reader.on("relocated", (location) => {
+
+			if (location.atStart) {
+				prev.addClass("disabled");
+			} else {
+				prev.removeClass("disabled");
+			}
+
+			if (location.atEnd) {
+				next.addClass("disabled");
+			} else {
+				next.removeClass("disabled");
+			}
+		});
+
+		reader.on("prev", () => {
+
+			prev.addClass("active");
+			setTimeout(() => { prev.removeClass("active"); }, 100);
+		});
+
+		reader.on("next", () => {
+
+			next.addClass("active");
+			setTimeout(() => { next.removeClass("active"); }, 100);
+		});
+
+		reader.on("viewercleanup", () => {
+
+			viewer.clear();
+		});
+	}
+}
 ;// CONCATENATED MODULE: ./src/sidebar/toc.js
 
 
@@ -1491,9 +1806,15 @@ class TocPanel extends UIPanel {
 
 		super();
 		const container = new UIDiv().setClass("list-container");
-		this.setId("contents");
+		const strings = reader.strings;
+		const keys = [
+			"sidebar/contents"
+		];
+		const label = new UIText(strings.get(keys[0])).setClass("label");
 		this.reader = reader;
 		this.selector = undefined; // save reference to selected tree item
+		this.setId("contents");
+		this.add(new UIBox(label).addClass("header"));
 
 		//-- events --//
 
@@ -1502,6 +1823,11 @@ class TocPanel extends UIPanel {
 			container.clear();
 			container.add(this.generateToc(toc));
 			this.add(container);
+		});
+
+		reader.on("languagechanged", (value) => {
+
+			label.setValue(strings.get(keys[0]));
 		});
 	}
 
@@ -1515,7 +1841,7 @@ class TocPanel extends UIPanel {
 			const item = new UIItem(list).setId(chapter.id);
 			const tbox = new UIDiv().setId("expander");
 
-			link.dom.onclick = () => {
+			link.dom.onclick = (e) => {
 
 				if (this.selector && this.selector !== item)
 					this.selector.unselect();
@@ -1524,7 +1850,7 @@ class TocPanel extends UIPanel {
 				this.selector = item;
 				this.reader.settings.sectionId = chapter.id;
 				this.reader.rendition.display(chapter.href);
-				return false;
+				e.preventDefault();
 			};
 			item.add([tbox, link]);
 			this.reader.navItems[chapter.href] = {
@@ -1563,7 +1889,6 @@ class TocPanel extends UIPanel {
 		return list;
 	}
 }
-
 ;// CONCATENATED MODULE: ./src/sidebar/bookmarks.js
 
 
@@ -1574,47 +1899,29 @@ class BookmarksPanel extends UIPanel {
 		super();
 		const container = new UIDiv().setClass("list-container");
 		const strings = reader.strings;
-		const ctrlRow = new UIRow();
-		const ctrlStr = [
-			strings.get("sidebar/bookmarks/add"),
-			strings.get("sidebar/bookmarks/remove"),
-			strings.get("sidebar/bookmarks/clear"),
+		const keys = [
+			"sidebar/bookmarks",
+			"sidebar/bookmarks/clear"
 		];
-		const btn_a = new UIInput("button", ctrlStr[0]).addClass("btn-start");
-		const btn_r = new UIInput("button", ctrlStr[1]).addClass("btn-medium");
-		const btn_c = new UIInput("button", ctrlStr[2]).addClass("btn-end");
-
-		btn_a.dom.onclick = () => {
-
-			reader.emit("bookmarked", true);
-			return false;
-		};
-
-		btn_r.dom.onclick = () => {
-
-			reader.emit("bookmarked", false);
-			return false;
-		};
-
-		btn_c.dom.onclick = () => {
+		const headerLabel = new UIText(strings.get(keys[0])).setClass("label");
+		const clearBtn = new UIInput("button", strings.get(keys[1]));
+		clearBtn.dom.onclick = (e) => {
 
 			this.clearBookmarks();
 			reader.emit("bookmarked", false);
-			return false;
+			e.preventDefault();
 		};
-
-		ctrlRow.add([btn_a, btn_r, btn_c]);
-
+		this.add(new UIBox([headerLabel, clearBtn]).addClass("header"));
+		this.selector = undefined;
 		this.bookmarks = new UIList();
 		container.add(this.bookmarks);
 		this.setId("bookmarks");
-		this.add([ctrlRow, container]);
+		this.add(container);
 		this.reader = reader;
 
 		const update = () => {
 
-			btn_r.dom.disabled = reader.settings.bookmarks.length === 0;
-			btn_c.dom.disabled = reader.settings.bookmarks.length === 0;
+			clearBtn.dom.disabled = reader.settings.bookmarks.length === 0;
 		};
 
 		//-- events --//
@@ -1630,23 +1937,23 @@ class BookmarksPanel extends UIPanel {
 
 		reader.on("relocated", (location) => {
 
-			const cfi = location.start.cfi;
-			const val = reader.isBookmarked(cfi) === -1;
-			btn_a.dom.disabled = !val;
-			btn_r.dom.disabled = val;
-			this.locationCfi = cfi; // save location cfi
+			this.locationCfi = location.start.cfi; // save location cfi
 		});
 
-		reader.on("bookmarked", (boolean) => {
+		reader.on("bookmarked", (boolean, cfi) => {
 
 			if (boolean) {
 				this.appendBookmark();
-				btn_a.dom.disabled = true;
 			} else {
-				this.removeBookmark();
-				btn_a.dom.disabled = false;
+				this.removeBookmark(cfi);
 			}
 			update();
+		});
+
+		reader.on("languagechanged", (value) => {
+
+			headerLabel.setValue(strings.get(keys[0]));
+			clearBtn.setValue(strings.get(keys[1]));
 		});
 	}
 
@@ -1660,10 +1967,10 @@ class BookmarksPanel extends UIPanel {
 		this.reader.settings.bookmarks.push(cfi);
 	}
 
-	removeBookmark() {
+	removeBookmark(cfi) {
 
-		const cfi = this.locationCfi;
-		const index = this.reader.isBookmarked(cfi);
+		const _cfi = cfi || this.locationCfi;
+		const index = this.reader.isBookmarked(_cfi);
 		if (index === -1) {
 			return;
 		}
@@ -1681,6 +1988,7 @@ class BookmarksPanel extends UIPanel {
 
 		const link = new UILink();
 		const item = new UIItem();
+		const btnr = new UISpan().setClass("btn-remove");
 		const navItem = this.reader.navItemFromCfi(cfi);
 		let idref;
 		let label;
@@ -1695,19 +2003,29 @@ class BookmarksPanel extends UIPanel {
 		}
 
 		link.setHref("#" + cfi);
-		link.dom.onclick = () => {
+		link.dom.onclick = (e) => {
 
+			if (this.selector && this.selector !== item) {
+				this.selector.unselect();
+			}
+			item.select();
+			this.selector = item;
 			this.reader.rendition.display(cfi);
-			return false;
+			e.preventDefault();
 		};
 		link.setTextContent(label);
 
-		item.add(link);
+		btnr.dom.onclick = (e) => {
+
+			this.reader.emit("bookmarked", false, cfi);
+			e.preventDefault();
+		};
+
+		item.add([link, btnr]);
 		item.setId(idref);
 		this.bookmarks.add(item);
 	}
 }
-
 ;// CONCATENATED MODULE: ./src/sidebar/annotations.js
 
 
@@ -1718,57 +2036,27 @@ class AnnotationsPanel extends UIPanel {
 		super();
 		const container = new UIDiv().setClass("list-container");
 		const strings = reader.strings;
-		const textRow = new UIRow();
-		const ctrlRow = new UIRow();
-		const ctrlStr = [
-			strings.get("sidebar/annotations/add"),
-			strings.get("sidebar/annotations/clear")
+		const keys = [
+			"sidebar/annotations",
+			"sidebar/annotations/clear"
 		];
-
-		const textBox = new UITextArea();
-		textBox.dom.oninput = (e) => {
-
-			this.update();
-		};
-
-		const btn_a = new UIInput("button", ctrlStr[0]).addClass("btn-start");
-		btn_a.dom.disabled = true;
-		btn_a.dom.onclick = () => {
-
-			const note = {
-				cfi: this.cfiRange,
-				date: new Date(),
-				text: textBox.getValue(),
-				uuid: reader.uuid()
-			};
-
-			reader.settings.annotations.push(note);
-
-			textBox.setValue("");
-			this.set(note);
-			return false;
-		};
-
-		const btn_c = new UIInput("button", ctrlStr[1]).addClass("btn-end");
-		btn_c.dom.disabled = true;
-		btn_c.dom.onclick = () => {
+		const headerLabel = new UIText(strings.get(keys[0])).setClass("label");
+		const clearBtn = new UIInput("button", strings.get(keys[1]));
+		clearBtn.dom.onclick = (e) => {
 
 			this.clearNotes();
-			return false;
+			e.preventDefault();
 		};
-
-		textRow.add(textBox);
-		ctrlRow.add([btn_a, btn_c]);
-
+		this.add(new UIBox([headerLabel, clearBtn]).addClass("header"));
+		this.selector = undefined;
 		this.notes = new UIList();
 		container.add(this.notes);
 		this.setId("annotations");
-		this.add([textRow, ctrlRow, container]);
+		this.add(container);
 		this.reader = reader;
 		this.update = () => {
 
-			btn_a.dom.disabled = !this.range || textBox.getValue().length === 0;
-			btn_c.dom.disabled = reader.settings.annotations.length === 0;
+			clearBtn.dom.disabled = reader.settings.annotations.length === 0;
 		};
 
 		//-- events --//
@@ -1779,19 +2067,19 @@ class AnnotationsPanel extends UIPanel {
 
 				this.set(note);
 			});
-		});
-
-		reader.on("selected", (cfiRange, contents) => {
-
-			this.cfiRange = cfiRange;
-			this.range = contents.range(cfiRange);
 			this.update();
 		});
 
-		reader.on("unselected", () => {
+		reader.on("noteadded", (note) => {
 
-			this.range = undefined;
+			this.set(note);
 			this.update();
+		});
+
+		reader.on("languagechanged", (value) => {
+
+			headerLabel.setValue(strings.get(keys[0]));
+			clearBtn.setValue(strings.get(keys[1]));
 		});
 	}
 
@@ -1802,16 +2090,21 @@ class AnnotationsPanel extends UIPanel {
 		const btnr = new UISpan().setClass("btn-remove");
 		const call = () => { };
 
-		link.onclick = () => {
+		link.dom.onclick = (e) => {
 
+			if (this.selector && this.selector !== item) {
+				this.selector.unselect();
+			}
+			item.select();
+			this.selector = item;
 			this.reader.rendition.display(note.cfi);
-			return false;
+			e.preventDefault();
 		};
 
-		btnr.dom.onclick = () => {
+		btnr.dom.onclick = (e) => {
 
 			this.removeNote(note);
-			return false;
+			e.preventDefault();
 		};
 
 		item.add([link, btnr]);
@@ -1843,7 +2136,6 @@ class AnnotationsPanel extends UIPanel {
 		this.update();
 	}
 }
-
 ;// CONCATENATED MODULE: ./src/sidebar/search.js
 
 
@@ -1856,11 +2148,11 @@ class SearchPanel extends UIPanel {
 		const strings = reader.strings;
 
 		let searchQuery = undefined;
-		const searchBox = new UIInput("search");
-		searchBox.dom.placeholder = strings.get("sidebar/search/placeholder");
-		searchBox.dom.onsearch = () => {
+		const search = new UIInput("search").setId("nav-q");
+		search.dom.placeholder = strings.get("sidebar/search/placeholder");
+		search.dom.onsearch = () => {
 
-			const value = searchBox.getValue();
+			const value = search.getValue();
 
 			if (value.length === 0) {
 				this.items.clear();
@@ -1876,13 +2168,10 @@ class SearchPanel extends UIPanel {
 			searchQuery = value;
 		};
 
-		const ctrlRow = new UIRow();
-		ctrlRow.add(searchBox);
-
 		this.setId("search");
 		this.items = new UIList();
 		container.add(this.items);
-		this.add([ctrlRow, container]);
+		this.add([new UIBox(search), container]);
 		this.reader = reader;
 		//
 		// improvement of the highlighting of keywords is required...
@@ -1916,7 +2205,6 @@ class SearchPanel extends UIPanel {
 		this.items.add(item);
 	}
 }
-
 ;// CONCATENATED MODULE: ./src/sidebar/settings.js
 
 
@@ -1929,14 +2217,17 @@ class SettingsPanel extends UIPanel {
 
 		const strings = reader.strings;
 		const keys = [
+			"sidebar/settings",
 			"sidebar/settings/language",
 			"sidebar/settings/fontsize",
 			"sidebar/settings/layout",
 			"sidebar/settings/spread",
-			"sidebar/settings/spread/pagewidth"
+			"sidebar/settings/spread/minwidth"
 		];
+		const headerLabel = new UIText(strings.get(keys[0])).setClass("label");
+		this.add(new UIBox(headerLabel).addClass("header"));
 
-		const languageLabel = new UILabel(strings.get(keys[0]), "language-ui");
+		const languageLabel = new UILabel(strings.get(keys[1]), "language-ui");
 		const languageRow = new UIRow();
 		const language = new UISelect().setOptions({
 			en: "English",
@@ -1949,11 +2240,10 @@ class SettingsPanel extends UIPanel {
 			reader.emit("languagechanged", e.target.value);
 		};
 		language.setId("language-ui");
-
 		languageRow.add(languageLabel);
 		languageRow.add(language);
 
-		const fontSizeLabel = new UILabel(strings.get(keys[1]), "fontsize");
+		const fontSizeLabel = new UILabel(strings.get(keys[2]), "fontsize");
 		const fontSizeRow = new UIRow();
 		const fontSize = new UINumber(100, 1);
 		fontSize.dom.onchange = (e) => {
@@ -1963,13 +2253,12 @@ class SettingsPanel extends UIPanel {
 			});
 		};
 		fontSize.setId("fontsize")
-
 		fontSizeRow.add(fontSizeLabel);
 		fontSizeRow.add(fontSize);
 
 		//-- layout configure --//
 
-		const layoutLabel = new UILabel(strings.get(keys[2]), "layout");
+		const layoutLabel = new UILabel(strings.get(keys[3]), "layout");
 		const layoutRow = new UIRow();
 		const layout = new UISelect().setOptions({
 			paginated: "Paginated",
@@ -1992,13 +2281,13 @@ class SettingsPanel extends UIPanel {
 			}
 		};
 		layout.setId("layout");
-
 		layoutRow.add(layoutLabel);
 		layoutRow.add(layout);
 
 		//-- spdead configure --//
 
-		const spreadLabel = new UILabel(strings.get(keys[3]), "spread");
+		const minSpreadWidth = new UINumber(800, 1);
+		const spreadLabel = new UILabel(strings.get(keys[4]), "spread");
 		const spreadRow = new UIRow();
 		const spread = new UISelect().setOptions({
 			none: "None",
@@ -2010,15 +2299,15 @@ class SettingsPanel extends UIPanel {
 				mod: e.target.value,
 				min: undefined
 			});
+			minSpreadWidth.dom.disabled = e.target.value === "none";
 		};
 		spread.setId("spread");
 
 		spreadRow.add(spreadLabel);
 		spreadRow.add(spread);
 
-		const minSpreadWidthLabel = new UILabel(strings.get(keys[4]), "min-spread-width");
+		const minSpreadWidthLabel = new UILabel(strings.get(keys[5]), "min-spread-width");
 		const minSpreadWidthRow = new UIRow();
-		const minSpreadWidth = new UINumber(800, 1);
 		minSpreadWidth.dom.onchange = (e) => {
 
 			reader.emit("spreadchanged", {
@@ -2027,7 +2316,6 @@ class SettingsPanel extends UIPanel {
 			});
 		};
 		minSpreadWidth.setId("min-spread-width");
-
 		minSpreadWidthRow.add(minSpreadWidthLabel);
 		minSpreadWidthRow.add(minSpreadWidth);
 
@@ -2045,14 +2333,14 @@ class SettingsPanel extends UIPanel {
 		paginationRow.add(new UILabel(paginationStr[0], "pagination"));
 		paginationRow.add(pagination);
 
-		super.add([
+		this.add(new UIBox([
 			languageRow,
 			fontSizeRow,
 			layoutRow,
 			spreadRow,
 			minSpreadWidthRow,
 			//paginationRow
-		]);
+		]));
 
 		//-- events --//
 
@@ -2063,13 +2351,15 @@ class SettingsPanel extends UIPanel {
 			layout.setValue(cfg.flow);
 			spread.setValue(cfg.spread.mod);
 			minSpreadWidth.setValue(cfg.spread.min);
+			minSpreadWidth.dom.disabled = cfg.spread.mod === "none";
 		});
 
 		reader.on("layout", (props) => {
 
 			if (props.flow === "scrolled") {
-				spread.dom.disabled = true;
 				spread.setValue("none");
+				spread.dom.disabled = true;
+				minSpreadWidth.dom.disabled = true;
 			} else {
 				spread.dom.disabled = false;
 			}
@@ -2077,15 +2367,15 @@ class SettingsPanel extends UIPanel {
 
 		reader.on("languagechanged", (value) => {
 
-			languageLabel.dom.textContent = strings.get(keys[0]);
-			fontSizeLabel.dom.textContent = strings.get(keys[1]);
-			layoutLabel.dom.textContent = strings.get(keys[2]);
-			spreadLabel.dom.textContent = strings.get(keys[3]);
-			minSpreadWidthLabel.dom.textContent = strings.get(keys[4]);
+			headerLabel.setTextContent(strings.get(keys[0]));
+			languageLabel.setTextContent(strings.get(keys[1]));
+			fontSizeLabel.setTextContent(strings.get(keys[2]));
+			layoutLabel.setTextContent(strings.get(keys[3]));
+			spreadLabel.setTextContent(strings.get(keys[4]));
+			minSpreadWidthLabel.setTextContent(strings.get(keys[5]));
 		});
 	}
 }
-
 ;// CONCATENATED MODULE: ./src/sidebar/metadata.js
 
 
@@ -2105,6 +2395,8 @@ class MetadataPanel extends UIPanel {
 			"sidebar/metadata/publisher",
 			"sidebar/metadata/title"
 		];
+		const headerLabel = new UIText(strings.get(keys[0])).setClass("label");
+		this.add(new UIBox(headerLabel).addClass("header"));
 
 		const creatorLabel = new UIText(strings.get(keys[1])).setClass("label");
 		const creatorValue = new UIText().setClass("value");
@@ -2142,7 +2434,7 @@ class MetadataPanel extends UIPanel {
 		titleRow.add([titleLabel, titleValue]);
 
 		this.setId("metadata");
-		this.add([
+		this.add(new UIBox([
 			creatorRow,
 			descriptionRow,
 			identifierRow,
@@ -2150,7 +2442,7 @@ class MetadataPanel extends UIPanel {
 			pubdateRow,
 			publisherRow,
 			titleRow
-		]);
+		]));
 
 		//-- events --//
 
@@ -2210,6 +2502,7 @@ class MetadataPanel extends UIPanel {
 
 		reader.on("languagechanged", (value) => {
 
+			headerLabel.setValue(strings.get(keys[0]));
 			creatorLabel.setValue(strings.get(keys[1]));
 			descriptionLabel.setValue(strings.get(keys[2]));
 			identifierLabel.setValue(strings.get(keys[3]));
@@ -2220,7 +2513,6 @@ class MetadataPanel extends UIPanel {
 		});
 	}
 }
-
 ;// CONCATENATED MODULE: ./src/sidebar.js
 
 
@@ -2236,6 +2528,7 @@ class Sidebar {
 
 		const strings = reader.strings;
 		const keys = [
+			"sidebar/close",
 			"sidebar/contents",
 			"sidebar/bookmarks",
 			"sidebar/annotations",
@@ -2246,289 +2539,123 @@ class Sidebar {
 
 		const container = new UITabbedPanel("vertical").setId("sidebar");
 
-		container.addTab("tab-t", strings.get(keys[0]), new TocPanel(reader));
-		container.addTab("tab-b", strings.get(keys[1]), new BookmarksPanel(reader));
-		container.addTab("tab-n", strings.get(keys[2]), new AnnotationsPanel(reader));
-		container.addTab("tab-s", strings.get(keys[3]), new SearchPanel(reader));
-		container.addTab("tab-c", strings.get(keys[4]), new SettingsPanel(reader));
-		container.addTab("tab-i", strings.get(keys[5]), new MetadataPanel(reader));
-		container.select("tab-t");
+		const openerBox = new UIDiv().setId("btn-p").addClass("box");
+		const openerBtn = new UIInput("button");
+		openerBtn.setTitle(strings.get(keys[0]));
+		openerBtn.dom.onclick = (e) => {
+
+			reader.emit("sidebaropener", false);
+			e.preventDefault();
+		};
+		openerBox.add(openerBtn);
+		container.addMenu(openerBox);
+
+		container.addTab("btn-t", strings.get(keys[1]), new TocPanel(reader));
+		container.addTab("btn-d", strings.get(keys[2]), new BookmarksPanel(reader));
+		container.addTab("btn-a", strings.get(keys[3]), new AnnotationsPanel(reader));
+		container.addTab("btn-s", strings.get(keys[4]), new SearchPanel(reader));
+		container.addTab("btn-c", strings.get(keys[5]), new SettingsPanel(reader));
+		container.addTab("btn-i", strings.get(keys[6]), new MetadataPanel(reader));
+		container.select("btn-t");
 
 		document.body.appendChild(container.dom);
 
 		//-- events --//
-
-		reader.on("languagechanged", (value) => {
-
-			container.setLabel("tab-t", strings.get(keys[0]));
-			container.setLabel("tab-b", strings.get(keys[1]));
-			container.setLabel("tab-n", strings.get(keys[2]));
-			container.setLabel("tab-s", strings.get(keys[3]));
-			container.setLabel("tab-c", strings.get(keys[4]));
-			container.setLabel("tab-i", strings.get(keys[5]));
-		});
-	}
-}
-
-;// CONCATENATED MODULE: ./src/content.js
-
-
-class Content {
-
-	constructor(reader) {
-
-		const container = new UIDiv().setId("content");
-		container.dom.ontransitionend = (e) => {
-
-			reader.emit("sidebarreflow");
-			e.preventDefault();
-		};
-
-		const prev = new UIDiv().setId("prev").setClass("arrow");
-		prev.dom.onclick = (e) => {
-
-			reader.emit("prev");
-			e.preventDefault();
-		};
-		prev.add(new UISpan("<"));
-
-		const next = new UIDiv().setId("next").setClass("arrow");
-		next.dom.onclick = (e) => {
-
-			reader.emit("next");
-			e.preventDefault();
-		};
-		next.add(new UISpan(">"));
-
-		const viewer = new UIDiv().setId("viewer");
-		const divider = new UIDiv().setId("divider");
-		const loader = new UIDiv().setId("loader");
-
-		container.add([prev, viewer, next, divider, loader]);
-		document.body.appendChild(container.dom);
-
-		//-- events --//
-
-		reader.on("bookready", (cfg) => {
-
-			loader.dom.style.display = "block";
-		});
-
-		reader.on("bookloaded", () => {
-
-			loader.dom.style.display = "none";
-		});
 
 		reader.on("sidebaropener", (value) => {
 
 			if (value) {
-				container.addClass("closed");
+				container.setClass("open");
 			} else {
-				container.removeClass("closed");
+				container.removeAttribute("class");
 			}
 		});
-
-		reader.on("layout", (props) => {
-
-			if (props.spread && props.width > props.spreadWidth) {
-				divider.dom.style.display = "block";
-			} else {
-				divider.dom.style.display = "none";
-			}
-		});
-
-		reader.on("relocated", (location) => {
-
-			if (location.atStart) {
-				prev.addClass("disabled");
-			} else {
-				prev.removeClass("disabled");
-			}
-
-			if (location.atEnd) {
-				next.addClass("disabled");
-			} else {
-				next.removeClass("disabled");
-			}
-		});
-
-		reader.on("prev", () => {
-
-			prev.addClass("active");
-			setTimeout(() => { prev.removeClass("active"); }, 100);
-		});
-
-		reader.on("next", () => {
-
-			next.addClass("active");
-			setTimeout(() => { next.removeClass("active"); }, 100);
-		});
-
-		reader.on("viewercleanup", () => {
-
-			viewer.clear();
-		});
-	}
-}
-
-;// CONCATENATED MODULE: ./src/strings.js
-class Strings {
-
-	constructor(reader) {
-
-		this.language = reader.settings.language || "en";
-		this.values = {
-			en: {
-				"toolbar/opener": "Sidebar",
-				"toolbar/openbook": "Open book",
-				"toolbar/openbook/error": "Your browser does not support the required features.\nPlease use a modern browser such as Google Chrome, or Mozilla Firefox.",
-				"toolbar/bookmark": "Add this page to bookmarks",
-				"toolbar/fullsceen": "Fullscreen",
-
-				"sidebar/contents": "Contents",
-				"sidebar/bookmarks": "Bookmarks",
-				"sidebar/bookmarks/add": "Add",
-				"sidebar/bookmarks/remove": "Remove",
-				"sidebar/bookmarks/clear": "Clear",
-				"sidebar/annotations": "Annotations",
-				"sidebar/annotations/add": "Add",
-				"sidebar/annotations/clear": "Clear",
-				"sidebar/annotations/anchor": "Anchor",
-				"sidebar/annotations/cancel": "Cancel",
-				"sidebar/search": "Search",
-				"sidebar/search/placeholder": "Search",
-				"sidebar/settings": "Settings",
-				"sidebar/settings/language": "Language",
-				"sidebar/settings/fontsize": "Font size (%)",
-				"sidebar/settings/layout": "Layout",
-				"sidebar/settings/pagination": ["Pagination", "Generate pagination"],
-				"sidebar/settings/spread": "Spread",
-				"sidebar/settings/spread/pagewidth": "Page width",
-				"sidebar/metadata": "Metadata",
-				"sidebar/metadata/creator": "Creator",
-				"sidebar/metadata/description": "Description",
-				"sidebar/metadata/identifier": "Identifier",
-				"sidebar/metadata/language": "Language",
-				"sidebar/metadata/pubdate": "Pubdate",
-				"sidebar/metadata/publisher": "Publisher",
-				"sidebar/metadata/title": "Title"
-			},
-			fr: {
-				"toolbar/opener": "Barre latérale",
-				"toolbar/openbook": "Ouvrir un livre local",
-				"toolbar/openbook/error": "Votre navigateur ne prend pas en charge les fonctions nécessaires.\nVeuillez utiliser un navigateur moderne tel que Google Chrome ou Mozilla Firefox.",
-				"toolbar/bookmark": "Insérer un marque page ici",
-				"toolbar/fullsceen": "Plein écran",
-
-				"sidebar/contents": "Sommaire",
-				"sidebar/bookmarks": "Marque-pages",
-				"sidebar/bookmarks/add": "Ajouter",
-				"sidebar/bookmarks/remove": "Retirer",
-				"sidebar/bookmarks/clear": "Tout enlever",
-				"sidebar/annotations": "Annotations",
-				"sidebar/annotations/add": "Ajouter",
-				"sidebar/annotations/clear": "Tout enlever",
-				"sidebar/annotations/anchor": "Ancre",
-				"sidebar/annotations/cancel": "Annuler",
-				"sidebar/search": "Rechercher",
-				"sidebar/search/placeholder": "rechercher",
-				"sidebar/settings": "Réglages",
-				"sidebar/settings/language": "Langue",
-				"sidebar/settings/fontsize": "???",
-				"sidebar/settings/layout": "???",
-				"sidebar/settings/pagination": ["Pagination", "Établir une pagination"],
-				"sidebar/settings/spread": "???",
-				"sidebar/settings/spread/pagewidth": "???",
-				"sidebar/metadata": "???",
-				"sidebar/metadata/creator": "???",
-				"sidebar/metadata/description": "???",
-				"sidebar/metadata/identifier": "???",
-				"sidebar/metadata/language": "Langue",
-				"sidebar/metadata/pubdate": "???",
-				"sidebar/metadata/publisher": "???",
-				"sidebar/metadata/title": "???"
-			},
-			ja: {
-				"toolbar/opener": "サイドバー",
-				"toolbar/openbook": "本を開く",
-				"toolbar/openbook/error": "ご利用のブラウザは必要な機能をサポートしていません。\nGoogle Chrome、Mozilla Firefox、その他のモダンなブラウザでご利用ください。",
-				"toolbar/bookmark": "このページに栞を設定する",
-				"toolbar/fullsceen": "フルスクリーン",
-
-				"sidebar/contents": "目次",
-				"sidebar/bookmarks": "栞",
-				"sidebar/bookmarks/add": "追加",
-				"sidebar/bookmarks/remove": "削除",
-				"sidebar/bookmarks/clear": "クリア",
-				"sidebar/annotations": "注釈",
-				"sidebar/annotations/add": "追加",
-				"sidebar/annotations/clear": "クリア",
-				"sidebar/annotations/anchor": "アンカー",
-				"sidebar/annotations/cancel": "キャンセル",
-				"sidebar/search": "検索",
-				"sidebar/search/placeholder": "検索",
-				"sidebar/settings": "設定",
-				"sidebar/settings/language": "表示言語",
-				"sidebar/settings/fontsize": "???",
-				"sidebar/settings/layout": "???",
-				"sidebar/settings/pagination": ["ページネーション", "ページネーションを生成します。"],
-				"sidebar/settings/spread": "???",
-				"sidebar/settings/spread/pagewidth": "???",
-				"sidebar/metadata": "???",
-				"sidebar/metadata/creator": "???",
-				"sidebar/metadata/description": "???",
-				"sidebar/metadata/identifier": "???",
-				"sidebar/metadata/language": "表示言語",
-				"sidebar/metadata/pubdate": "???",
-				"sidebar/metadata/publisher": "???",
-				"sidebar/metadata/title": "???"
-			},
-			ru: {
-				"toolbar/opener": "Боковая панель",
-				"toolbar/openbook": "Открыть книгу",
-				"toolbar/openbook/error": "Ваш браузер не поддерживает необходимые функции.\nПожалуйста, используйте современный браузер, такой как Google Chrome или Mozilla Firefox.",
-				"toolbar/bookmark": "Добавить эту страницу в закладки",
-				"toolbar/fullsceen": "Полноэкранный режим",
-
-				"sidebar/contents": "Содержание",
-				"sidebar/bookmarks": "Закладки",
-				"sidebar/bookmarks/add": "Добавить",
-				"sidebar/bookmarks/remove": "Удалить",
-				"sidebar/bookmarks/clear": "Очистить",
-				"sidebar/annotations": "Аннотации",
-				"sidebar/annotations/add": "Добавить",
-				"sidebar/annotations/clear": "Очистить",
-				"sidebar/annotations/anchor": "Метка",
-				"sidebar/annotations/cancel": "Отмена",
-				"sidebar/search": "Поиск",
-				"sidebar/search/placeholder": "Поиск",
-				"sidebar/settings": "Настройки",
-				"sidebar/settings/language": "Язык",
-				"sidebar/settings/fontsize": "Размер шрифта",
-				"sidebar/settings/layout": "Макет",
-				"sidebar/settings/pagination": ["Нумерация страниц", "Генерировать нумерацию страниц"],
-				"sidebar/settings/spread": "Разворот",
-				"sidebar/settings/spread/pagewidth": "Ширина страницы",
-				"sidebar/metadata": "Метаданные",
-				"sidebar/metadata/creator": "Автор",
-				"sidebar/metadata/description": "Описание",
-				"sidebar/metadata/identifier": "Идентификатор",
-				"sidebar/metadata/language": "Язык",
-				"sidebar/metadata/pubdate": "Дата публикации",
-				"sidebar/metadata/publisher": "Издатель",
-				"sidebar/metadata/title": "Заголовок"
-			}
-		};
 
 		reader.on("languagechanged", (value) => {
-			this.language = value;
+
+			openerBtn.setTitle(strings.get(keys[0]));
+			container.setLabel("btn-t", strings.get(keys[1]));
+			container.setLabel("btn-d", strings.get(keys[2]));
+			container.setLabel("btn-a", strings.get(keys[3]));
+			container.setLabel("btn-s", strings.get(keys[4]));
+			container.setLabel("btn-c", strings.get(keys[5]));
+			container.setLabel("btn-i", strings.get(keys[6]));
 		});
 	}
-
-	get(key) { return this.values[this.language][key] || "???"; }
 }
+;// CONCATENATED MODULE: ./src/notedlg.js
 
+
+class NoteDlg {
+
+    constructor(reader) {
+
+        const container = new UIDiv().setId("notedlg");
+        const strings = reader.strings;
+        const keys = [
+            "notedlg/label",
+            "notedlg/add"
+        ];
+        const label = new UILabel(strings.get(keys[0]), "note-input");
+        const textBox = new UIInput("text", "").setId("note-input");
+        textBox.dom.oninput = (e) => {
+
+            this.update();
+            e.preventDefault();
+        };
+
+        const addBtn = new UIInput("button", strings.get(keys[1]));
+        addBtn.dom.disabled = true;
+        addBtn.dom.onclick = (e) => {
+
+            const note = {
+                cfi: this.cfi,
+                date: new Date(),
+                text: textBox.getValue(),
+                uuid: reader.uuid()
+            };
+            this.range = undefined;
+            reader.settings.annotations.push(note);
+            reader.emit("noteadded", note);
+            container.removeAttribute("class");
+            e.preventDefault();
+        };
+
+        this.update = () => {
+
+            addBtn.dom.disabled = !(this.range && textBox.getValue().length > 0);
+        };
+
+        container.add(new UIBox([label, textBox, addBtn]).addClass("control"));
+        document.body.appendChild(container.dom);
+
+        //-- events --//
+
+        reader.on("selected", (cfi, contents) => {
+
+            this.cfi = cfi;
+            this.range = contents.range(cfi);
+            this.update();
+            container.setClass("open");
+            textBox.setValue("");
+        });
+
+        reader.on("unselected", () => {
+
+            this.range = undefined;
+            this.update();
+            container.removeAttribute("class");
+        });
+
+        reader.on("languagechanged", (value) => {
+
+            label.setTextContent(strings.get(keys[0]));
+            addBtn.setValue(strings.get(keys[1]));
+        });
+    }
+}
 ;// CONCATENATED MODULE: ./src/reader.js
+
 
 
 
@@ -2545,8 +2672,9 @@ class Reader {
 
 		this.strings = new Strings(this);
 		this.toolbar = new Toolbar(this);
-		this.sidebar = new Sidebar(this);
 		this.content = new Content(this);
+		this.sidebar = new Sidebar(this);
+		this.notedlg = new NoteDlg(this);
 
 		this.book = undefined;
 		this.rendition = undefined;
@@ -2635,7 +2763,7 @@ class Reader {
 		});
 
 		this.on("prev", () => {
-			if (this.book.package.metadata.direction === 'rtl') {
+			if (this.book.package.metadata.direction === "rtl") {
 				this.rendition.next();
 			} else {
 				this.rendition.prev();
@@ -2643,16 +2771,11 @@ class Reader {
 		});
 
 		this.on("next", () => {
-			if (this.book.package.metadata.direction === 'rtl') {
+			if (this.book.package.metadata.direction === "rtl") {
 				this.rendition.prev();
 			} else {
 				this.rendition.next();
 			}
-		});
-
-		this.on("sidebarreflow", () => {
-			// no implementation sidebarReflow setting
-			//this.rendition.resize();
 		});
 
 		this.on("languagechanged", (value) => {
@@ -3047,9 +3170,9 @@ window.onload = function () {
 
 	const storage = new Storage();
 	const url = new URL(window.location);
-	const path = url.search.length > 0
-		? url.searchParams.get("bookPath")
-		: "https://s3.amazonaws.com/moby-dick/";
+	const path = (window.bookPath !== undefined)
+		? window.bookPath
+		: ((url.search.length > 0) ? url.searchParams.get("bookPath") : "https://s3.amazonaws.com/moby-dick/");
 
 	storage.init(function () {
 
