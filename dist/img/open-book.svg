@@ -1,80 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   width="36mm"
-   height="36mm"
-   viewBox="0 0 36 36"
+   width="36"
+   height="36"
+   viewBox="0 0 9.525 9.525"
    version="1.1"
    id="svg8"
-   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
-   sodipodi:docname="open-book.svg"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
-     id="defs2">
-    <pattern
-       id="EMFhbasepattern"
-       patternUnits="userSpaceOnUse"
-       width="6"
-       height="6"
-       x="0"
-       y="0" />
-    <pattern
-       id="EMFhbasepattern-6"
-       patternUnits="userSpaceOnUse"
-       width="6"
-       height="6"
-       x="0"
-       y="0" />
-    <pattern
-       id="EMFhbasepattern-3"
-       patternUnits="userSpaceOnUse"
-       width="6"
-       height="6"
-       x="0"
-       y="0" />
-    <pattern
-       id="EMFhbasepattern-69"
-       patternUnits="userSpaceOnUse"
-       width="6"
-       height="6"
-       x="0"
-       y="0" />
-    <pattern
-       id="EMFhbasepattern-4"
-       patternUnits="userSpaceOnUse"
-       width="6"
-       height="6"
-       x="0"
-       y="0" />
-  </defs>
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="66.964286"
-     inkscape:cy="86.071429"
-     inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
-     inkscape:document-rotation="0"
-     showgrid="false"
-     showborder="true"
-     inkscape:showpageshadow="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1017"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1" />
+     id="defs2" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -86,17 +23,12 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1">
-    <path
-       style="fill:none;stroke:none;stroke-width:0.012648px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 0,36.000002 H 36.000002 V 0 H 0 Z"
-       id="path1581" />
-    <path
-       id="path1603"
-       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 29.001802,11.500386 H 16.500386 m 14.00103,1.498844 c 0.01703,-0.800343 -0.69522,-1.521847 -1.49956,-1.498805 m 1.49956,15.497263 V 12.99923 m -1.499614,15.497302 c 0.802181,0.02071 1.519528,-0.695618 1.499558,-1.49878 M 7.0028286,28.496532 H 29.001802 M 5.5032143,26.997688 c -0.022653,0.799348 0.6971091,1.526265 1.499615,1.498798 M 5.5032143,8.9976878 V 26.997688 M 7.0028286,7.4988442 C 6.2023524,7.4801683 5.4800688,8.1936615 5.5032146,8.9976792 M 15.000772,7.4988442 H 7.0028286 m 9.4975574,1.4988436 c 0.01893,-0.8015065 -0.696439,-1.5196059 -1.49968,-1.4988352 m 1.49968,4.0015334 V 8.9976878" />
-  </g>
+  <path
+     id="path2"
+     style="fill:none;stroke:#000000;stroke-width:0.79375;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 7.6729165,3.0432751 h -3.307786 m 3.704573,0.3965913 c 0.0045,-0.2117693 -0.18395,-0.4026779 -0.396773,-0.396581 m 0.396773,4.1005463 V 3.4398664 m -0.396787,4.1005563 c 0.212252,0.0055 0.402057,-0.184059 0.396773,-0.396574 M 1.8521441,7.5404227 H 7.6729165 M 1.4553568,7.1438317 c -0.00599,0.211506 0.1844501,0.403847 0.3967875,0.396579 M 1.4553568,2.3810659 V 7.1438317 M 1.8521441,1.9844747 C 1.6403438,1.9795331 1.4492326,2.168322 1.4553569,2.3810636 M 3.9683433,1.9844747 H 1.8521441 M 4.3651305,2.3810659 C 4.3701393,2.1689888 4.1808577,1.978981 3.9683258,1.9844769 M 4.3651305,3.0432751 V 2.3810659" />
+  <path
+     style="fill:none;stroke:none;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="M 0,9.525 H 9.525 V 0 H 0 Z"
+     id="path1" />
 </svg>
