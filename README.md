@@ -1,3 +1,9 @@
+About this fork
+================================
+This fork is *only* used to re-package and integrate epubjs-reader with COPS
+
+Please see https://github.com/intity/epubjs-reader for the original fork - with thanks to @intity and the alpha/beta testers :-)
+
 Epub.js Reader
 ================================
 
