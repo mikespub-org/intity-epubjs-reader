@@ -33,6 +33,7 @@ export class NoteDlg {
             reader.emit("noteadded", note);
             container.removeAttribute("class");
             e.preventDefault();
+            addBtn.dom.blur();
         };
 
         this.update = () => {

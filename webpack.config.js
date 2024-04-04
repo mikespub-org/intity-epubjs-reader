@@ -9,7 +9,8 @@ const config = {
 	output: {
 		path: path.resolve(__dirname, 'dist'),
 		filename: 'js/[name].js',
-		sourceMapFilename: 'js/[name].js.map'
+		sourceMapFilename: 'js/[name].js.map',
+		library: 'epubreader'
 	},
 	devtool: 'source-map',
 	optimization: {

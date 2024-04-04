@@ -5,6 +5,7 @@ export class Toolbar {
 	constructor(reader) {
 
 		const strings = reader.strings;
+		const controls = reader.settings.controls;
 
 		const container = new UIDiv().setId("toolbar");
 		const keys = [
@@ -28,80 +29,98 @@ export class Toolbar {
 		openerBox.add(openerBtn);
 		menu1.add(openerBox);
 
-		const prevBox = new UIDiv().setId("btn-p").setClass("box");
-		const prevBtn = new UIInput("button");
-		prevBtn.setTitle(strings.get(keys[1]));
-		prevBtn.dom.onclick = (e) => {
+		let prevBox, prevBtn;
+		let nextBox, nextBtn;
+		if (controls.arrows) {
+			prevBox = new UIDiv().setId("btn-p").setClass("box");
+			prevBtn = new UIInput("button");
+			prevBtn.setTitle(strings.get(keys[1]));
+			prevBtn.dom.onclick = (e) => {
 
-			reader.emit("prev");
-			e.preventDefault();
-		};
-		prevBox.add(prevBtn);
-		menu1.add(prevBox);
+				reader.emit("prev");
+				e.preventDefault();
+				prevBtn.dom.blur();
+			};
+			prevBox.add(prevBtn);
+			menu1.add(prevBox);
 
-		const nextBox = new UIDiv().setId("btn-n").setClass("box");
-		const next = new UIInput("button");
-		next.dom.title = strings.get(keys[2]);
-		next.dom.onclick = (e) => {
+			nextBox = new UIDiv().setId("btn-n").setClass("box");
+			nextBtn = new UIInput("button");
+			nextBtn.dom.title = strings.get(keys[2]);
+			nextBtn.dom.onclick = (e) => {
 
-			reader.emit("next");
-			e.preventDefault();
-		};
-		nextBox.add(next);
-		menu1.add(nextBox);
+				reader.emit("next");
+				e.preventDefault();
+				nextBtn.dom.blur();
+			};
+			nextBox.add(nextBtn);
+			menu1.add(nextBox);
+		}
 
 		const menu2 = new UIDiv().setClass("menu-2");
-		const onload = (e) => {
+		let openbookBtn;
+		if (controls.openbook) {
+			const onload = (e) => {
 
-			storage.clear();
-			storage.set(e.target.result, () => {
-				reader.unload();
-				reader.init(e.target.result, { restore: true });
-				const url = new URL(window.location.origin);
-				window.history.pushState({}, "", url);
-			});
-		};
-		const onerror = (e) => {
-			console.error(e);
-		};
-		const storage = window.storage;
-		const openbookBox = new UIDiv().setId("btn-o").setClass("box");
-		const openbookBtn = new UIInput("file");
-		openbookBtn.dom.title = strings.get(keys[3]);
-		openbookBtn.dom.accept = "application/epub+zip";
-		openbookBtn.dom.onchange = (e) => {
+				storage.clear();
+				storage.set(e.target.result, () => {
+					reader.unload();
+					reader.init(e.target.result, { restore: true });
+					const url = new URL(window.location.origin);
+					window.history.pushState({}, "", url);
+				});
+			};
+			const onerror = (e) => {
+				console.error(e);
+			};
+			const storage = window.storage;
+			const openbookBox = new UIDiv().setId("btn-o").setClass("box");
+			openbookBtn = new UIInput("file");
+			openbookBtn.dom.title = strings.get(keys[3]);
+			openbookBtn.dom.accept = "application/epub+zip";
+			openbookBtn.dom.onchange = (e) => {
 
-			if (e.target.files.length === 0)
-				return;
+				if (e.target.files.length === 0)
+					return;
 
-			if (window.FileReader) {
+				if (window.FileReader) {
 
-				const fr = new FileReader();
-				fr.onload = onload;
-				fr.readAsArrayBuffer(e.target.files[0]);
-				fr.onerror = onerror;
-			} else {
-				alert(strings.get(keys[4]));
-			}
-		};
-		openbookBox.add(openbookBtn);
-		menu2.add(openbookBox);
+					const fr = new FileReader();
+					fr.onload = onload;
+					fr.readAsArrayBuffer(e.target.files[0]);
+					fr.onerror = onerror;
+				} else {
+					alert(strings.get(keys[4]));
+				}
 
-		const bookmarkBox = new UIDiv().setId("btn-b").setClass("box");
-		const bookmarkBtn = new UIInput("button");
-		bookmarkBtn.setTitle(strings.get(keys[5]));
-		bookmarkBtn.dom.onclick = (e) => {
+			};
+			openbookBtn.dom.onclick = (e) => {
 
-			const cfi = this.locationCfi;
-			const val = reader.isBookmarked(cfi) === -1;
-			reader.emit("bookmarked", val);
-			e.preventDefault();
-		};
-		bookmarkBox.add(bookmarkBtn);
-		menu2.add(bookmarkBox);
+				openbookBtn.dom.blur();
+			};
+			openbookBox.add(openbookBtn);
+			menu2.add(openbookBox);
+		}
 
-		let fullscreenBtn = null;
-		if (document.fullscreenEnabled) {
+		let bookmarkBox, bookmarkBtn;
+		if (controls.bookmarks) {
+			bookmarkBox = new UIDiv().setId("btn-b").setClass("box");
+			bookmarkBtn = new UIInput("button");
+			bookmarkBtn.setTitle(strings.get(keys[5]));
+			bookmarkBtn.dom.onclick = (e) => {
+
+				const cfi = this.locationCfi;
+				const val = reader.isBookmarked(cfi) === -1;
+				reader.emit("bookmarked", val);
+				e.preventDefault();
+				bookmarkBtn.dom.blur();
+			};
+			bookmarkBox.add(bookmarkBtn);
+			menu2.add(bookmarkBox);
+		}
+
+		let fullscreenBtn;
+		if (controls.fullscreen) {
 
 			const fullscreenBox = new UIDiv().setId("btn-f").setClass("box");
 			fullscreenBtn = new UIInput("button");
@@ -142,16 +161,20 @@ export class Toolbar {
 
 		reader.on("relocated", (location) => {
 
-			const cfi = location.start.cfi;
-			const val = reader.isBookmarked(cfi) === -1;
-			if (val) {
-				bookmarkBox.removeClass("bookmarked");
-			} else {
-				bookmarkBox.addClass("bookmarked");
+			if (controls.bookmarks) {
+				const cfi = location.start.cfi;
+				const val = reader.isBookmarked(cfi) === -1;
+				if (val) {
+					bookmarkBox.removeClass("bookmarked");
+				} else {
+					bookmarkBox.addClass("bookmarked");
+				}
+				this.locationCfi = cfi; // save location cfi
 			}
-			prevBox.dom.style.display = location.atStart ? "none" : "block";
-			nextBox.dom.style.display = location.atEnd ? "none" : "block";
-			this.locationCfi = cfi; // save location cfi
+			if (controls.arrows) {
+				prevBox.dom.style.display = location.atStart ? "none" : "block";
+				nextBox.dom.style.display = location.atEnd ? "none" : "block";
+			}
 		});
 
 		reader.on("bookmarked", (boolean) => {
@@ -166,11 +189,19 @@ export class Toolbar {
 		reader.on("languagechanged", (value) => {
 
 			openerBtn.setTitle(strings.get(keys[0]));
-			openbookBtn.setTitle(strings.get(keys[1]));
-			bookmarkBtn.setTitle(strings.get(keys[3]));
 
-			if (fullscreenBtn) {
-				fullscreenBtn.setTitle(strings.get(keys[4]));
+			if (controls.arrows) {
+				prevBtn.setTitle(strings.get(keys[1]));
+				nextBtn.setTitle(strings.get(keys[2]));
+			}
+			if (controls.openbook) {
+				openbookBtn.setTitle(strings.get(keys[3]));
+			}
+			if (controls.bookmarks) {
+				bookmarkBtn.setTitle(strings.get(keys[5]));
+			}
+			if (controls.fullscreen) {
+				fullscreenBtn.setTitle(strings.get(keys[6]));
 			}
 		});
 	}

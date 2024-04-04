@@ -1,5 +1,5 @@
-import { Reader } from './reader.js';
-import { Storage } from './storage.js';
+import { Reader } from "./reader.js";
+import { Storage } from "./storage.js";
 
 "use strict";
 
@@ -29,3 +29,5 @@ window.onload = function () {
 
 	window.storage = storage;
 };
+
+export const main = (path, options) => new Reader(path, options || {});

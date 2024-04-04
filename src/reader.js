@@ -11,13 +11,16 @@ export class Reader {
 	constructor(bookPath, _options) {
 
 		this.settings = undefined;
+		this.isMobile = this.detectMobile();
 		this.cfgInit(bookPath, _options);
 
 		this.strings = new Strings(this);
 		this.toolbar = new Toolbar(this);
 		this.content = new Content(this);
 		this.sidebar = new Sidebar(this);
-		this.notedlg = new NoteDlg(this);
+		if (this.settings.controls.annotations) {
+			this.notedlg = new NoteDlg(this);
+		}
 
 		this.book = undefined;
 		this.rendition = undefined;
@@ -52,11 +55,13 @@ export class Reader {
 
 		this.book = ePub(this.settings.bookPath);
 		this.rendition = this.book.renderTo("viewer", {
+			manager: this.isMobile ? "continuous" : "default",
 			flow: this.settings.flow,
 			spread: this.settings.spread.mod,
 			minSpreadWidth: this.settings.spread.min,
 			width: "100%",
-			height: "100%"
+			height: "100%",
+			snap: true
 		});
 
 		const cfi = this.settings.previousLocationCfi;
@@ -104,6 +109,8 @@ export class Reader {
 			this.setLocation(location.start.cfi);
 			this.emit("relocated", location);
 		});
+
+		this.rendition.on("keydown", this.keyboardHandler.bind(this));
 
 		this.on("prev", () => {
 			if (this.book.package.metadata.direction === "rtl") {
@@ -170,6 +177,20 @@ export class Reader {
 		return uuid;
 	}
 
+	detectMobile() {
+
+		const matches = [
+			/Android/i,
+			/BlackBerry/i,
+			/iPhone/i,
+			/iPad/i,
+			/iPod/i,
+			/Windows Phone/i,
+			/webOS/i
+		];
+		return matches.some((i) => navigator.userAgent.match(i));
+	}
+
 	navItemFromCfi(cfi) {
 
 		const range = this.rendition.getRange(cfi);
@@ -221,7 +242,14 @@ export class Reader {
 			spread: undefined,
 			styles: undefined,
 			pagination: false, // ??
-			language: undefined
+			language: undefined,
+			controls: {
+				arrows: !this.isMobile,
+				openbook: true,
+				bookmarks: true,
+				annotations: true,
+				fullscreen: document.fullscreenEnabled
+			}
 		});
 
 		if (this.settings.restore && this.isSaved()) {
@@ -307,6 +335,10 @@ export class Reader {
 				this.settings.styles = this.defaults(this.settings.styles || {},
 					stored.styles);
 			}
+			if (stored.controls) {
+				this.settings.controls = this.defaults(this.settings.controls || {},
+					stored.controls);
+			}
 			// Merge the rest
 			this.settings = this.defaults(this.settings, stored);
 			return true;
@@ -356,43 +388,30 @@ export class Reader {
 
 	keyboardHandler(e) {
 
-		const MOD = (e.ctrlKey || e.metaKey);
+		const step = 2;
+		let value = this.settings.styles.fontSize;
 
-		if (MOD) {
+		switch (e.key) {
 
-			const step = 2;
-			let value = this.settings.styles.fontSize;
-
-			switch (e.key) {
-
-				case '=':
-					e.preventDefault();
-					value += step;
-					this.emit("styleschanged", { fontSize: value });
-					break;
-				case '-':
-					e.preventDefault();
-					value -= step;
-					this.emit("styleschanged", { fontSize: value });
-					break;
-				case '0':
-					e.preventDefault();
-					value = 100;
-					this.emit("styleschanged", { fontSize: value });
-					break;
-			}
-		} else {
-
-			switch (e.key) {
-				case 'ArrowLeft':
-					this.emit('prev');
-					e.preventDefault();
-					break;
-				case 'ArrowRight':
-					this.emit('next');
-					e.preventDefault();
-					break;
-			}
+			case "=":
+			case "+":
+				value += step;
+				this.emit("styleschanged", { fontSize: value });
+				break;
+			case "-":
+				value -= step;
+				this.emit("styleschanged", { fontSize: value });
+				break;
+			case "0":
+				value = 100;
+				this.emit("styleschanged", { fontSize: value });
+				break;
+			case "ArrowLeft":
+				this.emit("prev");
+				break;
+			case "ArrowRight":
+				this.emit("next");
+				break;
 		}
 	}
 }
