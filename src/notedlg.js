@@ -1,3 +1,4 @@
+import { uuid } from "./utils.js";
 import { UIBox, UIDiv, UIInput, UILabel } from "./ui.js";
 
 export class NoteDlg {
@@ -26,7 +27,7 @@ export class NoteDlg {
                 cfi: this.cfi,
                 date: new Date(),
                 text: textBox.getValue(),
-                uuid: reader.uuid()
+                uuid: uuid()
             };
             this.range = undefined;
             reader.settings.annotations.push(note);

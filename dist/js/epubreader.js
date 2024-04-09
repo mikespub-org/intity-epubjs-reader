@@ -602,6 +602,65 @@ __webpack_require__.d(__webpack_exports__, {
 // EXTERNAL MODULE: ./node_modules/event-emitter/index.js
 var event_emitter = __webpack_require__(68);
 var event_emitter_default = /*#__PURE__*/__webpack_require__.n(event_emitter);
+;// CONCATENATED MODULE: ./src/utils.js
+const d = (obj, prop) => obj ? obj[prop] : undefined
+
+const q = (src, dst, ext, prop) => {
+    let val
+    if (typeof dst[prop] === "boolean") {
+        switch (prop) {
+            case "annotations":
+            case "bookmarks":
+                val = dst[prop] ? src[prop] : dst[prop]
+                break;
+            default:
+                val = dst[prop]
+                break;
+        }
+    } else if (prop === "arrows") {
+        val = dst[prop]
+    } else {
+        val = d(ext, prop) === undefined ? src[prop] : dst[prop]
+    }
+    return val
+}
+
+const extend = (src, dst, ext) => {
+    for (let prop in src) {
+        if (prop === "bookPath") {
+            continue
+        } else if (dst[prop] instanceof Array) {
+            dst[prop] = ext ? (src[prop] ? src[prop] : dst[prop]) : src[prop]
+        } else if (dst[prop] instanceof Object) {
+            extend(src[prop], dst[prop], d(ext, prop)) // recursive call
+        } else {
+            dst[prop] = ext ? q(src, dst, ext, prop) : src[prop]
+        }
+    }
+}
+
+const uuid = () => {
+    let d = new Date().getTime()
+    const uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+        let r = (d + Math.random() * 16) % 16 | 0
+        d = Math.floor(d / 16)
+        return (c === "x" ? r : (r & 0x7 | 0x8)).toString(16)
+    })
+    return uuid
+}
+
+const detectMobile = () => {
+    const matches = [
+        /Android/i,
+        /BlackBerry/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /Windows Phone/i,
+        /webOS/i
+    ]
+    return matches.some((i) => navigator.userAgent.match(i))
+}
 ;// CONCATENATED MODULE: ./src/strings.js
 class Strings {
 
@@ -1543,7 +1602,7 @@ class Toolbar {
 	constructor(reader) {
 
 		const strings = reader.strings;
-		const controls = reader.settings.controls;
+		const settings = reader.settings;
 
 		const container = new UIDiv().setId("toolbar");
 		const keys = [
@@ -1569,7 +1628,7 @@ class Toolbar {
 
 		let prevBox, prevBtn;
 		let nextBox, nextBtn;
-		if (controls.arrows) {
+		if (settings.arrows === "toolbar") {
 			prevBox = new UIDiv().setId("btn-p").setClass("box");
 			prevBtn = new UIInput("button");
 			prevBtn.setTitle(strings.get(keys[1]));
@@ -1597,7 +1656,7 @@ class Toolbar {
 
 		const menu2 = new UIDiv().setClass("menu-2");
 		let openbookBtn;
-		if (controls.openbook) {
+		if (settings.openbook) {
 			const onload = (e) => {
 
 				storage.clear();
@@ -1641,7 +1700,7 @@ class Toolbar {
 		}
 
 		let bookmarkBox, bookmarkBtn;
-		if (controls.bookmarks) {
+		if (settings.bookmarks) {
 			bookmarkBox = new UIDiv().setId("btn-b").setClass("box");
 			bookmarkBtn = new UIInput("button");
 			bookmarkBtn.setTitle(strings.get(keys[5]));
@@ -1658,7 +1717,7 @@ class Toolbar {
 		}
 
 		let fullscreenBtn;
-		if (controls.fullscreen) {
+		if (settings.fullscreen) {
 
 			const fullscreenBox = new UIDiv().setId("btn-f").setClass("box");
 			fullscreenBtn = new UIInput("button");
@@ -1699,7 +1758,7 @@ class Toolbar {
 
 		reader.on("relocated", (location) => {
 
-			if (controls.bookmarks) {
+			if (settings.bookmarks) {
 				const cfi = location.start.cfi;
 				const val = reader.isBookmarked(cfi) === -1;
 				if (val) {
@@ -1709,7 +1768,7 @@ class Toolbar {
 				}
 				this.locationCfi = cfi; // save location cfi
 			}
-			if (controls.arrows) {
+			if (settings.arrows === "toolbar") {
 				prevBox.dom.style.display = location.atStart ? "none" : "block";
 				nextBox.dom.style.display = location.atEnd ? "none" : "block";
 			}
@@ -1728,17 +1787,17 @@ class Toolbar {
 
 			openerBtn.setTitle(strings.get(keys[0]));
 
-			if (controls.arrows) {
+			if (settings.arrows === "toolbar") {
 				prevBtn.setTitle(strings.get(keys[1]));
 				nextBtn.setTitle(strings.get(keys[2]));
 			}
-			if (controls.openbook) {
+			if (settings.openbook) {
 				openbookBtn.setTitle(strings.get(keys[3]));
 			}
-			if (controls.bookmarks) {
+			if (settings.bookmarks) {
 				bookmarkBtn.setTitle(strings.get(keys[5]));
 			}
-			if (controls.fullscreen) {
+			if (settings.fullscreen) {
 				fullscreenBtn.setTitle(strings.get(keys[6]));
 			}
 		});
@@ -1762,29 +1821,41 @@ class Content {
 
 	constructor(reader) {
 
+		const settings = reader.settings;
 		const container = new UIDiv().setId("content");
 
-		const prev = new UIDiv().setId("prev").setClass("arrow");
-		prev.dom.onclick = (e) => {
+		let prev;
+		if (settings.arrows === "content") {
 
-			reader.emit("prev");
-			e.preventDefault();
-		};
-		prev.add(new UISpan("<"));
+			prev = new UIDiv().setId("prev").setClass("arrow");
+			prev.dom.onclick = (e) => {
 
-		const next = new UIDiv().setId("next").setClass("arrow");
-		next.dom.onclick = (e) => {
-
-			reader.emit("next");
-			e.preventDefault();
-		};
-		next.add(new UISpan(">"));
+				reader.emit("prev");
+				e.preventDefault();
+			};
+			prev.add(new UISpan("<"));
+			container.add(prev);
+		}
 
 		const viewer = new UIDiv().setId("viewer");
+		container.add(viewer);
+
+		let next;
+		if (settings.arrows === "content") {
+			next = new UIDiv().setId("next").setClass("arrow");
+			next.dom.onclick = (e) => {
+
+				reader.emit("next");
+				e.preventDefault();
+			};
+			next.add(new UISpan(">"));
+			container.add(next);
+		}
+
 		const loader = new UIDiv().setId("loader");
 		const divider = new UIDiv().setId("divider");
 
-		container.add([prev, viewer, next, divider, loader]);
+		container.add([divider, loader]);
 		document.body.appendChild(container.dom);
 
 		//-- events --//
@@ -1816,29 +1887,34 @@ class Content {
 
 		reader.on("relocated", (location) => {
 
-			if (location.atStart) {
-				prev.addClass("disabled");
-			} else {
-				prev.removeClass("disabled");
-			}
-
-			if (location.atEnd) {
-				next.addClass("disabled");
-			} else {
-				next.removeClass("disabled");
+			if (settings.arrows === "content") {
+				if (location.atStart) {
+					prev.addClass("disabled");
+				} else {
+					prev.removeClass("disabled");
+				}
+				if (location.atEnd) {
+					next.addClass("disabled");
+				} else {
+					next.removeClass("disabled");
+				}
 			}
 		});
 
 		reader.on("prev", () => {
 
-			prev.addClass("active");
-			setTimeout(() => { prev.removeClass("active"); }, 100);
+			if (settings.arrows === "content") {
+				prev.addClass("active");
+				setTimeout(() => { prev.removeClass("active"); }, 100);
+			}
 		});
 
 		reader.on("next", () => {
 
-			next.addClass("active");
-			setTimeout(() => { next.removeClass("active"); }, 100);
+			if (settings.arrows === "content") {
+				next.addClass("active");
+				setTimeout(() => { next.removeClass("active"); }, 100);
+			}
 		});
 
 		reader.on("viewercleanup", () => {
@@ -2577,7 +2653,7 @@ class Sidebar {
 	constructor(reader) {
 
 		const strings = reader.strings;
-		const controls = reader.settings.controls;
+		const controls = reader.settings;
 		const keys = [
 			"sidebar/close",
 			"sidebar/contents",
@@ -2646,6 +2722,7 @@ class Sidebar {
 ;// CONCATENATED MODULE: ./src/notedlg.js
 
 
+
 class NoteDlg {
 
     constructor(reader) {
@@ -2672,7 +2749,7 @@ class NoteDlg {
                 cfi: this.cfi,
                 date: new Date(),
                 text: textBox.getValue(),
-                uuid: reader.uuid()
+                uuid: uuid()
             };
             this.range = undefined;
             reader.settings.annotations.push(note);
@@ -2724,19 +2801,20 @@ class NoteDlg {
 
 
 
+
 class Reader {
 
-	constructor(bookPath, _options) {
+	constructor(bookPath, settings) {
 
 		this.settings = undefined;
-		this.isMobile = this.detectMobile();
-		this.cfgInit(bookPath, _options);
+		this.isMobile = detectMobile();
+		this.cfgInit(bookPath, settings);
 
 		this.strings = new Strings(this);
 		this.toolbar = new Toolbar(this);
 		this.content = new Content(this);
 		this.sidebar = new Sidebar(this);
-		if (this.settings.controls.annotations) {
+		if (this.settings.annotations) {
 			this.notedlg = new NoteDlg(this);
 		}
 
@@ -2759,16 +2837,16 @@ class Reader {
 	/**
 	 * Initialize book.
 	 * @param {*} bookPath
-	 * @param {*} _options
+	 * @param {*} settings
 	 */
-	init(bookPath, _options) {
+	init(bookPath, settings) {
 
 		this.emit("viewercleanup");
 		this.navItems = {};
 
 		if (arguments.length > 0) {
 
-			this.cfgInit(bookPath, _options);
+			this.cfgInit(bookPath, settings);
 		}
 
 		this.book = ePub(this.settings.bookPath);
@@ -2872,43 +2950,6 @@ class Reader {
 
 	/* ------------------------------- Common ------------------------------- */
 
-	defaults(obj) {
-
-		for (let i = 1, length = arguments.length; i < length; i++) {
-			const source = arguments[i];
-			for (let prop in source) {
-				if (obj[prop] === void 0)
-					obj[prop] = source[prop];
-			}
-		}
-		return obj;
-	}
-
-	uuid() {
-
-		let d = new Date().getTime();
-		const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-			let r = (d + Math.random() * 16) % 16 | 0;
-			d = Math.floor(d / 16);
-			return (c === 'x' ? r : (r & 0x7 | 0x8)).toString(16);
-		});
-		return uuid;
-	}
-
-	detectMobile() {
-
-		const matches = [
-			/Android/i,
-			/BlackBerry/i,
-			/iPhone/i,
-			/iPad/i,
-			/iPod/i,
-			/Windows Phone/i,
-			/webOS/i
-		];
-		return matches.some((i) => navigator.userAgent.match(i));
-	}
-
 	navItemFromCfi(cfi) {
 
 		const range = this.rendition.getRange(cfi);
@@ -2941,66 +2982,40 @@ class Reader {
 
 	/**
 	 * Initialize book settings.
-	 * @param {*} bookPath
-	 * @param {*} _options
+	 * @param {any} bookPath
+	 * @param {any} settings
 	 */
-	cfgInit(bookPath, _options) {
+	cfgInit(bookPath, settings) {
 
 		this.entryKey = md5(bookPath).toString();
-		this.settings = this.defaults(_options || {}, {
+		this.settings = {
 			bookPath: bookPath,
-			flow: undefined,
-			restore: false,
+			arrows: this.isMobile ? "none" : "content", // none | content | toolbar
+			restore: true,
 			history: true,
-			reload: false, // ??
-			bookmarks: undefined,
-			annotations: undefined,
-			contained: undefined,
+			openbook: true,
+			language: "en",
 			sectionId: undefined,
-			spread: undefined,
-			styles: undefined,
-			pagination: false, // ??
-			language: undefined,
-			controls: {
-				arrows: !this.isMobile,
-				openbook: true,
-				bookmarks: true,
-				annotations: true,
-				fullscreen: document.fullscreenEnabled
-			}
-		});
-
-		if (this.settings.restore && this.isSaved()) {
-			this.applySavedSettings();
-		}
-
-		if (this.settings.bookmarks === undefined) {
-			this.settings.bookmarks = [];
-		}
-
-		if (this.settings.annotations === undefined) {
-			this.settings.annotations = [];
-		}
-
-		if (this.settings.flow === undefined) {
-			this.settings.flow = "paginated";
-		}
-
-		if (this.settings.spread === undefined) {
-			this.settings.spread = {
-				mod: "auto",
+			bookmarks: [],   // array | false
+			annotations: [], // array | false
+			flow: "paginated", // paginated | scrolled
+			spread: {
+				mod: "auto", // auto | none
 				min: 800
-			};
-		}
-
-		if (this.settings.styles === undefined) {
-			this.settings.styles = {
+			},
+			styles: {
 				fontSize: 100
-			};
-		}
+			},
+			pagination: undefined, // not implemented
+			fullscreen: document.fullscreenEnabled
+		};
 
-		if (this.settings.language === undefined) {
-			this.settings.language = "en";
+		extend(settings || {}, this.settings);
+
+		if (this.settings.restore) {
+			this.applySavedSettings(settings || {});
+		} else {
+			this.removeSavedSettings();
 		}
 	}
 
@@ -3010,10 +3025,7 @@ class Reader {
 	 */
 	isSaved() {
 
-		if (!localStorage)
-			return false;
-
-		return localStorage.getItem(this.entryKey) !== null;
+		return localStorage && localStorage.getItem(this.entryKey) !== null;
 	}
 
 	/**
@@ -3030,35 +3042,25 @@ class Reader {
 		return true;
 	}
 
-	applySavedSettings() {
+	/**
+	 * Applies saved settings from local storage.
+	 * @param {*} external External settings
+	 * @returns True if the settings were applied successfully, false otherwise.
+	 */
+	applySavedSettings(external) {
 
-		if (!localStorage)
+		if (!this.isSaved())
 			return false;
 
 		let stored;
 		try {
 			stored = JSON.parse(localStorage.getItem(this.entryKey));
-		} catch (e) { // parsing error of localStorage
+		} catch (e) {
 			console.exception(e);
 		}
 
 		if (stored) {
-			// Merge spread
-			if (stored.spread) {
-				this.settings.spread = this.defaults(this.settings.spread || {}, 
-					stored.spread);
-			}
-			// Merge styles
-			if (stored.styles) {
-				this.settings.styles = this.defaults(this.settings.styles || {},
-					stored.styles);
-			}
-			if (stored.controls) {
-				this.settings.controls = this.defaults(this.settings.controls || {},
-					stored.controls);
-			}
-			// Merge the rest
-			this.settings = this.defaults(this.settings, stored);
+			extend(stored, this.settings, external);
 			return true;
 		} else {
 			return false;
@@ -3067,12 +3069,18 @@ class Reader {
 
 	/**
 	 * Saving the current book settings in local storage.
-	 * @returns
 	 */
 	saveSettings() {
 
 		this.settings.previousLocationCfi = this.rendition.location.start.cfi;
-		localStorage.setItem(this.entryKey, JSON.stringify(this.settings));
+		const cfg = Object.assign({}, this.settings);
+		delete cfg.arrows;
+		delete cfg.history;
+		delete cfg.restore;
+		delete cfg.openbook;
+		delete cfg.pagination;
+		delete cfg.fullscreen;
+		localStorage.setItem(this.entryKey, JSON.stringify(cfg));
 	}
 
 	setLocation(cfi) {
@@ -3259,11 +3267,11 @@ window.onload = function () {
 
 			if (data !== undefined && url.search.length === 0) {
 
-				window.reader = new Reader(data, { restore: true });
+				window.reader = new Reader(data);
 
 			} else {
 
-				window.reader = new Reader(path, { restore: true });
+				window.reader = new Reader(path);
 			}
 		});
 	});

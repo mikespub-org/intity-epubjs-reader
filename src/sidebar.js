@@ -11,7 +11,7 @@ export class Sidebar {
 	constructor(reader) {
 
 		const strings = reader.strings;
-		const controls = reader.settings.controls;
+		const controls = reader.settings;
 		const keys = [
 			"sidebar/close",
 			"sidebar/contents",

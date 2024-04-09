@@ -18,11 +18,11 @@ window.onload = function () {
 
 			if (data !== undefined && url.search.length === 0) {
 
-				window.reader = new Reader(data, { restore: true });
+				window.reader = new Reader(data);
 
 			} else {
 
-				window.reader = new Reader(path, { restore: true });
+				window.reader = new Reader(path);
 			}
 		});
 	});

@@ -73,7 +73,6 @@ body {
 
 .arrow {
 	flex: 1;
-    display: none;
 }
 
 .arrow:disabled,
@@ -158,10 +157,6 @@ only screen and (min-width: 568px) and (max-width: 932px) and (orientation: land
     #viewer.scrolled {
         width: 100%;
     }
-
-    .arrow {
-        display: none;
-    }
 }
 
 /**
@@ -181,9 +176,5 @@ only screen and (min-width: 1024px) and (max-width: 1366px) and (orientation: la
 
     #viewer.scrolled {
         width: 100%;
-    }
-
-    .arrow {
-        display: none;
     }
 }

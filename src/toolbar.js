@@ -1,11 +1,11 @@
-import { UIPanel, UIDiv, UIInput } from "./ui.js";
+import { UIDiv, UIInput } from "./ui.js";
 
 export class Toolbar {
 
 	constructor(reader) {
 
 		const strings = reader.strings;
-		const controls = reader.settings.controls;
+		const settings = reader.settings;
 
 		const container = new UIDiv().setId("toolbar");
 		const keys = [
@@ -31,7 +31,7 @@ export class Toolbar {
 
 		let prevBox, prevBtn;
 		let nextBox, nextBtn;
-		if (controls.arrows) {
+		if (settings.arrows === "toolbar") {
 			prevBox = new UIDiv().setId("btn-p").setClass("box");
 			prevBtn = new UIInput("button");
 			prevBtn.setTitle(strings.get(keys[1]));
@@ -59,7 +59,7 @@ export class Toolbar {
 
 		const menu2 = new UIDiv().setClass("menu-2");
 		let openbookBtn;
-		if (controls.openbook) {
+		if (settings.openbook) {
 			const onload = (e) => {
 
 				storage.clear();
@@ -103,7 +103,7 @@ export class Toolbar {
 		}
 
 		let bookmarkBox, bookmarkBtn;
-		if (controls.bookmarks) {
+		if (settings.bookmarks) {
 			bookmarkBox = new UIDiv().setId("btn-b").setClass("box");
 			bookmarkBtn = new UIInput("button");
 			bookmarkBtn.setTitle(strings.get(keys[5]));
@@ -120,7 +120,7 @@ export class Toolbar {
 		}
 
 		let fullscreenBtn;
-		if (controls.fullscreen) {
+		if (settings.fullscreen) {
 
 			const fullscreenBox = new UIDiv().setId("btn-f").setClass("box");
 			fullscreenBtn = new UIInput("button");
@@ -161,7 +161,7 @@ export class Toolbar {
 
 		reader.on("relocated", (location) => {
 
-			if (controls.bookmarks) {
+			if (settings.bookmarks) {
 				const cfi = location.start.cfi;
 				const val = reader.isBookmarked(cfi) === -1;
 				if (val) {
@@ -171,7 +171,7 @@ export class Toolbar {
 				}
 				this.locationCfi = cfi; // save location cfi
 			}
-			if (controls.arrows) {
+			if (settings.arrows === "toolbar") {
 				prevBox.dom.style.display = location.atStart ? "none" : "block";
 				nextBox.dom.style.display = location.atEnd ? "none" : "block";
 			}
@@ -190,17 +190,17 @@ export class Toolbar {
 
 			openerBtn.setTitle(strings.get(keys[0]));
 
-			if (controls.arrows) {
+			if (settings.arrows === "toolbar") {
 				prevBtn.setTitle(strings.get(keys[1]));
 				nextBtn.setTitle(strings.get(keys[2]));
 			}
-			if (controls.openbook) {
+			if (settings.openbook) {
 				openbookBtn.setTitle(strings.get(keys[3]));
 			}
-			if (controls.bookmarks) {
+			if (settings.bookmarks) {
 				bookmarkBtn.setTitle(strings.get(keys[5]));
 			}
-			if (controls.fullscreen) {
+			if (settings.fullscreen) {
 				fullscreenBtn.setTitle(strings.get(keys[6]));
 			}
 		});

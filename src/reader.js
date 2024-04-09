@@ -1,5 +1,6 @@
 import EventEmitter from "event-emitter";
 
+import { extend, detectMobile } from "./utils.js";
 import { Strings } from "./strings.js";
 import { Toolbar } from "./toolbar.js";
 import { Content } from "./content.js";
@@ -8,17 +9,17 @@ import { NoteDlg } from "./notedlg.js";
 
 export class Reader {
 
-	constructor(bookPath, _options) {
+	constructor(bookPath, settings) {
 
 		this.settings = undefined;
-		this.isMobile = this.detectMobile();
-		this.cfgInit(bookPath, _options);
+		this.isMobile = detectMobile();
+		this.cfgInit(bookPath, settings);
 
 		this.strings = new Strings(this);
 		this.toolbar = new Toolbar(this);
 		this.content = new Content(this);
 		this.sidebar = new Sidebar(this);
-		if (this.settings.controls.annotations) {
+		if (this.settings.annotations) {
 			this.notedlg = new NoteDlg(this);
 		}
 
@@ -41,16 +42,16 @@ export class Reader {
 	/**
 	 * Initialize book.
 	 * @param {*} bookPath
-	 * @param {*} _options
+	 * @param {*} settings
 	 */
-	init(bookPath, _options) {
+	init(bookPath, settings) {
 
 		this.emit("viewercleanup");
 		this.navItems = {};
 
 		if (arguments.length > 0) {
 
-			this.cfgInit(bookPath, _options);
+			this.cfgInit(bookPath, settings);
 		}
 
 		this.book = ePub(this.settings.bookPath);
@@ -154,43 +155,6 @@ export class Reader {
 
 	/* ------------------------------- Common ------------------------------- */
 
-	defaults(obj) {
-
-		for (let i = 1, length = arguments.length; i < length; i++) {
-			const source = arguments[i];
-			for (let prop in source) {
-				if (obj[prop] === void 0)
-					obj[prop] = source[prop];
-			}
-		}
-		return obj;
-	}
-
-	uuid() {
-
-		let d = new Date().getTime();
-		const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-			let r = (d + Math.random() * 16) % 16 | 0;
-			d = Math.floor(d / 16);
-			return (c === 'x' ? r : (r & 0x7 | 0x8)).toString(16);
-		});
-		return uuid;
-	}
-
-	detectMobile() {
-
-		const matches = [
-			/Android/i,
-			/BlackBerry/i,
-			/iPhone/i,
-			/iPad/i,
-			/iPod/i,
-			/Windows Phone/i,
-			/webOS/i
-		];
-		return matches.some((i) => navigator.userAgent.match(i));
-	}
-
 	navItemFromCfi(cfi) {
 
 		const range = this.rendition.getRange(cfi);
@@ -223,66 +187,40 @@ export class Reader {
 
 	/**
 	 * Initialize book settings.
-	 * @param {*} bookPath
-	 * @param {*} _options
+	 * @param {any} bookPath
+	 * @param {any} settings
 	 */
-	cfgInit(bookPath, _options) {
+	cfgInit(bookPath, settings) {
 
 		this.entryKey = md5(bookPath).toString();
-		this.settings = this.defaults(_options || {}, {
+		this.settings = {
 			bookPath: bookPath,
-			flow: undefined,
-			restore: false,
+			arrows: this.isMobile ? "none" : "content", // none | content | toolbar
+			restore: true,
 			history: true,
-			reload: false, // ??
-			bookmarks: undefined,
-			annotations: undefined,
-			contained: undefined,
+			openbook: true,
+			language: "en",
 			sectionId: undefined,
-			spread: undefined,
-			styles: undefined,
-			pagination: false, // ??
-			language: undefined,
-			controls: {
-				arrows: !this.isMobile,
-				openbook: true,
-				bookmarks: true,
-				annotations: true,
-				fullscreen: document.fullscreenEnabled
-			}
-		});
-
-		if (this.settings.restore && this.isSaved()) {
-			this.applySavedSettings();
-		}
-
-		if (this.settings.bookmarks === undefined) {
-			this.settings.bookmarks = [];
-		}
-
-		if (this.settings.annotations === undefined) {
-			this.settings.annotations = [];
-		}
-
-		if (this.settings.flow === undefined) {
-			this.settings.flow = "paginated";
-		}
-
-		if (this.settings.spread === undefined) {
-			this.settings.spread = {
-				mod: "auto",
+			bookmarks: [],   // array | false
+			annotations: [], // array | false
+			flow: "paginated", // paginated | scrolled
+			spread: {
+				mod: "auto", // auto | none
 				min: 800
-			};
-		}
-
-		if (this.settings.styles === undefined) {
-			this.settings.styles = {
+			},
+			styles: {
 				fontSize: 100
-			};
-		}
+			},
+			pagination: undefined, // not implemented
+			fullscreen: document.fullscreenEnabled
+		};
 
-		if (this.settings.language === undefined) {
-			this.settings.language = "en";
+		extend(settings || {}, this.settings);
+
+		if (this.settings.restore) {
+			this.applySavedSettings(settings || {});
+		} else {
+			this.removeSavedSettings();
 		}
 	}
 
@@ -292,10 +230,7 @@ export class Reader {
 	 */
 	isSaved() {
 
-		if (!localStorage)
-			return false;
-
-		return localStorage.getItem(this.entryKey) !== null;
+		return localStorage && localStorage.getItem(this.entryKey) !== null;
 	}
 
 	/**
@@ -312,35 +247,25 @@ export class Reader {
 		return true;
 	}
 
-	applySavedSettings() {
+	/**
+	 * Applies saved settings from local storage.
+	 * @param {*} external External settings
+	 * @returns True if the settings were applied successfully, false otherwise.
+	 */
+	applySavedSettings(external) {
 
-		if (!localStorage)
+		if (!this.isSaved())
 			return false;
 
 		let stored;
 		try {
 			stored = JSON.parse(localStorage.getItem(this.entryKey));
-		} catch (e) { // parsing error of localStorage
+		} catch (e) {
 			console.exception(e);
 		}
 
 		if (stored) {
-			// Merge spread
-			if (stored.spread) {
-				this.settings.spread = this.defaults(this.settings.spread || {}, 
-					stored.spread);
-			}
-			// Merge styles
-			if (stored.styles) {
-				this.settings.styles = this.defaults(this.settings.styles || {},
-					stored.styles);
-			}
-			if (stored.controls) {
-				this.settings.controls = this.defaults(this.settings.controls || {},
-					stored.controls);
-			}
-			// Merge the rest
-			this.settings = this.defaults(this.settings, stored);
+			extend(stored, this.settings, external);
 			return true;
 		} else {
 			return false;
@@ -349,12 +274,18 @@ export class Reader {
 
 	/**
 	 * Saving the current book settings in local storage.
-	 * @returns
 	 */
 	saveSettings() {
 
 		this.settings.previousLocationCfi = this.rendition.location.start.cfi;
-		localStorage.setItem(this.entryKey, JSON.stringify(this.settings));
+		const cfg = Object.assign({}, this.settings);
+		delete cfg.arrows;
+		delete cfg.history;
+		delete cfg.restore;
+		delete cfg.openbook;
+		delete cfg.pagination;
+		delete cfg.fullscreen;
+		localStorage.setItem(this.entryKey, JSON.stringify(cfg));
 	}
 
 	setLocation(cfi) {

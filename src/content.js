@@ -4,29 +4,41 @@ export class Content {
 
 	constructor(reader) {
 
+		const settings = reader.settings;
 		const container = new UIDiv().setId("content");
 
-		const prev = new UIDiv().setId("prev").setClass("arrow");
-		prev.dom.onclick = (e) => {
+		let prev;
+		if (settings.arrows === "content") {
 
-			reader.emit("prev");
-			e.preventDefault();
-		};
-		prev.add(new UISpan("<"));
+			prev = new UIDiv().setId("prev").setClass("arrow");
+			prev.dom.onclick = (e) => {
 
-		const next = new UIDiv().setId("next").setClass("arrow");
-		next.dom.onclick = (e) => {
-
-			reader.emit("next");
-			e.preventDefault();
-		};
-		next.add(new UISpan(">"));
+				reader.emit("prev");
+				e.preventDefault();
+			};
+			prev.add(new UISpan("<"));
+			container.add(prev);
+		}
 
 		const viewer = new UIDiv().setId("viewer");
+		container.add(viewer);
+
+		let next;
+		if (settings.arrows === "content") {
+			next = new UIDiv().setId("next").setClass("arrow");
+			next.dom.onclick = (e) => {
+
+				reader.emit("next");
+				e.preventDefault();
+			};
+			next.add(new UISpan(">"));
+			container.add(next);
+		}
+
 		const loader = new UIDiv().setId("loader");
 		const divider = new UIDiv().setId("divider");
 
-		container.add([prev, viewer, next, divider, loader]);
+		container.add([divider, loader]);
 		document.body.appendChild(container.dom);
 
 		//-- events --//
@@ -58,29 +70,34 @@ export class Content {
 
 		reader.on("relocated", (location) => {
 
-			if (location.atStart) {
-				prev.addClass("disabled");
-			} else {
-				prev.removeClass("disabled");
-			}
-
-			if (location.atEnd) {
-				next.addClass("disabled");
-			} else {
-				next.removeClass("disabled");
+			if (settings.arrows === "content") {
+				if (location.atStart) {
+					prev.addClass("disabled");
+				} else {
+					prev.removeClass("disabled");
+				}
+				if (location.atEnd) {
+					next.addClass("disabled");
+				} else {
+					next.removeClass("disabled");
+				}
 			}
 		});
 
 		reader.on("prev", () => {
 
-			prev.addClass("active");
-			setTimeout(() => { prev.removeClass("active"); }, 100);
+			if (settings.arrows === "content") {
+				prev.addClass("active");
+				setTimeout(() => { prev.removeClass("active"); }, 100);
+			}
 		});
 
 		reader.on("next", () => {
 
-			next.addClass("active");
-			setTimeout(() => { next.removeClass("active"); }, 100);
+			if (settings.arrows === "content") {
+				next.addClass("active");
+				setTimeout(() => { next.removeClass("active"); }, 100);
+			}
 		});
 
 		reader.on("viewercleanup", () => {
