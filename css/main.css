@@ -1,5 +1,7 @@
-@import url('toolbar.css');
-@import url('sidebar.css');
+@import url("common.css");
+@import url("toolbar.css");
+@import url("sidebar.css");
+@import url("notedlg.css");
 
 @font-face {
 	font-family: 'fontello';
@@ -16,7 +18,6 @@ body {
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
-	background: rgb(50, 54, 57);
 }
 
 #content {
@@ -29,41 +30,28 @@ body {
 	overflow: hidden;
 	background: #fff;
 	align-items: center;
-
-	box-shadow: 0 3px 9px #000;
-	-webkit-box-shadow: 0 3px 9px #000;
-	-moz-box-shadow: 0 3px 9px #000;
-	-ms-box-shadow: 0 3px 9px #000;
-}
-
-#content,
-#content.closed,
-#viewer {
-	transition: width 0.3s;
-	-webkit-transition: width 0.3s;
-	-moz-transition: width 0.3s;
-	-ms-transition: width 0.3s;
-}
-
-#content.closed {
-	width: calc(100% - 300px);
-}
-
-#content.closed> #viewer {
-	width: calc(100% - 116px);
 }
 
 #viewer {
-    display: flex;
-	width: calc(100% - 416px);
-	height: calc(100% - 116px);
+    color: inherit;
 	margin: 0 auto;
+    display: flex;
 	z-index: 2;
 	overflow: hidden;
 	align-items: center;
 	vertical-align: middle;
-    box-shadow: 0 0 16px rgba(0,0,0,.12),0 16px 16px rgba(0,0,0,.24);
-    color: inherit;
+}
+
+#viewer.paginated {
+    width: calc(100% - 116px);
+    height: calc(100% - 116px);
+}
+
+#viewer.scrolled {
+    top: 58px;
+    width: calc(100% - 116px);
+    height: calc(100% - 58px);
+    position: sticky;
 }
 
 #viewer .epub-view {
@@ -133,124 +121,60 @@ body {
 	height: 64px;
 	position: absolute;
 	background-size: 64px;
-	background-image: url('../img/loader.gif');
+	background-image: url("../img/loader.gif");
 	background-repeat: no-repeat;
 	background-position: center;
 }
 
-/* #overlay {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    visibility: hidden;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    opacity: 0;
-    background: rgba(255,255,255,0.8);
-
-    transition: all 0.3s;    
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    -ms-transition: all 0.3s;
-} */
-
-/* @media only screen and (max-width: 1040px) {
-    #viewer{
-        width: 50%;
-        margin-left: 25%;
+/**
+ * iPhone 5 : 320 x 568
+ */
+@media
+only screen and (max-width: 320px) and (orientation: portrait),
+only screen and (max-width: 568px) and (orientation: landscape) {
+    #viewer.scrolled {
+        height: calc(100% - 52px);
     }
+}
 
-    #divider,
-    #divider.show {
-        display: none;
-    }
-} */
-
-/* @media only screen and (max-width: 900px) {
-    #viewer{
-        width: 60%;
-        margin-left: 20%;
+/**
+ * iPhone 5             : 320 x 568
+ * iPhone 6/7/8         : 375 x 667
+ * iPhone 11 Pro        : 375 x 812
+ * Pixel 7              : 412 x 915
+ * iPhone 6/7/8 Plus    : 414 x 736
+ * iPhone 11            : 414 x 896
+ * iPhone 12/14         : 390 x 844
+ * iPhone 14/15 Pro Max : 430 x 932
+ */
+@media
+only screen and (min-width: 320px) and (max-width: 430px) and (orientation: portrait),
+only screen and (min-width: 568px) and (max-width: 932px) and (orientation: landscape) {
+    #viewer.paginated {
+        width: calc(100% - 32px);
     }
 
-    #prev {
-        left: 20px;
+    #viewer.scrolled {
+        width: 100%;
+    }
+}
+
+/**
+ * iPad Mini       :  768 x 1024
+ * iPad 10.2       :  810 x 1080
+ * iPad Air (2020) :  820 x 1180
+ * iPad Air        :  834 x 1112
+ * iPad Pro 11     :  834 x 1194
+ * iPad Pro 12.9   : 1024 x 1366
+ */
+@media
+only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait),
+only screen and (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) {
+    #viewer.paginated {
+        width: calc(100% - 116px);
     }
 
-    #next {
-        right: 20px;
+    #viewer.scrolled {
+        width: 100%;
     }
-} */
-
-/* @media only screen and (max-width: 550px) {
-    #viewer{
-        width: 80%;
-        margin-left: 10%;
-    }
-
-    #prev {
-        left: 0;
-    }
-
-    #next {
-        right: 0;
-    }
-
-    .arrow {
-        height: 100%;
-        top: 45px;
-        width: 10%;
-        text-indent: -10000px;
-    }
-
-    #content {
-        transform: translate(0, 0);
-        -webkit-transform: translate(0, 0);
-        -moz-transform: translate(0, 0);
-        -ms-transform: translate(0, 0);
-        transition: .3s;
-        -webkit-transition: -webkit-transform .3s;
-        -moz-transition: -moz-transform .3s;
-        -ms-transition: -moz-transform .3s;
-    }
-
-    #content.closed {
-        transform: translate(260px, 0);
-        -webkit-transform: translate(260px, 0);
-        -moz-transform: translate(260px, 0);
-        -ms-transform: translate(260px, 0);
-    }
-} */
-
-/* For iPad portrait layouts only */
-/* @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation: portrait) {
-    #viewer iframe {
-        width: 460px;
-        height: 740px;
-    }
-} */
-/* For iPad landscape layouts only */
-/* @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation: landscape) {
-    #viewer iframe {
-        width: 460px;
-        height: 415px;
-    }
-} */
-/* For iPhone portrait layouts only */
-/* @media only screen and (max-device-width: 480px) and (orientation: portrait) {
-    #viewer {
-        width: 256px;
-        height: 432px;
-    }
-    #viewer iframe {
-        width: 256px;
-        height: 432px;
-    }
-} */
-/* For iPhone landscape layouts only */
-/* @media only screen and (max-device-width: 480px) and (orientation: landscape) {
-    #viewer iframe {
-        width: 256px;
-        height: 124px;
-    }
-} */
+}

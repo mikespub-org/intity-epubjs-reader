@@ -24,9 +24,9 @@
     </rdf:RDF>
   </metadata>
   <path
-     id="path2"
-     style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 20,8 h -8 m 8,10 V 8 M 4,18 H 20 M 4,6 V 18 M 10,6 H 4 m 8,2 -2,-2" />
+     style="fill:#000000;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="M 17.999952,19.000197 V 6.0004752 C 18.005564,5.4599824 17.51378,4.9938857 16.940305,4.9999393 l -9.8805441,9.6e-6 C 6.4867083,4.9937431 5.9945302,5.459174 6.000046,6.0004848 l 1.38e-5,12.9997122 5.9999452,-3.129762 z"
+     id="path2" />
   <path
      style="fill:none;stroke:none;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      d="M 0,24 H 24 V 0 H 0 Z"
