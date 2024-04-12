@@ -800,13 +800,15 @@ class Strings {
 				"sidebar/settings/spread": "Spread",
 				"sidebar/settings/spread/minwidth": "Minimum spread width",
 				"sidebar/metadata": "Metadata",
+				"sidebar/metadata/title": "Title",
 				"sidebar/metadata/creator": "Creator",
 				"sidebar/metadata/description": "Description",
+				"sidebar/metadata/publisher": "Publisher",
 				"sidebar/metadata/identifier": "Identifier",
 				"sidebar/metadata/language": "Language",
 				"sidebar/metadata/pubdate": "Pubdate",
-				"sidebar/metadata/publisher": "Publisher",
-				"sidebar/metadata/title": "Title",
+				"sidebar/metadata/modified_date": "Modified date",
+				"sidebar/metadata/rights": "Rights",
 
 				"notedlg/label": "Note",
 				"notedlg/add": "Add"
@@ -842,13 +844,15 @@ class Strings {
 				"sidebar/settings/spread": "???",
 				"sidebar/settings/spread/minwidth": "???",
 				"sidebar/metadata": "???",
+				"sidebar/metadata/title": "???",
 				"sidebar/metadata/creator": "???",
 				"sidebar/metadata/description": "???",
+				"sidebar/metadata/publisher": "???",
 				"sidebar/metadata/identifier": "???",
 				"sidebar/metadata/language": "Langue",
 				"sidebar/metadata/pubdate": "???",
-				"sidebar/metadata/publisher": "???",
-				"sidebar/metadata/title": "???",
+				"sidebar/metadata/modified_date": "???",
+				"sidebar/metadata/rights": "???",
 
 				"notedlg/label": "???",
 				"notedlg/add": "Ajouter"
@@ -884,13 +888,15 @@ class Strings {
 				"sidebar/settings/spread": "???",
 				"sidebar/settings/spread/minwidth": "???",
 				"sidebar/metadata": "???",
+				"sidebar/metadata/title": "???",
 				"sidebar/metadata/creator": "???",
 				"sidebar/metadata/description": "???",
+				"sidebar/metadata/publisher": "???",
 				"sidebar/metadata/identifier": "???",
 				"sidebar/metadata/language": "表示言語",
 				"sidebar/metadata/pubdate": "???",
-				"sidebar/metadata/publisher": "???",
-				"sidebar/metadata/title": "???",
+				"sidebar/metadata/modified_date": "???",
+				"sidebar/metadata/rights": "???",
 
 				"notedlg/label": "???",
 				"notedlg/add": "追加"
@@ -926,13 +932,15 @@ class Strings {
 				"sidebar/settings/spread": "Разворот",
 				"sidebar/settings/spread/minwidth": "Мин. ширина колонки",
 				"sidebar/metadata": "Метаданные",
+				"sidebar/metadata/title": "Заголовок",
 				"sidebar/metadata/creator": "Автор",
 				"sidebar/metadata/description": "Описание",
+				"sidebar/metadata/publisher": "Издатель",
 				"sidebar/metadata/identifier": "Идентификатор",
 				"sidebar/metadata/language": "Язык",
 				"sidebar/metadata/pubdate": "Дата публикации",
-				"sidebar/metadata/publisher": "Издатель",
-				"sidebar/metadata/title": "Заголовок",
+				"sidebar/metadata/modified_date": "Дата изменения",
+				"sidebar/metadata/rights": "Лицензия",
 
 				"notedlg/label": "Заметка",
 				"notedlg/add": "Добавить"
@@ -2639,11 +2647,12 @@ class MetadataPanel extends UIPanel {
 		this.add(new UIBox(label).addClass("header"));
 		labels[key] = label;
 
-		this.items = new UIList()
+		this.items = new UIList();
 		this.setId("metadata");
+		this.add(container);
 
 		const init = (prop, meta) => {
-			if (meta[prop] === undefined || 
+			if (meta[prop] === undefined ||
 				meta[prop] === null || (typeof meta[prop] === "string" && meta[prop].length === 0)) {
 				return;
 			}
@@ -2665,11 +2674,13 @@ class MetadataPanel extends UIPanel {
 
 		reader.on("metadata", (meta) => {
 
-			document.title = meta.title;
+			this.items.clear();
 			container.clear();
 			container.add(this.items);
-			for (const prop in meta) init(prop, meta);
-			this.add(container);
+			document.title = meta.title;
+			for (const prop in meta) {
+				init(prop, meta);
+			}
 		});
 
 		reader.on("languagechanged", (value) => {
