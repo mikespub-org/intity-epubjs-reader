@@ -11,7 +11,15 @@
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
-     id="defs2" />
+     id="defs2">
+    <pattern
+       id="EMFhbasepattern"
+       patternUnits="userSpaceOnUse"
+       width="6"
+       height="6"
+       x="0"
+       y="0" />
+  </defs>
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -26,9 +34,9 @@
   <path
      id="path2"
      style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="m 20,8 h -8 m 8,10 V 8 M 4,18 H 20 M 4,6 V 18 M 10,6 H 4 m 8,2 -2,-2" />
+     d="M 5,6 C 4.4477171,6 4,6.4477171 4,7 v 10 c 8.34e-5,0.551001 0.4490234,0.999917 1,1 h 14 c 0.552284,0 1,-0.447716 1,-1 V 9 C 20,8.4477165 19.552283,8 19,8 H 12 L 10,6 Z" />
   <path
      style="fill:none;stroke:none;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     d="M 0,24 H 24 V 0 H 0 Z"
+     d="M 0,0 H 24 V 24 H 0 Z"
      id="path1" />
 </svg>

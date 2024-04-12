@@ -1667,6 +1667,22 @@ class UIItem extends UIElement {
 		this.selected = false;
 	}
 
+	add() {
+		let len = 0;
+		const box = new UIDiv().setId("item-box");
+		for (let i = 0; i < arguments.length; i++) {
+			const argument = arguments[i];
+			if (argument instanceof UIList) {
+				super.add(argument);
+			} else {
+				box.add(argument);
+				len++;
+			}
+		}
+		if (len) super.add(box);
+		return this;
+	}
+
 	select() {
 
 		this.selected = true;
@@ -2065,7 +2081,7 @@ class TocPanel extends UIPanel {
 
 			const link = new UILink(chapter.href, chapter.label);
 			const item = new UIItem(list).setId(chapter.id);
-			const tbox = new UIDiv().setId("expander");
+			const ibtn = new UISpan();
 
 			link.dom.onclick = (e) => {
 
@@ -2078,7 +2094,7 @@ class TocPanel extends UIPanel {
 				this.reader.rendition.display(chapter.href);
 				e.preventDefault();
 			};
-			item.add([tbox, link]);
+			item.add([ibtn, link]);
 			this.reader.navItems[chapter.href] = {
 				id: chapter.id,
 				label: chapter.label
@@ -2093,19 +2109,18 @@ class TocPanel extends UIPanel {
 			if (chapter.subitems && chapter.subitems.length > 0) {
 
 				const subItems = this.generateToc(chapter.subitems, item);
-				const tbtn = new UISpan().setClass("toggle-collapsed");
-				tbtn.dom.onclick = () => {
+				ibtn.setClass("toggle-collapsed");
+				ibtn.dom.onclick = () => {
 
 					if (subItems.expanded) {
 						subItems.collaps();
-						tbtn.setClass("toggle-collapsed");
+						ibtn.setClass("toggle-collapsed");
 					} else {
 						subItems.expand();
-						tbtn.setClass("toggle-expanded");
+						ibtn.setClass("toggle-expanded");
 					}
 					return false;
 				};
-				tbox.add(tbtn);
 				item.add(subItems);
 			}
 
@@ -2399,6 +2414,7 @@ class SearchPanel extends UIPanel {
 		container.add(this.items);
 		this.add([new UIBox(search), container]);
 		this.reader = reader;
+		this.selector = undefined;
 		//
 		// improvement of the highlighting of keywords is required...
 		//
@@ -2424,6 +2440,11 @@ class SearchPanel extends UIPanel {
 		const item = new UIItem();
 		link.dom.onclick = () => {
 
+			if (this.selector && this.selector !== item)
+				this.selector.unselect();
+			
+			item.select();
+			this.selector = item;
 			this.reader.rendition.display(data.cfi);
 			return false;
 		};
@@ -2610,132 +2631,58 @@ class MetadataPanel extends UIPanel {
 	constructor(reader) {
 
 		super();
+		const container = new UIDiv().setClass("list-container");
 		const strings = reader.strings;
-		const keys = [
-			"sidebar/metadata",
-			"sidebar/metadata/creator",
-			"sidebar/metadata/description",
-			"sidebar/metadata/identifier",
-			"sidebar/metadata/language",
-			"sidebar/metadata/pubdate",
-			"sidebar/metadata/publisher",
-			"sidebar/metadata/title"
-		];
-		const headerLabel = new UIText(strings.get(keys[0])).setClass("label");
-		this.add(new UIBox(headerLabel).addClass("header"));
+		const labels = {};
+		const key = "sidebar/metadata";
+		const label = new UIText(strings.get(key)).setClass("label");
+		this.add(new UIBox(label).addClass("header"));
+		labels[key] = label;
 
-		const creatorLabel = new UIText(strings.get(keys[1])).setClass("label");
-		const creatorValue = new UIText().setClass("value");
-		const creatorRow = new UIRow();
-		creatorRow.add([creatorLabel, creatorValue]);
-
-		const descriptionLabel = new UIText(strings.get(keys[2])).setClass("label");
-		const descriptionValue = new UIText().setClass("value");
-		const descriptionRow = new UIRow();
-		descriptionRow.add([descriptionLabel, descriptionValue]);
-
-		const identifierLabel = new UIText(strings.get(keys[3])).setClass("label");
-		const identifierValue = new UIText().setClass("value");
-		const identifierRow = new UIRow();
-		identifierRow.add([identifierLabel, identifierValue]);
-
-		const languageLabel = new UIText(strings.get(keys[4])).setClass("label");
-		const languageValue = new UIText().setClass("value");
-		const languageRow = new UIRow();
-		languageRow.add([languageLabel, languageValue]);
-
-		const pubdateLabel = new UIText(strings.get(keys[5])).setClass("label");
-		const pubdateValue = new UIText().setClass("value");
-		const pubdateRow = new UIRow();
-		pubdateRow.add([pubdateLabel, pubdateValue]);
-
-		const publisherLabel = new UIText(strings.get(keys[6])).setClass("label");
-		const publisherValue = new UIText().setClass("value");
-		const publisherRow = new UIRow();
-		publisherRow.add([publisherLabel, publisherValue]);
-
-		const titleLabel = new UIText(strings.get(keys[7])).setClass("label");
-		const titleValue = new UIText().setClass("value");
-		const titleRow = new UIRow();
-		titleRow.add([titleLabel, titleValue]);
-
+		this.items = new UIList()
 		this.setId("metadata");
-		this.add(new UIBox([
-			creatorRow,
-			descriptionRow,
-			identifierRow,
-			languageRow,
-			pubdateRow,
-			publisherRow,
-			titleRow
-		]));
+
+		const init = (prop, meta) => {
+			if (meta[prop] === undefined || 
+				meta[prop] === null || (typeof meta[prop] === "string" && meta[prop].length === 0)) {
+				return;
+			}
+			const item = new UIItem();
+			const label = new UIText().setClass("label");
+			const value = new UIText().setClass("value");
+			label.setValue(strings.get(key + "/" + prop).toUpperCase());
+			if (prop === "description") {
+				value.dom.innerHTML = meta[prop];
+			} else {
+				value.setValue(meta[prop]);
+			}
+			labels[key + "/" + prop] = label;
+			item.add([label, value]);
+			this.items.add(item);
+		}
 
 		//-- events --//
 
 		reader.on("metadata", (meta) => {
 
 			document.title = meta.title;
-
-			if (meta.creator) {
-				creatorValue.setValue(meta.creator);
-				creatorValue.dom.title = meta.creator;
-			} else {
-				creatorValue.setValue("-");
-			}
-
-			if (meta.description) {
-				descriptionValue.setValue(meta.description);
-				descriptionValue.dom.title = meta.description;
-			} else {
-				descriptionValue.setValue("-");
-			}
-
-			if (meta.identifier) {
-				identifierValue.setValue(meta.identifier);
-				identifierValue.dom.title = meta.identifier;
-			} else {
-				identifierValue.setValue("-");
-			}
-
-			if (meta.language) {
-				languageValue.setValue(meta.language);
-				languageValue.dom.title = meta.language;
-			} else {
-				languageValue.setValue("-");
-			}
-
-			if (meta.pubdate) {
-				pubdateValue.setValue(meta.pubdate);
-				pubdateValue.dom.title = meta.pubdate;
-			} else {
-				pubdateValue.setValue("-");
-			}
-
-			if (meta.publisher) {
-				publisherValue.setValue(meta.publisher);
-				publisherValue.dom.title = meta.publisher;
-			} else {
-				publisherValue.setValue("-");
-			}
-
-			if (meta.title) {
-				titleValue.setValue(meta.title);
-				titleValue.dom.title = meta.title;
-			} else {
-				titleValue.setValue("-");
-			}
+			container.clear();
+			container.add(this.items);
+			for (const prop in meta) init(prop, meta);
+			this.add(container);
 		});
 
 		reader.on("languagechanged", (value) => {
 
-			headerLabel.setValue(strings.get(keys[0]));
-			creatorLabel.setValue(strings.get(keys[1]));
-			descriptionLabel.setValue(strings.get(keys[2]));
-			identifierLabel.setValue(strings.get(keys[3]));
-			languageLabel.setValue(strings.get(keys[4]));
-			pubdateLabel.setValue(strings.get(keys[5]));
-			publisherLabel.setValue(strings.get(keys[6]));
-			titleLabel.setValue(strings.get(keys[7]));
+			for (const prop in labels) {
+				let text;
+				if (prop === key) {
+					text = strings.get(prop);
+				} else {
+					text = strings.get(prop).toUpperCase();
+				}
+				labels[prop].setValue(text);
+			}
 		});
 	}
 }
@@ -3059,8 +3006,11 @@ class Reader {
 
 	navItemFromCfi(cfi) {
 
+		// This feature was added to solve the problem of duplicate titles in 
+		// bookmarks. But this still has no solution because when reloading the 
+		// reader, rendition cannot get the range from the previously saved CFI.
 		const range = this.rendition.getRange(cfi);
-		const idref = range.startContainer.parentNode.id;
+		const idref = range ? range.startContainer.parentNode.id : undefined;
 		const location = this.rendition.currentLocation();
 		const href = location.start.href;
 		return this.navItems[href + "#" + idref] || this.navItems[href];
