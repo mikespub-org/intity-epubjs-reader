@@ -1,7 +1,4 @@
-var epubreader;
-/******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
-/******/ 	var __webpack_modules__ = ({
+/******/ var __webpack_modules__ = ({
 
 /***/ 263:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
@@ -520,88 +517,62 @@ module.exports = function (value) { return value !== _undefined && value !== nul
 
 /***/ })
 
-/******/ 	});
+/******/ });
 /************************************************************************/
-/******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
-/******/ 	
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
-/******/ 		if (cachedModule !== undefined) {
-/******/ 			return cachedModule.exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
-/******/ 			// no module.loaded needed
-/******/ 			exports: {}
-/******/ 		};
-/******/ 	
-/******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/ 	
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
+/******/ // The module cache
+/******/ var __webpack_module_cache__ = {};
+/******/ 
+/******/ // The require function
+/******/ function __webpack_require__(moduleId) {
+/******/ 	// Check if module is in cache
+/******/ 	var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 	if (cachedModule !== undefined) {
+/******/ 		return cachedModule.exports;
 /******/ 	}
-/******/ 	
+/******/ 	// Create a new module (and put it into the cache)
+/******/ 	var module = __webpack_module_cache__[moduleId] = {
+/******/ 		// no module.id needed
+/******/ 		// no module.loaded needed
+/******/ 		exports: {}
+/******/ 	};
+/******/ 
+/******/ 	// Execute the module function
+/******/ 	__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 
+/******/ 	// Return the exports of the module
+/******/ 	return module.exports;
+/******/ }
+/******/ 
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
+/******/ /* webpack/runtime/define property getters */
+/******/ (() => {
+/******/ 	// define getter functions for harmony exports
+/******/ 	__webpack_require__.d = (exports, definition) => {
+/******/ 		for(var key in definition) {
+/******/ 			if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 				Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
+/******/ 		}
+/******/ 	};
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/hasOwnProperty shorthand */
+/******/ (() => {
+/******/ 	__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ })();
+/******/ 
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  main: () => (/* binding */ main)
+  m: () => (/* binding */ Reader)
 });
 
 // EXTERNAL MODULE: ./node_modules/event-emitter/index.js
 var event_emitter = __webpack_require__(68);
-var event_emitter_default = /*#__PURE__*/__webpack_require__.n(event_emitter);
 ;// CONCATENATED MODULE: ./src/utils.js
 const d = (obj, prop) => obj ? obj[prop] : undefined
 
@@ -795,7 +766,7 @@ class Strings {
 				"sidebar/settings": "Settings",
 				"sidebar/settings/language": "Language",
 				"sidebar/settings/fontsize": "Font size (%)",
-				"sidebar/settings/layout": "Layout",
+				"sidebar/settings/flow": "Flow",
 				"sidebar/settings/pagination": ["Pagination", "Generate pagination"],
 				"sidebar/settings/spread": "Spread",
 				"sidebar/settings/spread/minwidth": "Minimum spread width",
@@ -803,12 +774,16 @@ class Strings {
 				"sidebar/metadata/title": "Title",
 				"sidebar/metadata/creator": "Creator",
 				"sidebar/metadata/description": "Description",
+				"sidebar/metadata/pubdate": "Pubdate",
 				"sidebar/metadata/publisher": "Publisher",
 				"sidebar/metadata/identifier": "Identifier",
 				"sidebar/metadata/language": "Language",
-				"sidebar/metadata/pubdate": "Pubdate",
-				"sidebar/metadata/modified_date": "Modified date",
 				"sidebar/metadata/rights": "Rights",
+				"sidebar/metadata/modified_date": "Modified date",
+				"sidebar/metadata/layout": "Layout", // rendition:layout
+				"sidebar/metadata/flow": "Flow", // rendition:flow
+				"sidebar/metadata/spread": "Spread", // rendition:spread
+				"sidebar/metadata/direction": "Direction", // page-progression-direction
 
 				"notedlg/label": "Note",
 				"notedlg/add": "Add"
@@ -839,7 +814,7 @@ class Strings {
 				"sidebar/settings": "Réglages",
 				"sidebar/settings/language": "Langue",
 				"sidebar/settings/fontsize": "???",
-				"sidebar/settings/layout": "???",
+				"sidebar/settings/flow": "???",
 				"sidebar/settings/pagination": ["Pagination", "Établir une pagination"],
 				"sidebar/settings/spread": "???",
 				"sidebar/settings/spread/minwidth": "???",
@@ -847,12 +822,16 @@ class Strings {
 				"sidebar/metadata/title": "???",
 				"sidebar/metadata/creator": "???",
 				"sidebar/metadata/description": "???",
+				"sidebar/metadata/pubdate": "???",
 				"sidebar/metadata/publisher": "???",
 				"sidebar/metadata/identifier": "???",
 				"sidebar/metadata/language": "Langue",
-				"sidebar/metadata/pubdate": "???",
-				"sidebar/metadata/modified_date": "???",
 				"sidebar/metadata/rights": "???",
+				"sidebar/metadata/modified_date": "???",
+				"sidebar/metadata/layout": "???",
+				"sidebar/metadata/flow": "???",
+				"sidebar/metadata/spread": "???",
+				"sidebar/metadata/direction": "???",
 
 				"notedlg/label": "???",
 				"notedlg/add": "Ajouter"
@@ -883,7 +862,7 @@ class Strings {
 				"sidebar/settings": "設定",
 				"sidebar/settings/language": "表示言語",
 				"sidebar/settings/fontsize": "???",
-				"sidebar/settings/layout": "???",
+				"sidebar/settings/flow": "???",
 				"sidebar/settings/pagination": ["ページネーション", "ページネーションを生成します。"],
 				"sidebar/settings/spread": "???",
 				"sidebar/settings/spread/minwidth": "???",
@@ -891,12 +870,16 @@ class Strings {
 				"sidebar/metadata/title": "???",
 				"sidebar/metadata/creator": "???",
 				"sidebar/metadata/description": "???",
+				"sidebar/metadata/pubdate": "???",
 				"sidebar/metadata/publisher": "???",
 				"sidebar/metadata/identifier": "???",
 				"sidebar/metadata/language": "表示言語",
-				"sidebar/metadata/pubdate": "???",
-				"sidebar/metadata/modified_date": "???",
 				"sidebar/metadata/rights": "???",
+				"sidebar/metadata/modified_date": "???",
+				"sidebar/metadata/layout": "???",
+				"sidebar/metadata/flow": "???",
+				"sidebar/metadata/spread": "???",
+				"sidebar/metadata/direction": "???",
 
 				"notedlg/label": "???",
 				"notedlg/add": "追加"
@@ -927,7 +910,7 @@ class Strings {
 				"sidebar/settings": "Настройки",
 				"sidebar/settings/language": "Язык",
 				"sidebar/settings/fontsize": "Размер шрифта",
-				"sidebar/settings/layout": "Макет",
+				"sidebar/settings/flow": "Поток",
 				"sidebar/settings/pagination": ["Нумерация страниц", "Генерировать нумерацию страниц"],
 				"sidebar/settings/spread": "Разворот",
 				"sidebar/settings/spread/minwidth": "Мин. ширина колонки",
@@ -935,12 +918,16 @@ class Strings {
 				"sidebar/metadata/title": "Заголовок",
 				"sidebar/metadata/creator": "Автор",
 				"sidebar/metadata/description": "Описание",
+				"sidebar/metadata/pubdate": "Дата публикации",
 				"sidebar/metadata/publisher": "Издатель",
 				"sidebar/metadata/identifier": "Идентификатор",
 				"sidebar/metadata/language": "Язык",
-				"sidebar/metadata/pubdate": "Дата публикации",
-				"sidebar/metadata/modified_date": "Дата изменения",
 				"sidebar/metadata/rights": "Лицензия",
+				"sidebar/metadata/modified_date": "Дата изменения",
+				"sidebar/metadata/layout": "Макет",
+				"sidebar/metadata/flow": "Поток",
+				"sidebar/metadata/spread": "Разворот",
+				"sidebar/metadata/direction": "Направление",
 
 				"notedlg/label": "Заметка",
 				"notedlg/add": "Добавить"
@@ -2475,7 +2462,7 @@ class SettingsPanel extends UIPanel {
 			"sidebar/settings",
 			"sidebar/settings/language",
 			"sidebar/settings/fontsize",
-			"sidebar/settings/layout",
+			"sidebar/settings/flow",
 			"sidebar/settings/spread",
 			"sidebar/settings/spread/minwidth"
 		];
@@ -2511,15 +2498,15 @@ class SettingsPanel extends UIPanel {
 		fontSizeRow.add(fontSizeLabel);
 		fontSizeRow.add(fontSize);
 
-		//-- layout configure --//
+		//-- flow configure --//
 
-		const layoutLabel = new UILabel(strings.get(keys[3]), "layout");
-		const layoutRow = new UIRow();
-		const layout = new UISelect().setOptions({
+		const flowLabel = new UILabel(strings.get(keys[3]), "flow");
+		const flowRow = new UIRow();
+		const flow = new UISelect().setOptions({
 			paginated: "Paginated",
 			scrolled: "Scrolled"
 		});
-		layout.dom.onchange = (e) => {
+		flow.dom.onchange = (e) => {
 
 			reader.emit("flowchanged", e.target.value);
 
@@ -2535,9 +2522,9 @@ class SettingsPanel extends UIPanel {
 				});
 			}
 		};
-		layout.setId("layout");
-		layoutRow.add(layoutLabel);
-		layoutRow.add(layout);
+		flow.setId("flow");
+		flowRow.add(flowLabel);
+		flowRow.add(flow);
 
 		//-- spdead configure --//
 
@@ -2591,7 +2578,7 @@ class SettingsPanel extends UIPanel {
 		this.add(new UIBox([
 			languageRow,
 			fontSizeRow,
-			layoutRow,
+			flowRow,
 			spreadRow,
 			minSpreadWidthRow,
 			//paginationRow
@@ -2603,7 +2590,7 @@ class SettingsPanel extends UIPanel {
 
 			language.setValue(cfg.language);
 			fontSize.setValue(cfg.styles.fontSize);
-			layout.setValue(cfg.flow);
+			flow.setValue(cfg.flow);
 			spread.setValue(cfg.spread.mod);
 			minSpreadWidth.setValue(cfg.spread.min);
 			minSpreadWidth.dom.disabled = cfg.spread.mod === "none";
@@ -2625,7 +2612,7 @@ class SettingsPanel extends UIPanel {
 			headerLabel.setTextContent(strings.get(keys[0]));
 			languageLabel.setTextContent(strings.get(keys[1]));
 			fontSizeLabel.setTextContent(strings.get(keys[2]));
-			layoutLabel.setTextContent(strings.get(keys[3]));
+			flowLabel.setTextContent(strings.get(keys[3]));
 			spreadLabel.setTextContent(strings.get(keys[4]));
 			minSpreadWidthLabel.setTextContent(strings.get(keys[5]));
 		});
@@ -3212,16 +3199,10 @@ class Reader {
 	}
 }
 
-event_emitter_default()(Reader.prototype);
-;// CONCATENATED MODULE: ./src/main.js
-
-
-window.ResizeObserver = undefined;
-
-const main = (path, settings) => new Reader(path, settings);
+event_emitter(Reader.prototype);
 })();
 
-epubreader = __webpack_exports__;
-/******/ })()
-;
+var __webpack_exports__Reader = __webpack_exports__.m;
+export { __webpack_exports__Reader as Reader };
+
 //# sourceMappingURL=epubreader.js.map

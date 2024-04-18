@@ -19,14 +19,11 @@
 	<script src="js/libs/epub.min.js"></script>
 
 	<!-- Reader -->
-	<script src="js/epubreader.js"></script>
-	<script type="text/javascript">
+	<script type="module">
+		import { Reader } from "./js/epubreader.min.js"
 		const url = new URL(window.location)
 		const path = url.searchParams.get("bookPath") || "https://s3.amazonaws.com/moby-dick/"
-		window.onload = (e) => {
-			epubreader.main(path)
-			e.stopPropagation()
-		}
+		window.onload = (e) => new Reader(path)
 	</script>
 </head>
 
