@@ -637,7 +637,7 @@ class Storage {
 
 	constructor() {
 
-		this.name = "epubjs-reader";
+		this.name = "epubreader-js";
 		this.version = 1.0;
 		this.db;
 		this.indexedDB = window.indexedDB ||
@@ -648,7 +648,7 @@ class Storage {
 
 		if (this.indexedDB === undefined) {
 
-			alert("The IndexedDB API not available in your browser.");
+			console.error("The IndexedDB API not available in your browser.");
 		}
 	}
 
@@ -1733,6 +1733,7 @@ class Toolbar {
 		openerBtn.dom.onclick = (e) => {
 
 			reader.emit("sidebaropener", true);
+			openerBtn.dom.blur();
 			e.preventDefault();
 		};
 		openerBox.add(openerBtn);
@@ -1965,8 +1966,13 @@ class Content {
 
 		const loader = new UIDiv().setId("loader");
 		const divider = new UIDiv().setId("divider");
+		const overlay = new UIDiv().setId("overlay");
+		overlay.dom.onclick = (e) => {
+			reader.emit("sidebaropener", false);
+			e.preventDefault();
+		};
 
-		container.add([divider, loader]);
+		container.add([loader, divider, overlay]);
 		document.body.appendChild(container.dom);
 
 		//-- events --//
@@ -2026,6 +2032,11 @@ class Content {
 				next.addClass("active");
 				setTimeout(() => { next.removeClass("active"); }, 100);
 			}
+		});
+
+		reader.on("sidebaropener", (value) => {
+
+			overlay.dom.style.display = value ? "block" : "none";
 		});
 
 		reader.on("viewercleanup", () => {
@@ -2852,29 +2863,36 @@ class Reader {
 
 	constructor(bookPath, settings) {
 
+		const preinit = (data) => {
+			const url = new URL(window.location);
+			let path = bookPath;
+			if (settings && !settings.openbook) {
+				path = bookPath;
+				if (data) this.storage.clear();
+			} else if (data && url.search.length === 0) {
+				path = data;
+			}
+			this.cfgInit(path, settings);
+			this.strings = new Strings(this);
+			this.toolbar = new Toolbar(this);
+			this.content = new Content(this);
+			this.sidebar = new Sidebar(this);
+			if (this.settings.annotations) {
+				this.notedlg = new NoteDlg(this);
+			}
+			this.init();
+		}
+
 		this.settings = undefined;
 		this.isMobile = detectMobile();
 		this.storage = new Storage();
-		this.storage.init(() => this.storage.get((data) => {
-				const url = new URL(window.location);
-				let path = bookPath;
-				if (settings && !settings.openbook) {
-					path = bookPath;
-					if (data) this.storage.clear();
-				} else if (data && url.search.length === 0) {
-					path = data;
-				}
-				this.cfgInit(path, settings);
-				this.strings = new Strings(this);
-				this.toolbar = new Toolbar(this);
-				this.content = new Content(this);
-				this.sidebar = new Sidebar(this);
-				if (this.settings.annotations) {
-					this.notedlg = new NoteDlg(this);
-				}
-				this.init();
-			})
-		);
+		const openbook = settings && settings.openbook;
+
+		if (this.storage.indexedDB && (!settings || openbook)) {
+			this.storage.init(() => this.storage.get((data) => preinit(data)));
+		} else {
+			preinit();
+		}
 
 		window.onbeforeunload = this.unload.bind(this);
 		window.onhashchange = this.hashChanged.bind(this);
@@ -2984,7 +3002,7 @@ class Reader {
 			this.settings.flow = value;
 			this.rendition.flow(value);
 		});
-		
+
 		this.on("spreadchanged", (value) => {
 			const mod = value.mod || this.settings.spread.mod;
 			const min = value.min || this.settings.spread.min;
@@ -3049,7 +3067,7 @@ class Reader {
 			manager: this.isMobile ? "continuous" : "default",
 			restore: true,
 			history: true,
-			openbook: true,
+			openbook: this.storage.indexedDB ? true : false,
 			language: "en",
 			sectionId: undefined,
 			bookmarks: [],   // array | false

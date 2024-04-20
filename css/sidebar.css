@@ -77,7 +77,6 @@
 }
 
 #sidebar .panel .box.header {
-	display: grid;
 	align-items: center;
 	grid-template: 36px / auto 116px;
 }
