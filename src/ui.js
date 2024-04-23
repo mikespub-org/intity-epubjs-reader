@@ -88,6 +88,12 @@ export class UIElement {
 		return this.dom.id;
 	}
 
+	removeAttribute(name) {
+
+		this.dom.removeAttribute(name);
+		return this;
+	}
+
 	setClass(name) {
 
 		this.dom.className = name;
@@ -112,9 +118,27 @@ export class UIElement {
 		return this;
 	}
 
+	getTitle() {
+
+		return this.dom.title;
+	}
+
+	setTitle(title) {
+
+		if (this.dom.title !== title && title)
+			this.dom.title = title;
+		return this;
+	}
+
+	getTextContent() {
+
+		return this.dom.textContent;
+	}
+
 	setTextContent(text) {
 
-		this.dom.textContent = text;
+		if (this.dom.textContent !== text && text)
+			this.dom.textContent = text;
 		return this;
 	}
 
@@ -344,18 +368,6 @@ export class UIInput extends UIElement {
 		return this;
 	}
 
-	getTitle() {
-
-		return this.dom.title;
-	}
-
-	setTitle(title) {
-
-		if (this.dom.title !== title && title)
-			this.dom.title = title;
-		return this;
-	}
-
 	getType() {
 
 		return this.dom.type;
@@ -374,7 +386,7 @@ export class UIInput extends UIElement {
 
 	setValue(value) {
 
-		if (this.dom.value !== value && value)
+		if (this.dom.value !== value && value !== undefined)
 			this.dom.value = value;
 		return this;
 	}
@@ -487,12 +499,6 @@ export class UINumber extends UIElement {
 		return this;
 	}
 
-	setTitle(text) {
-
-		this.dom.title = text;
-		return this;
-	}
-
 	getValue() {
 
 		return parseFloat(this.dom.value);
@@ -571,19 +577,25 @@ export class UITabbedPanel extends UIDiv {
 		this.tabs = [];
 		this.panels = [];
 		this.selector = new UISpan().setClass("tab-selector");
+		this.menuDiv = new UIDiv().setClass("menu");
 		this.tabsDiv = new UIDiv().setClass("tabs");
 		this.tabsDiv.add(this.selector);
 		this.panelsDiv = new UIDiv().setClass("panels");
 		this.selected = "";
+		this.add(this.menuDiv);
 		this.add(this.tabsDiv);
 		this.add(this.panelsDiv);
+	}
+
+	addMenu(items) {
+		this.menuDiv.add(items);
 	}
 
 	addTab(id, label, items) {
 
 		const tab = new UITab(label, this);
 		tab.setId(id);
-		tab.setClass("tab");
+		tab.setClass("box");
 		this.tabs.push(tab);
 		this.tabsDiv.add(tab);
 
@@ -661,16 +673,6 @@ export class UITab extends UIDiv {
 		};
 		this.add(this.button);
 	}
-
-	getTitle() {
-
-		return this.button.dom.title;
-	}
-
-	setTitle(text) {
-
-		this.button.dom.title = text;
-	}
 }
 
 /**
@@ -716,6 +718,22 @@ export class UIItem extends UIElement {
 		this.selected = false;
 	}
 
+	add() {
+		let len = 0;
+		const box = new UIDiv().setId("item-box");
+		for (let i = 0; i < arguments.length; i++) {
+			const argument = arguments[i];
+			if (argument instanceof UIList) {
+				super.add(argument);
+			} else {
+				box.add(argument);
+				len++;
+			}
+		}
+		if (len) super.add(box);
+		return this;
+	}
+
 	select() {
 
 		this.selected = true;
@@ -726,7 +744,21 @@ export class UIItem extends UIElement {
 	unselect() {
 
 		this.selected = false;
-		this.dom.removeAttribute("class");
+		this.removeAttribute("class");
 		return this;
+	}
+}
+
+/**
+ * UIBox
+ * @param {UIElement} items
+ */
+export class UIBox extends UIElement {
+
+	constructor(items) {
+
+		super("div");
+		this.setClass("box");
+		this.add(items);
 	}
 }

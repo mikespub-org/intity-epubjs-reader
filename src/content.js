@@ -4,55 +4,59 @@ export class Content {
 
 	constructor(reader) {
 
+		const settings = reader.settings;
 		const container = new UIDiv().setId("content");
-		container.dom.ontransitionend = (e) => {
 
-			reader.emit("sidebarreflow");
-			e.preventDefault();
-		};
+		let prev;
+		if (settings.arrows === "content") {
 
-		const prev = new UIDiv().setId("prev").setClass("arrow");
-		prev.dom.onclick = (e) => {
+			prev = new UIDiv().setId("prev").setClass("arrow");
+			prev.dom.onclick = (e) => {
 
-			reader.emit("prev");
-			e.preventDefault();
-		};
-		prev.add(new UISpan("<"));
-
-		const next = new UIDiv().setId("next").setClass("arrow");
-		next.dom.onclick = (e) => {
-
-			reader.emit("next");
-			e.preventDefault();
-		};
-		next.add(new UISpan(">"));
+				reader.emit("prev");
+				e.preventDefault();
+			};
+			prev.add(new UISpan("<"));
+			container.add(prev);
+		}
 
 		const viewer = new UIDiv().setId("viewer");
-		const divider = new UIDiv().setId("divider");
-		const loader = new UIDiv().setId("loader");
+		container.add(viewer);
 
-		container.add([prev, viewer, next, divider, loader]);
+		let next;
+		if (settings.arrows === "content") {
+			next = new UIDiv().setId("next").setClass("arrow");
+			next.dom.onclick = (e) => {
+
+				reader.emit("next");
+				e.preventDefault();
+			};
+			next.add(new UISpan(">"));
+			container.add(next);
+		}
+
+		const loader = new UIDiv().setId("loader");
+		const divider = new UIDiv().setId("divider");
+		const overlay = new UIDiv().setId("overlay");
+		overlay.dom.onclick = (e) => {
+			reader.emit("sidebaropener", false);
+			e.preventDefault();
+		};
+
+		container.add([loader, divider, overlay]);
 		document.body.appendChild(container.dom);
 
 		//-- events --//
 
 		reader.on("bookready", (cfg) => {
 
+			viewer.setClass(cfg.flow);
 			loader.dom.style.display = "block";
 		});
 
 		reader.on("bookloaded", () => {
 
 			loader.dom.style.display = "none";
-		});
-
-		reader.on("sidebaropener", (value) => {
-
-			if (value) {
-				container.addClass("closed");
-			} else {
-				container.removeClass("closed");
-			}
 		});
 
 		reader.on("layout", (props) => {
@@ -64,31 +68,46 @@ export class Content {
 			}
 		});
 
+		reader.on("flowchanged", (value) => {
+			
+			viewer.setClass(value);
+		});
+
 		reader.on("relocated", (location) => {
 
-			if (location.atStart) {
-				prev.addClass("disabled");
-			} else {
-				prev.removeClass("disabled");
-			}
-
-			if (location.atEnd) {
-				next.addClass("disabled");
-			} else {
-				next.removeClass("disabled");
+			if (settings.arrows === "content") {
+				if (location.atStart) {
+					prev.addClass("disabled");
+				} else {
+					prev.removeClass("disabled");
+				}
+				if (location.atEnd) {
+					next.addClass("disabled");
+				} else {
+					next.removeClass("disabled");
+				}
 			}
 		});
 
 		reader.on("prev", () => {
 
-			prev.addClass("active");
-			setTimeout(() => { prev.removeClass("active"); }, 100);
+			if (settings.arrows === "content") {
+				prev.addClass("active");
+				setTimeout(() => { prev.removeClass("active"); }, 100);
+			}
 		});
 
 		reader.on("next", () => {
 
-			next.addClass("active");
-			setTimeout(() => { next.removeClass("active"); }, 100);
+			if (settings.arrows === "content") {
+				next.addClass("active");
+				setTimeout(() => { next.removeClass("active"); }, 100);
+			}
+		});
+
+		reader.on("sidebaropener", (value) => {
+
+			overlay.dom.style.display = value ? "block" : "none";
 		});
 
 		reader.on("viewercleanup", () => {

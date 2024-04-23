@@ -1,9 +1,17 @@
 {
-    "name": "@mikespub/epubjs-reader",
-    "version": "2024.3.5",
-    "repository": "https://github.com/mikespub-org/intity-epubjs-reader",
+    "name": "epubreader-js",
+    "version": "0.3.2",
+    "homepage": "https://github.com/intity/epubreader-js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/intity/epubreader-js.git"
+    },
     "description": "ePub.js Reader",
-    "main": "src/main.js",
+    "bugs": {
+        "url": "https://github.com/intity/epubreader-js/issues"
+    },
+    "main": "src/reader.js",
+    "type": "module",
     "scripts": {
         "build": "webpack --mode=production --progress",
         "serve": "webpack serve",
