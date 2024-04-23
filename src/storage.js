@@ -2,9 +2,9 @@ export class Storage {
 
 	constructor() {
 
-		this.name = 'epubjs-reader';
+		this.name = "epubjs-reader";
 		this.version = 1.0;
-		this.database;
+		this.db;
 		this.indexedDB = window.indexedDB ||
 			window.webkitIndexedDB ||
 			window.mozIndexedDB ||
@@ -13,7 +13,7 @@ export class Storage {
 
 		if (this.indexedDB === undefined) {
 
-			alert('The IndexedDB API not available in your browser.');
+			alert("The IndexedDB API not available in your browser.");
 		}
 	}
 
@@ -24,78 +24,77 @@ export class Storage {
 			return;
 		}
 
-		const scope = this;
+		const time = Date.now();
+		const onerror = (e) => console.error("IndexedDB", e);
 		const request = indexedDB.open(this.name, this.version);
-		request.onupgradeneeded = function (event) {
+		request.onupgradeneeded = (e) => {
 
-			const db = event.target.result;
-			if (db.objectStoreNames.contains('entries') === false) {
-
+			const db = e.target.result;
+			if (db.objectStoreNames.contains("entries") === false) {
 				db.createObjectStore("entries");
 			}
-		};
-
-		request.onsuccess = function (event) {
-
-			scope.database = event.target.result;
-			scope.database.onerror = function (event) {
-
-				console.error('IndexedDB', event);
-			};
-			callback();
 		}
 
-		request.onerror = function (event) {
+		request.onsuccess = (e) => {
 
-			console.error('IndexedDB', event);
-		};
+			this.db = e.target.result;
+			this.db.onerror = onerror;
+			callback();
+			console.log(`storage.init: ${Date.now() - time} ms`);
+		}
+
+		request.onerror = onerror;
 	}
 
 	get(callback) {
 
-		if (this.database === undefined) {
+		if (this.db === undefined) {
 			callback();
 			return;
 		}
 
-		const transaction = this.database.transaction(['entries'], 'readwrite');
-		const objectStore = transaction.objectStore('entries');
+		const time = Date.now();
+		const transaction = this.db.transaction(["entries"], "readwrite");
+		const objectStore = transaction.objectStore("entries");
 		const request = objectStore.get(0);
-		request.onsuccess = function (event) {
+		request.onsuccess = (e) => {
 
-			callback(event.target.result);
-			console.log('storage.get');
-		};
+			callback(e.target.result);
+			console.log(`storage.get: ${Date.now() - time} ms`);
+		}
 	}
 
 	set(data, callback) {
 
-		if (this.database === undefined) {
+		if (this.db === undefined) {
 			callback();
 			return;
 		}
 
-		const transaction = this.database.transaction(['entries'], 'readwrite');
-		const objectStore = transaction.objectStore('entries');
+		const time = Date.now();
+		const transaction = this.db.transaction(["entries"], "readwrite");
+		const objectStore = transaction.objectStore("entries");
 		const request = objectStore.put(data, 0);
-		request.onsuccess = function () {
+		request.onsuccess = () => {
 
 			callback();
-			console.log('storage.set');
-		};
+			console.log(`storage.set: ${Date.now() - time} ms`);
+		}
 	}
 
 	clear() {
 
-		if (this.database === undefined)
+		if (this.db === undefined) {
 			return;
+		}
 
-		const transaction = this.database.transaction(['entries'], 'readwrite');
-		const objectStore = transaction.objectStore('entries');
+		const time = Date.now();
+		const transaction = this.db.transaction(["entries"], "readwrite");
+		const objectStore = transaction.objectStore("entries");
 		const request = objectStore.clear();
-		request.onsuccess = function () {
+		request.onsuccess = () => {
 
-			console.log('storage.clear');
-		};
+			console.log(`storage.clear: ${Date.now() - time} ms`);
+		}
 	}
 }

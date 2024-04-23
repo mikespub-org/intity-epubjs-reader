@@ -20,6 +20,14 @@
 
 	<!-- Reader -->
 	<script src="js/epubreader.js"></script>
+	<script type="text/javascript">
+		const url = new URL(window.location)
+		const path = url.searchParams.get("bookPath") || "https://s3.amazonaws.com/moby-dick/"
+		window.onload = (e) => {
+			epubreader.main(path)
+			e.stopPropagation()
+		}
+	</script>
 </head>
 
 <body>

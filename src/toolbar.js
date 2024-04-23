@@ -62,10 +62,10 @@ export class Toolbar {
 		if (settings.openbook) {
 			const onload = (e) => {
 
-				storage.clear();
-				storage.set(e.target.result, () => {
+				reader.storage.clear();
+				reader.storage.set(e.target.result, () => {
 					reader.unload();
-					reader.init(e.target.result, { restore: true });
+					reader.init(e.target.result);
 					const url = new URL(window.location.origin);
 					window.history.pushState({}, "", url);
 				});
@@ -73,7 +73,6 @@ export class Toolbar {
 			const onerror = (e) => {
 				console.error(e);
 			};
-			const storage = window.storage;
 			const openbookBox = new UIDiv().setId("btn-o").setClass("box");
 			openbookBtn = new UIInput("file");
 			openbookBtn.dom.title = strings.get(keys[3]);
