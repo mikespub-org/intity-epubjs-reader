@@ -1,27 +1,47 @@
 import EventEmitter from "event-emitter";
 
-import { Toolbar } from "./toolbar.js";
-import { Sidebar } from "./sidebar.js";
-import { Content } from "./content.js";
+import { extend, detectMobile } from "./utils.js";
+import { Storage } from "./storage.js";
 import { Strings } from "./strings.js";
+import { Toolbar } from "./toolbar.js";
+import { Content } from "./content.js";
+import { Sidebar } from "./sidebar.js";
+import { NoteDlg } from "./notedlg.js";
 
 export class Reader {
 
-	constructor(bookPath, _options) {
+	constructor(bookPath, settings) {
+
+		const preinit = (data) => {
+			const url = new URL(window.location);
+			let path = bookPath;
+			if (settings && !settings.openbook) {
+				path = bookPath;
+				if (data) this.storage.clear();
+			} else if (data && url.search.length === 0) {
+				path = data;
+			}
+			this.cfgInit(path, settings);
+			this.strings = new Strings(this);
+			this.toolbar = new Toolbar(this);
+			this.content = new Content(this);
+			this.sidebar = new Sidebar(this);
+			if (this.settings.annotations) {
+				this.notedlg = new NoteDlg(this);
+			}
+			this.init();
+		}
 
 		this.settings = undefined;
-		this.cfgInit(bookPath, _options);
+		this.isMobile = detectMobile();
+		this.storage = new Storage();
+		const openbook = settings && settings.openbook;
 
-		this.strings = new Strings(this);
-		this.toolbar = new Toolbar(this);
-		this.sidebar = new Sidebar(this);
-		this.content = new Content(this);
-
-		this.book = undefined;
-		this.rendition = undefined;
-		this.displayed = undefined;
-
-		this.init();
+		if (this.storage.indexedDB && (!settings || openbook)) {
+			this.storage.init(() => this.storage.get((data) => preinit(data)));
+		} else {
+			preinit();
+		}
 
 		window.onbeforeunload = this.unload.bind(this);
 		window.onhashchange = this.hashChanged.bind(this);
@@ -36,25 +56,27 @@ export class Reader {
 	/**
 	 * Initialize book.
 	 * @param {*} bookPath
-	 * @param {*} _options
+	 * @param {*} settings
 	 */
-	init(bookPath, _options) {
+	init(bookPath, settings) {
 
 		this.emit("viewercleanup");
 		this.navItems = {};
 
 		if (arguments.length > 0) {
 
-			this.cfgInit(bookPath, _options);
+			this.cfgInit(bookPath, settings);
 		}
 
 		this.book = ePub(this.settings.bookPath);
 		this.rendition = this.book.renderTo("viewer", {
+			manager: this.settings.manager,
 			flow: this.settings.flow,
 			spread: this.settings.spread.mod,
 			minSpreadWidth: this.settings.spread.min,
 			width: "100%",
-			height: "100%"
+			height: "100%",
+			snap: true
 		});
 
 		const cfi = this.settings.previousLocationCfi;
@@ -103,8 +125,10 @@ export class Reader {
 			this.emit("relocated", location);
 		});
 
+		this.rendition.on("keydown", this.keyboardHandler.bind(this));
+
 		this.on("prev", () => {
-			if (this.book.package.metadata.direction === 'rtl') {
+			if (this.book.package.metadata.direction === "rtl") {
 				this.rendition.next();
 			} else {
 				this.rendition.prev();
@@ -112,16 +136,11 @@ export class Reader {
 		});
 
 		this.on("next", () => {
-			if (this.book.package.metadata.direction === 'rtl') {
+			if (this.book.package.metadata.direction === "rtl") {
 				this.rendition.prev();
 			} else {
 				this.rendition.next();
 			}
-		});
-
-		this.on("sidebarreflow", () => {
-			// no implementation sidebarReflow setting
-			//this.rendition.resize();
 		});
 
 		this.on("languagechanged", (value) => {
@@ -132,7 +151,7 @@ export class Reader {
 			this.settings.flow = value;
 			this.rendition.flow(value);
 		});
-		
+
 		this.on("spreadchanged", (value) => {
 			const mod = value.mod || this.settings.spread.mod;
 			const min = value.min || this.settings.spread.min;
@@ -150,33 +169,13 @@ export class Reader {
 
 	/* ------------------------------- Common ------------------------------- */
 
-	defaults(obj) {
-
-		for (let i = 1, length = arguments.length; i < length; i++) {
-			const source = arguments[i];
-			for (let prop in source) {
-				if (obj[prop] === void 0)
-					obj[prop] = source[prop];
-			}
-		}
-		return obj;
-	}
-
-	uuid() {
-
-		let d = new Date().getTime();
-		const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-			let r = (d + Math.random() * 16) % 16 | 0;
-			d = Math.floor(d / 16);
-			return (c === 'x' ? r : (r & 0x7 | 0x8)).toString(16);
-		});
-		return uuid;
-	}
-
 	navItemFromCfi(cfi) {
 
+		// This feature was added to solve the problem of duplicate titles in 
+		// bookmarks. But this still has no solution because when reloading the 
+		// reader, rendition cannot get the range from the previously saved CFI.
 		const range = this.rendition.getRange(cfi);
-		const idref = range.startContainer.parentNode.id;
+		const idref = range ? range.startContainer.parentNode.id : undefined;
 		const location = this.rendition.currentLocation();
 		const href = location.start.href;
 		return this.navItems[href + "#" + idref] || this.navItems[href];
@@ -205,59 +204,41 @@ export class Reader {
 
 	/**
 	 * Initialize book settings.
-	 * @param {*} bookPath
-	 * @param {*} _options
+	 * @param {any} bookPath
+	 * @param {any} settings
 	 */
-	cfgInit(bookPath, _options) {
+	cfgInit(bookPath, settings) {
 
 		this.entryKey = md5(bookPath).toString();
-		this.settings = this.defaults(_options || {}, {
+		this.settings = {
 			bookPath: bookPath,
-			flow: undefined,
-			restore: false,
+			arrows: this.isMobile ? "none" : "content", // none | content | toolbar
+			manager: this.isMobile ? "continuous" : "default",
+			restore: true,
 			history: true,
-			reload: false, // ??
-			bookmarks: undefined,
-			annotations: undefined,
-			contained: undefined,
+			openbook: this.storage.indexedDB ? true : false,
+			language: "en",
 			sectionId: undefined,
-			spread: undefined,
-			styles: undefined,
-			pagination: false, // ??
-			language: undefined
-		});
-
-		if (this.settings.restore && this.isSaved()) {
-			this.applySavedSettings();
-		}
-
-		if (this.settings.bookmarks === undefined) {
-			this.settings.bookmarks = [];
-		}
-
-		if (this.settings.annotations === undefined) {
-			this.settings.annotations = [];
-		}
-
-		if (this.settings.flow === undefined) {
-			this.settings.flow = "paginated";
-		}
-
-		if (this.settings.spread === undefined) {
-			this.settings.spread = {
-				mod: "auto",
+			bookmarks: [],   // array | false
+			annotations: [], // array | false
+			flow: "paginated", // paginated | scrolled
+			spread: {
+				mod: "auto", // auto | none
 				min: 800
-			};
-		}
-
-		if (this.settings.styles === undefined) {
-			this.settings.styles = {
+			},
+			styles: {
 				fontSize: 100
-			};
-		}
+			},
+			pagination: undefined, // not implemented
+			fullscreen: document.fullscreenEnabled
+		};
 
-		if (this.settings.language === undefined) {
-			this.settings.language = "en";
+		extend(settings || {}, this.settings);
+
+		if (this.settings.restore) {
+			this.applySavedSettings(settings || {});
+		} else {
+			this.removeSavedSettings();
 		}
 	}
 
@@ -267,10 +248,7 @@ export class Reader {
 	 */
 	isSaved() {
 
-		if (!localStorage)
-			return false;
-
-		return localStorage.getItem(this.entryKey) !== null;
+		return localStorage && localStorage.getItem(this.entryKey) !== null;
 	}
 
 	/**
@@ -287,31 +265,25 @@ export class Reader {
 		return true;
 	}
 
-	applySavedSettings() {
+	/**
+	 * Applies saved settings from local storage.
+	 * @param {*} external External settings
+	 * @returns True if the settings were applied successfully, false otherwise.
+	 */
+	applySavedSettings(external) {
 
-		if (!localStorage)
+		if (!this.isSaved())
 			return false;
 
 		let stored;
 		try {
 			stored = JSON.parse(localStorage.getItem(this.entryKey));
-		} catch (e) { // parsing error of localStorage
+		} catch (e) {
 			console.exception(e);
 		}
 
 		if (stored) {
-			// Merge spread
-			if (stored.spread) {
-				this.settings.spread = this.defaults(this.settings.spread || {}, 
-					stored.spread);
-			}
-			// Merge styles
-			if (stored.styles) {
-				this.settings.styles = this.defaults(this.settings.styles || {},
-					stored.styles);
-			}
-			// Merge the rest
-			this.settings = this.defaults(this.settings, stored);
+			extend(stored, this.settings, external);
 			return true;
 		} else {
 			return false;
@@ -320,12 +292,19 @@ export class Reader {
 
 	/**
 	 * Saving the current book settings in local storage.
-	 * @returns
 	 */
 	saveSettings() {
 
 		this.settings.previousLocationCfi = this.rendition.location.start.cfi;
-		localStorage.setItem(this.entryKey, JSON.stringify(this.settings));
+		const cfg = Object.assign({}, this.settings);
+		delete cfg.arrows;
+		delete cfg.manager;
+		delete cfg.history;
+		delete cfg.restore;
+		delete cfg.openbook;
+		delete cfg.pagination;
+		delete cfg.fullscreen;
+		localStorage.setItem(this.entryKey, JSON.stringify(cfg));
 	}
 
 	setLocation(cfi) {
@@ -359,43 +338,30 @@ export class Reader {
 
 	keyboardHandler(e) {
 
-		const MOD = (e.ctrlKey || e.metaKey);
+		const step = 2;
+		let value = this.settings.styles.fontSize;
 
-		if (MOD) {
+		switch (e.key) {
 
-			const step = 2;
-			let value = this.settings.styles.fontSize;
-
-			switch (e.key) {
-
-				case '=':
-					e.preventDefault();
-					value += step;
-					this.emit("styleschanged", { fontSize: value });
-					break;
-				case '-':
-					e.preventDefault();
-					value -= step;
-					this.emit("styleschanged", { fontSize: value });
-					break;
-				case '0':
-					e.preventDefault();
-					value = 100;
-					this.emit("styleschanged", { fontSize: value });
-					break;
-			}
-		} else {
-
-			switch (e.key) {
-				case 'ArrowLeft':
-					this.emit('prev');
-					e.preventDefault();
-					break;
-				case 'ArrowRight':
-					this.emit('next');
-					e.preventDefault();
-					break;
-			}
+			case "=":
+			case "+":
+				value += step;
+				this.emit("styleschanged", { fontSize: value });
+				break;
+			case "-":
+				value -= step;
+				this.emit("styleschanged", { fontSize: value });
+				break;
+			case "0":
+				value = 100;
+				this.emit("styleschanged", { fontSize: value });
+				break;
+			case "ArrowLeft":
+				this.emit("prev");
+				break;
+			case "ArrowRight":
+				this.emit("next");
+				break;
 		}
 	}
 }

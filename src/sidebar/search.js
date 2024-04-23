@@ -1,4 +1,4 @@
-import { UIPanel, UIDiv, UIRow, UIInput, UILink, UIList, UIItem } from "../ui.js";
+import { UIPanel, UIDiv, UIInput, UILink, UIList, UIItem, UIBox } from "../ui.js";
 
 export class SearchPanel extends UIPanel {
 
@@ -9,11 +9,11 @@ export class SearchPanel extends UIPanel {
 		const strings = reader.strings;
 
 		let searchQuery = undefined;
-		const searchBox = new UIInput("search");
-		searchBox.dom.placeholder = strings.get("sidebar/search/placeholder");
-		searchBox.dom.onsearch = () => {
+		const search = new UIInput("search").setId("nav-q");
+		search.dom.placeholder = strings.get("sidebar/search/placeholder");
+		search.dom.onsearch = () => {
 
-			const value = searchBox.getValue();
+			const value = search.getValue();
 
 			if (value.length === 0) {
 				this.items.clear();
@@ -29,14 +29,12 @@ export class SearchPanel extends UIPanel {
 			searchQuery = value;
 		};
 
-		const ctrlRow = new UIRow();
-		ctrlRow.add(searchBox);
-
 		this.setId("search");
 		this.items = new UIList();
 		container.add(this.items);
-		this.add([ctrlRow, container]);
+		this.add([new UIBox(search), container]);
 		this.reader = reader;
+		this.selector = undefined;
 		//
 		// improvement of the highlighting of keywords is required...
 		//
@@ -62,6 +60,11 @@ export class SearchPanel extends UIPanel {
 		const item = new UIItem();
 		link.dom.onclick = () => {
 
+			if (this.selector && this.selector !== item)
+				this.selector.unselect();
+			
+			item.select();
+			this.selector = item;
 			this.reader.rendition.display(data.cfi);
 			return false;
 		};

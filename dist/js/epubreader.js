@@ -1,6 +1,4 @@
-/******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
-/******/ 	var __webpack_modules__ = ({
+/******/ var __webpack_modules__ = ({
 
 /***/ 263:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
@@ -519,70 +517,430 @@ module.exports = function (value) { return value !== _undefined && value !== nul
 
 /***/ })
 
-/******/ 	});
+/******/ });
 /************************************************************************/
-/******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
-/******/ 	
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
-/******/ 		if (cachedModule !== undefined) {
-/******/ 			return cachedModule.exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
-/******/ 			// no module.loaded needed
-/******/ 			exports: {}
-/******/ 		};
-/******/ 	
-/******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/ 	
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
+/******/ // The module cache
+/******/ var __webpack_module_cache__ = {};
+/******/ 
+/******/ // The require function
+/******/ function __webpack_require__(moduleId) {
+/******/ 	// Check if module is in cache
+/******/ 	var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 	if (cachedModule !== undefined) {
+/******/ 		return cachedModule.exports;
 /******/ 	}
-/******/ 	
+/******/ 	// Create a new module (and put it into the cache)
+/******/ 	var module = __webpack_module_cache__[moduleId] = {
+/******/ 		// no module.id needed
+/******/ 		// no module.loaded needed
+/******/ 		exports: {}
+/******/ 	};
+/******/ 
+/******/ 	// Execute the module function
+/******/ 	__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 
+/******/ 	// Return the exports of the module
+/******/ 	return module.exports;
+/******/ }
+/******/ 
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
+/******/ /* webpack/runtime/define property getters */
+/******/ (() => {
+/******/ 	// define getter functions for harmony exports
+/******/ 	__webpack_require__.d = (exports, definition) => {
+/******/ 		for(var key in definition) {
+/******/ 			if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 				Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
+/******/ 		}
+/******/ 	};
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/hasOwnProperty shorthand */
+/******/ (() => {
+/******/ 	__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ })();
+/******/ 
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  m: () => (/* binding */ Reader)
+});
+
 // EXTERNAL MODULE: ./node_modules/event-emitter/index.js
 var event_emitter = __webpack_require__(68);
-var event_emitter_default = /*#__PURE__*/__webpack_require__.n(event_emitter);
+;// CONCATENATED MODULE: ./src/utils.js
+const d = (obj, prop) => obj ? obj[prop] : undefined
+
+const q = (src, dst, ext, prop) => {
+    let val
+    if (typeof dst[prop] === "boolean") {
+        switch (prop) {
+            case "annotations":
+            case "bookmarks":
+                val = dst[prop] ? src[prop] : dst[prop]
+                break;
+            default:
+                val = dst[prop]
+                break;
+        }
+    } else if (prop === "arrows") {
+        val = dst[prop]
+    } else {
+        val = d(ext, prop) === undefined ? src[prop] : dst[prop]
+    }
+    return val
+}
+
+const extend = (src, dst, ext) => {
+    for (let prop in src) {
+        if (prop === "bookPath") {
+            continue
+        } else if (dst[prop] instanceof Array) {
+            dst[prop] = ext ? (src[prop] ? src[prop] : dst[prop]) : src[prop]
+        } else if (dst[prop] instanceof Object) {
+            extend(src[prop], dst[prop], d(ext, prop)) // recursive call
+        } else {
+            dst[prop] = ext ? q(src, dst, ext, prop) : src[prop]
+        }
+    }
+}
+
+const uuid = () => {
+    let d = new Date().getTime()
+    const uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+        let r = (d + Math.random() * 16) % 16 | 0
+        d = Math.floor(d / 16)
+        return (c === "x" ? r : (r & 0x7 | 0x8)).toString(16)
+    })
+    return uuid
+}
+
+const detectMobile = () => {
+    const matches = [
+        /Android/i,
+        /BlackBerry/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /Windows Phone/i,
+        /webOS/i
+    ]
+    return matches.some((i) => navigator.userAgent.match(i))
+}
+;// CONCATENATED MODULE: ./src/storage.js
+class Storage {
+
+	constructor() {
+
+		this.name = "epubreader-js";
+		this.version = 1.0;
+		this.db;
+		this.indexedDB = window.indexedDB ||
+			window.webkitIndexedDB ||
+			window.mozIndexedDB ||
+			window.OIndexedDB ||
+			window.msIndexedDB;
+
+		if (this.indexedDB === undefined) {
+
+			console.error("The IndexedDB API not available in your browser.");
+		}
+	}
+
+	init(callback) {
+
+		if (this.indexedDB === undefined) {
+			callback();
+			return;
+		}
+
+		const time = Date.now();
+		const onerror = (e) => console.error("IndexedDB", e);
+		const request = indexedDB.open(this.name, this.version);
+		request.onupgradeneeded = (e) => {
+
+			const db = e.target.result;
+			if (db.objectStoreNames.contains("entries") === false) {
+				db.createObjectStore("entries");
+			}
+		}
+
+		request.onsuccess = (e) => {
+
+			this.db = e.target.result;
+			this.db.onerror = onerror;
+			callback();
+			console.log(`storage.init: ${Date.now() - time} ms`);
+		}
+
+		request.onerror = onerror;
+	}
+
+	get(callback) {
+
+		if (this.db === undefined) {
+			callback();
+			return;
+		}
+
+		const time = Date.now();
+		const transaction = this.db.transaction(["entries"], "readwrite");
+		const objectStore = transaction.objectStore("entries");
+		const request = objectStore.get(0);
+		request.onsuccess = (e) => {
+
+			callback(e.target.result);
+			console.log(`storage.get: ${Date.now() - time} ms`);
+		}
+	}
+
+	set(data, callback) {
+
+		if (this.db === undefined) {
+			callback();
+			return;
+		}
+
+		const time = Date.now();
+		const transaction = this.db.transaction(["entries"], "readwrite");
+		const objectStore = transaction.objectStore("entries");
+		const request = objectStore.put(data, 0);
+		request.onsuccess = () => {
+
+			callback();
+			console.log(`storage.set: ${Date.now() - time} ms`);
+		}
+	}
+
+	clear() {
+
+		if (this.db === undefined) {
+			return;
+		}
+
+		const time = Date.now();
+		const transaction = this.db.transaction(["entries"], "readwrite");
+		const objectStore = transaction.objectStore("entries");
+		const request = objectStore.clear();
+		request.onsuccess = () => {
+
+			console.log(`storage.clear: ${Date.now() - time} ms`);
+		}
+	}
+}
+;// CONCATENATED MODULE: ./src/strings.js
+class Strings {
+
+	constructor(reader) {
+
+		this.language = reader.settings.language || "en";
+		this.values = {
+			en: {
+				"toolbar/sidebar": "Sidebar",
+				"toolbar/prev": "Previous page",
+				"toolbar/next": "Next page",
+				"toolbar/openbook": "Open book",
+				"toolbar/openbook/error": "Your browser does not support the required features.\nPlease use a modern browser such as Google Chrome, or Mozilla Firefox.",
+				"toolbar/bookmark": "Add this page to bookmarks",
+				"toolbar/fullscreen": "Fullscreen",
+
+				"sidebar/close": "Close Sidebar",
+				"sidebar/contents": "Contents",
+				"sidebar/bookmarks": "Bookmarks",
+				"sidebar/bookmarks/add": "Add",
+				"sidebar/bookmarks/remove": "Remove",
+				"sidebar/bookmarks/clear": "Clear",
+				"sidebar/annotations": "Annotations",
+				"sidebar/annotations/add": "Add",
+				"sidebar/annotations/remove": "Remove",
+				"sidebar/annotations/clear": "Clear",
+				"sidebar/annotations/anchor": "Anchor",
+				"sidebar/annotations/cancel": "Cancel",
+				"sidebar/search": "Search",
+				"sidebar/search/placeholder": "Search",
+				"sidebar/settings": "Settings",
+				"sidebar/settings/language": "Language",
+				"sidebar/settings/fontsize": "Font size (%)",
+				"sidebar/settings/flow": "Flow",
+				"sidebar/settings/pagination": ["Pagination", "Generate pagination"],
+				"sidebar/settings/spread": "Spread",
+				"sidebar/settings/spread/minwidth": "Minimum spread width",
+				"sidebar/metadata": "Metadata",
+				"sidebar/metadata/title": "Title",
+				"sidebar/metadata/creator": "Creator",
+				"sidebar/metadata/description": "Description",
+				"sidebar/metadata/pubdate": "Pubdate",
+				"sidebar/metadata/publisher": "Publisher",
+				"sidebar/metadata/identifier": "Identifier",
+				"sidebar/metadata/language": "Language",
+				"sidebar/metadata/rights": "Rights",
+				"sidebar/metadata/modified_date": "Modified date",
+				"sidebar/metadata/layout": "Layout", // rendition:layout
+				"sidebar/metadata/flow": "Flow", // rendition:flow
+				"sidebar/metadata/spread": "Spread", // rendition:spread
+				"sidebar/metadata/direction": "Direction", // page-progression-direction
+
+				"notedlg/label": "Note",
+				"notedlg/add": "Add"
+			},
+			fr: {
+				"toolbar/sidebar": "Barre latérale",
+				"toolbar/prev": "???",
+				"toolbar/next": "???",
+				"toolbar/openbook": "Ouvrir un livre local",
+				"toolbar/openbook/error": "Votre navigateur ne prend pas en charge les fonctions nécessaires.\nVeuillez utiliser un navigateur moderne tel que Google Chrome ou Mozilla Firefox.",
+				"toolbar/bookmark": "Insérer un marque page ici",
+				"toolbar/fullscreen": "Plein écran",
+
+				"sidebar/close": "???",
+				"sidebar/contents": "Sommaire",
+				"sidebar/bookmarks": "Marque-pages",
+				"sidebar/bookmarks/add": "Ajouter",
+				"sidebar/bookmarks/remove": "Retirer",
+				"sidebar/bookmarks/clear": "Tout enlever",
+				"sidebar/annotations": "Annotations",
+				"sidebar/annotations/add": "Ajouter",
+				"sidebar/annotations/remove": "Retirer",
+				"sidebar/annotations/clear": "Tout enlever",
+				"sidebar/annotations/anchor": "Ancre",
+				"sidebar/annotations/cancel": "Annuler",
+				"sidebar/search": "Rechercher",
+				"sidebar/search/placeholder": "rechercher",
+				"sidebar/settings": "Réglages",
+				"sidebar/settings/language": "Langue",
+				"sidebar/settings/fontsize": "???",
+				"sidebar/settings/flow": "???",
+				"sidebar/settings/pagination": ["Pagination", "Établir une pagination"],
+				"sidebar/settings/spread": "???",
+				"sidebar/settings/spread/minwidth": "???",
+				"sidebar/metadata": "???",
+				"sidebar/metadata/title": "???",
+				"sidebar/metadata/creator": "???",
+				"sidebar/metadata/description": "???",
+				"sidebar/metadata/pubdate": "???",
+				"sidebar/metadata/publisher": "???",
+				"sidebar/metadata/identifier": "???",
+				"sidebar/metadata/language": "Langue",
+				"sidebar/metadata/rights": "???",
+				"sidebar/metadata/modified_date": "???",
+				"sidebar/metadata/layout": "???",
+				"sidebar/metadata/flow": "???",
+				"sidebar/metadata/spread": "???",
+				"sidebar/metadata/direction": "???",
+
+				"notedlg/label": "???",
+				"notedlg/add": "Ajouter"
+			},
+			ja: {
+				"toolbar/sidebar": "サイドバー",
+				"toolbar/prev": "???",
+				"toolbar/next": "???",
+				"toolbar/openbook": "本を開く",
+				"toolbar/openbook/error": "ご利用のブラウザは必要な機能をサポートしていません。\nGoogle Chrome、Mozilla Firefox、その他のモダンなブラウザでご利用ください。",
+				"toolbar/bookmark": "このページに栞を設定する",
+				"toolbar/fullscreen": "フルスクリーン",
+
+				"sidebar/close": "???",
+				"sidebar/contents": "目次",
+				"sidebar/bookmarks": "栞",
+				"sidebar/bookmarks/add": "追加",
+				"sidebar/bookmarks/remove": "削除",
+				"sidebar/bookmarks/clear": "クリア",
+				"sidebar/annotations": "注釈",
+				"sidebar/annotations/add": "追加",
+				"sidebar/bookmarks/remove": "削除",
+				"sidebar/annotations/clear": "クリア",
+				"sidebar/annotations/anchor": "アンカー",
+				"sidebar/annotations/cancel": "キャンセル",
+				"sidebar/search": "検索",
+				"sidebar/search/placeholder": "検索",
+				"sidebar/settings": "設定",
+				"sidebar/settings/language": "表示言語",
+				"sidebar/settings/fontsize": "???",
+				"sidebar/settings/flow": "???",
+				"sidebar/settings/pagination": ["ページネーション", "ページネーションを生成します。"],
+				"sidebar/settings/spread": "???",
+				"sidebar/settings/spread/minwidth": "???",
+				"sidebar/metadata": "???",
+				"sidebar/metadata/title": "???",
+				"sidebar/metadata/creator": "???",
+				"sidebar/metadata/description": "???",
+				"sidebar/metadata/pubdate": "???",
+				"sidebar/metadata/publisher": "???",
+				"sidebar/metadata/identifier": "???",
+				"sidebar/metadata/language": "表示言語",
+				"sidebar/metadata/rights": "???",
+				"sidebar/metadata/modified_date": "???",
+				"sidebar/metadata/layout": "???",
+				"sidebar/metadata/flow": "???",
+				"sidebar/metadata/spread": "???",
+				"sidebar/metadata/direction": "???",
+
+				"notedlg/label": "???",
+				"notedlg/add": "追加"
+			},
+			ru: {
+				"toolbar/sidebar": "Боковая панель",
+				"toolbar/prev": "Предыдущая страница",
+				"toolbar/next": "Следущая страница",
+				"toolbar/openbook": "Открыть книгу",
+				"toolbar/openbook/error": "Ваш браузер не поддерживает необходимые функции.\nПожалуйста, используйте современный браузер, такой как Google Chrome или Mozilla Firefox.",
+				"toolbar/bookmark": "Добавить эту страницу в закладки",
+				"toolbar/fullscreen": "Полноэкранный режим",
+
+				"sidebar/close": "Закрыть боковую панель",
+				"sidebar/contents": "Содержание",
+				"sidebar/bookmarks": "Закладки",
+				"sidebar/bookmarks/add": "Добавить",
+				"sidebar/bookmarks/remove": "Удалить",
+				"sidebar/bookmarks/clear": "Очистить",
+				"sidebar/annotations": "Аннотации",
+				"sidebar/annotations/add": "Добавить",
+				"sidebar/annotations/remove": "Удалить",
+				"sidebar/annotations/clear": "Очистить",
+				"sidebar/annotations/anchor": "Метка",
+				"sidebar/annotations/cancel": "Отмена",
+				"sidebar/search": "Поиск",
+				"sidebar/search/placeholder": "Поиск",
+				"sidebar/settings": "Настройки",
+				"sidebar/settings/language": "Язык",
+				"sidebar/settings/fontsize": "Размер шрифта",
+				"sidebar/settings/flow": "Поток",
+				"sidebar/settings/pagination": ["Нумерация страниц", "Генерировать нумерацию страниц"],
+				"sidebar/settings/spread": "Разворот",
+				"sidebar/settings/spread/minwidth": "Мин. ширина колонки",
+				"sidebar/metadata": "Метаданные",
+				"sidebar/metadata/title": "Заголовок",
+				"sidebar/metadata/creator": "Автор",
+				"sidebar/metadata/description": "Описание",
+				"sidebar/metadata/pubdate": "Дата публикации",
+				"sidebar/metadata/publisher": "Издатель",
+				"sidebar/metadata/identifier": "Идентификатор",
+				"sidebar/metadata/language": "Язык",
+				"sidebar/metadata/rights": "Лицензия",
+				"sidebar/metadata/modified_date": "Дата изменения",
+				"sidebar/metadata/layout": "Макет",
+				"sidebar/metadata/flow": "Поток",
+				"sidebar/metadata/spread": "Разворот",
+				"sidebar/metadata/direction": "Направление",
+
+				"notedlg/label": "Заметка",
+				"notedlg/add": "Добавить"
+			}
+		};
+
+		reader.on("languagechanged", (value) => {
+			this.language = value;
+		});
+	}
+
+	get(key) { return this.values[this.language][key] || "???"; }
+}
 ;// CONCATENATED MODULE: ./src/ui.js
 /**
  * @author mrdoob https://github.com/mrdoob/ui.js
@@ -674,6 +1032,12 @@ class UIElement {
 		return this.dom.id;
 	}
 
+	removeAttribute(name) {
+
+		this.dom.removeAttribute(name);
+		return this;
+	}
+
 	setClass(name) {
 
 		this.dom.className = name;
@@ -698,9 +1062,27 @@ class UIElement {
 		return this;
 	}
 
+	getTitle() {
+
+		return this.dom.title;
+	}
+
+	setTitle(title) {
+
+		if (this.dom.title !== title && title)
+			this.dom.title = title;
+		return this;
+	}
+
+	getTextContent() {
+
+		return this.dom.textContent;
+	}
+
 	setTextContent(text) {
 
-		this.dom.textContent = text;
+		if (this.dom.textContent !== text && text)
+			this.dom.textContent = text;
 		return this;
 	}
 
@@ -930,18 +1312,6 @@ class UIInput extends UIElement {
 		return this;
 	}
 
-	getTitle() {
-
-		return this.dom.title;
-	}
-
-	setTitle(title) {
-
-		if (this.dom.title !== title && title)
-			this.dom.title = title;
-		return this;
-	}
-
 	getType() {
 
 		return this.dom.type;
@@ -960,7 +1330,7 @@ class UIInput extends UIElement {
 
 	setValue(value) {
 
-		if (this.dom.value !== value && value)
+		if (this.dom.value !== value && value !== undefined)
 			this.dom.value = value;
 		return this;
 	}
@@ -1073,12 +1443,6 @@ class UINumber extends UIElement {
 		return this;
 	}
 
-	setTitle(text) {
-
-		this.dom.title = text;
-		return this;
-	}
-
 	getValue() {
 
 		return parseFloat(this.dom.value);
@@ -1157,19 +1521,25 @@ class UITabbedPanel extends UIDiv {
 		this.tabs = [];
 		this.panels = [];
 		this.selector = new UISpan().setClass("tab-selector");
+		this.menuDiv = new UIDiv().setClass("menu");
 		this.tabsDiv = new UIDiv().setClass("tabs");
 		this.tabsDiv.add(this.selector);
 		this.panelsDiv = new UIDiv().setClass("panels");
 		this.selected = "";
+		this.add(this.menuDiv);
 		this.add(this.tabsDiv);
 		this.add(this.panelsDiv);
+	}
+
+	addMenu(items) {
+		this.menuDiv.add(items);
 	}
 
 	addTab(id, label, items) {
 
 		const tab = new UITab(label, this);
 		tab.setId(id);
-		tab.setClass("tab");
+		tab.setClass("box");
 		this.tabs.push(tab);
 		this.tabsDiv.add(tab);
 
@@ -1247,16 +1617,6 @@ class UITab extends UIDiv {
 		};
 		this.add(this.button);
 	}
-
-	getTitle() {
-
-		return this.button.dom.title;
-	}
-
-	setTitle(text) {
-
-		this.button.dom.title = text;
-	}
 }
 
 /**
@@ -1302,6 +1662,22 @@ class UIItem extends UIElement {
 		this.selected = false;
 	}
 
+	add() {
+		let len = 0;
+		const box = new UIDiv().setId("item-box");
+		for (let i = 0; i < arguments.length; i++) {
+			const argument = arguments[i];
+			if (argument instanceof UIList) {
+				super.add(argument);
+			} else {
+				box.add(argument);
+				len++;
+			}
+		}
+		if (len) super.add(box);
+		return this;
+	}
+
 	select() {
 
 		this.selected = true;
@@ -1312,8 +1688,22 @@ class UIItem extends UIElement {
 	unselect() {
 
 		this.selected = false;
-		this.dom.removeAttribute("class");
+		this.removeAttribute("class");
 		return this;
+	}
+}
+
+/**
+ * UIBox
+ * @param {UIElement} items
+ */
+class UIBox extends UIElement {
+
+	constructor(items) {
+
+		super("div");
+		this.setClass("box");
+		this.add(items);
 	}
 }
 ;// CONCATENATED MODULE: ./src/toolbar.js
@@ -1324,89 +1714,130 @@ class Toolbar {
 	constructor(reader) {
 
 		const strings = reader.strings;
+		const settings = reader.settings;
 
 		const container = new UIDiv().setId("toolbar");
 		const keys = [
-			"toolbar/opener",
+			"toolbar/sidebar",
+			"toolbar/prev",
+			"toolbar/next",
 			"toolbar/openbook",
 			"toolbar/openbook/error",
 			"toolbar/bookmark",
-			"toolbar/fullsceen"
+			"toolbar/fullscreen"
 		];
+		const menu1 = new UIDiv().setClass("menu-1");
+		const openerBox = new UIDiv().setId("btn-m").setClass("box");
+		const openerBtn = new UIInput("button");
+		openerBtn.dom.title = strings.get(keys[0]);
+		openerBtn.dom.onclick = (e) => {
 
-		const start = new UIPanel().setId("start");
-		const opener = new UIInput("button").setId("btn-s");
-		opener.dom.title = strings.get(keys[0]);
-		opener.dom.onclick = () => {
-
-			const isOpen = opener.dom.classList.length > 0;
-
-			reader.emit("sidebaropener", !isOpen);
-
-			if (!isOpen) {
-				opener.addClass("open");
-			} else {
-				opener.removeClass("open");
-			}
+			reader.emit("sidebaropener", true);
+			openerBtn.dom.blur();
+			e.preventDefault();
 		};
+		openerBox.add(openerBtn);
+		menu1.add(openerBox);
 
-		start.add(opener);
+		let prevBox, prevBtn;
+		let nextBox, nextBtn;
+		if (settings.arrows === "toolbar") {
+			prevBox = new UIDiv().setId("btn-p").setClass("box");
+			prevBtn = new UIInput("button");
+			prevBtn.setTitle(strings.get(keys[1]));
+			prevBtn.dom.onclick = (e) => {
 
-		const onload = (e) => {
+				reader.emit("prev");
+				e.preventDefault();
+				prevBtn.dom.blur();
+			};
+			prevBox.add(prevBtn);
+			menu1.add(prevBox);
 
-			storage.clear();
-			storage.set(e.target.result, () => {
-				reader.unload();
-				reader.init(e.target.result, { restore: true });
-				const url = new URL(window.location.origin);
-				window.history.pushState({}, "", url);
-			});
-		};
-		const onerror = (e) => {
-			console.error(e);
-		};
-		const storage = window.storage;
-		const end = new UIPanel().setId("end");
-		const openbook = new UIInput("file").setId("btn-o");
-		openbook.dom.title = strings.get(keys[1]);
-		openbook.dom.accept = "application/epub+zip";
-		openbook.dom.onchange = (e) => {
+			nextBox = new UIDiv().setId("btn-n").setClass("box");
+			nextBtn = new UIInput("button");
+			nextBtn.dom.title = strings.get(keys[2]);
+			nextBtn.dom.onclick = (e) => {
 
-			if (e.target.files.length === 0)
-				return;
+				reader.emit("next");
+				e.preventDefault();
+				nextBtn.dom.blur();
+			};
+			nextBox.add(nextBtn);
+			menu1.add(nextBox);
+		}
 
-			if (window.FileReader) {
+		const menu2 = new UIDiv().setClass("menu-2");
+		let openbookBtn;
+		if (settings.openbook) {
+			const onload = (e) => {
 
-				const fr = new FileReader();
-				fr.onload = onload;
-				fr.readAsArrayBuffer(e.target.files[0]);
-				fr.onerror = onerror;
-			} else {
-				alert(strings.get(keys[2]));
-			}
-		};
+				reader.storage.clear();
+				reader.storage.set(e.target.result, () => {
+					reader.unload();
+					reader.init(e.target.result);
+					const url = new URL(window.location.origin);
+					window.history.pushState({}, "", url);
+				});
+			};
+			const onerror = (e) => {
+				console.error(e);
+			};
+			const openbookBox = new UIDiv().setId("btn-o").setClass("box");
+			openbookBtn = new UIInput("file");
+			openbookBtn.dom.title = strings.get(keys[3]);
+			openbookBtn.dom.accept = "application/epub+zip";
+			openbookBtn.dom.onchange = (e) => {
 
-		end.add(openbook);
+				if (e.target.files.length === 0)
+					return;
 
-		const bookmark = new UIInput("button").setId("btn-b");
-		bookmark.dom.title = strings.get(keys[3]);
-		bookmark.dom.onclick = (e) => {
+				if (window.FileReader) {
 
-			const cfi = this.locationCfi;
-			const val = reader.isBookmarked(cfi) === -1;
-			reader.emit("bookmarked", val);
-		};
+					const fr = new FileReader();
+					fr.onload = onload;
+					fr.readAsArrayBuffer(e.target.files[0]);
+					fr.onerror = onerror;
+				} else {
+					alert(strings.get(keys[4]));
+				}
 
-		end.add(bookmark);
+			};
+			openbookBtn.dom.onclick = (e) => {
 
-		let fullscreen = null;
-		if (document.fullscreenEnabled) {
+				openbookBtn.dom.blur();
+			};
+			openbookBox.add(openbookBtn);
+			menu2.add(openbookBox);
+		}
 
-			fullscreen = new UIInput("button").setId("btn-f");
-			fullscreen.dom.title = strings.get(keys[4]);
-			fullscreen.dom.onclick = (e) => {
+		let bookmarkBox, bookmarkBtn;
+		if (settings.bookmarks) {
+			bookmarkBox = new UIDiv().setId("btn-b").setClass("box");
+			bookmarkBtn = new UIInput("button");
+			bookmarkBtn.setTitle(strings.get(keys[5]));
+			bookmarkBtn.dom.onclick = (e) => {
+
+				const cfi = this.locationCfi;
+				const val = reader.isBookmarked(cfi) === -1;
+				reader.emit("bookmarked", val);
+				e.preventDefault();
+				bookmarkBtn.dom.blur();
+			};
+			bookmarkBox.add(bookmarkBtn);
+			menu2.add(bookmarkBox);
+		}
+
+		let fullscreenBtn;
+		if (settings.fullscreen) {
+
+			const fullscreenBox = new UIDiv().setId("btn-f").setClass("box");
+			fullscreenBtn = new UIInput("button");
+			fullscreenBtn.setTitle(strings.get(keys[6]));
+			fullscreenBtn.dom.onclick = (e) => {
 
 				this.toggleFullScreen();
+				e.preventDefault();
 			};
 
 			document.onkeydown = (e) => {
@@ -1418,54 +1849,68 @@ class Toolbar {
 			};
 
 			document.onfullscreenchange = (e) => {
-				
+
 				const w = window.screen.width === e.target.clientWidth;
 				const h = window.screen.height === e.target.clientHeight;
 
 				if (w && h) {
-					fullscreen.addClass("resize-small");
+					fullscreenBox.addClass("resize-small");
 				} else {
-					fullscreen.removeClass("resize-small");
+					fullscreenBox.removeClass("resize-small");
 				}
 			};
-
-			end.add(fullscreen);
+			fullscreenBox.add(fullscreenBtn);
+			menu2.add(fullscreenBox);
 		}
 
-		container.add([start, end]);
+		container.add([menu1, menu2]);
 		document.body.appendChild(container.dom);
 
 		//-- events --//
 
 		reader.on("relocated", (location) => {
 
-			const cfi = location.start.cfi;
-			const val = reader.isBookmarked(cfi) === -1;
-			if (val) {
-				bookmark.removeClass("bookmarked");
-			} else {
-				bookmark.addClass("bookmarked");
+			if (settings.bookmarks) {
+				const cfi = location.start.cfi;
+				const val = reader.isBookmarked(cfi) === -1;
+				if (val) {
+					bookmarkBox.removeClass("bookmarked");
+				} else {
+					bookmarkBox.addClass("bookmarked");
+				}
+				this.locationCfi = cfi; // save location cfi
 			}
-			this.locationCfi = cfi; // save location cfi
+			if (settings.arrows === "toolbar") {
+				prevBox.dom.style.display = location.atStart ? "none" : "block";
+				nextBox.dom.style.display = location.atEnd ? "none" : "block";
+			}
 		});
 
 		reader.on("bookmarked", (boolean) => {
 
 			if (boolean) {
-				bookmark.addClass("bookmarked");
+				bookmarkBox.addClass("bookmarked");
 			} else {
-				bookmark.removeClass("bookmarked");
+				bookmarkBox.removeClass("bookmarked");
 			}
 		});
 
 		reader.on("languagechanged", (value) => {
 
-			opener.dom.title = strings.get(keys[0]);
-			openbook.dom.title = strings.get(keys[1]);
-			bookmark.dom.title = strings.get(keys[3]);
+			openerBtn.setTitle(strings.get(keys[0]));
 
-			if (fullscreen) {
-				fullscreen.dom.title = strings.get(keys[4]);
+			if (settings.arrows === "toolbar") {
+				prevBtn.setTitle(strings.get(keys[1]));
+				nextBtn.setTitle(strings.get(keys[2]));
+			}
+			if (settings.openbook) {
+				openbookBtn.setTitle(strings.get(keys[3]));
+			}
+			if (settings.bookmarks) {
+				bookmarkBtn.setTitle(strings.get(keys[5]));
+			}
+			if (settings.fullscreen) {
+				fullscreenBtn.setTitle(strings.get(keys[6]));
 			}
 		});
 	}
@@ -1481,7 +1926,125 @@ class Toolbar {
 		}
 	}
 }
+;// CONCATENATED MODULE: ./src/content.js
 
+
+class Content {
+
+	constructor(reader) {
+
+		const settings = reader.settings;
+		const container = new UIDiv().setId("content");
+
+		let prev;
+		if (settings.arrows === "content") {
+
+			prev = new UIDiv().setId("prev").setClass("arrow");
+			prev.dom.onclick = (e) => {
+
+				reader.emit("prev");
+				e.preventDefault();
+			};
+			prev.add(new UISpan("<"));
+			container.add(prev);
+		}
+
+		const viewer = new UIDiv().setId("viewer");
+		container.add(viewer);
+
+		let next;
+		if (settings.arrows === "content") {
+			next = new UIDiv().setId("next").setClass("arrow");
+			next.dom.onclick = (e) => {
+
+				reader.emit("next");
+				e.preventDefault();
+			};
+			next.add(new UISpan(">"));
+			container.add(next);
+		}
+
+		const loader = new UIDiv().setId("loader");
+		const divider = new UIDiv().setId("divider");
+		const overlay = new UIDiv().setId("overlay");
+		overlay.dom.onclick = (e) => {
+			reader.emit("sidebaropener", false);
+			e.preventDefault();
+		};
+
+		container.add([loader, divider, overlay]);
+		document.body.appendChild(container.dom);
+
+		//-- events --//
+
+		reader.on("bookready", (cfg) => {
+
+			viewer.setClass(cfg.flow);
+			loader.dom.style.display = "block";
+		});
+
+		reader.on("bookloaded", () => {
+
+			loader.dom.style.display = "none";
+		});
+
+		reader.on("layout", (props) => {
+
+			if (props.spread && props.width > props.spreadWidth) {
+				divider.dom.style.display = "block";
+			} else {
+				divider.dom.style.display = "none";
+			}
+		});
+
+		reader.on("flowchanged", (value) => {
+			
+			viewer.setClass(value);
+		});
+
+		reader.on("relocated", (location) => {
+
+			if (settings.arrows === "content") {
+				if (location.atStart) {
+					prev.addClass("disabled");
+				} else {
+					prev.removeClass("disabled");
+				}
+				if (location.atEnd) {
+					next.addClass("disabled");
+				} else {
+					next.removeClass("disabled");
+				}
+			}
+		});
+
+		reader.on("prev", () => {
+
+			if (settings.arrows === "content") {
+				prev.addClass("active");
+				setTimeout(() => { prev.removeClass("active"); }, 100);
+			}
+		});
+
+		reader.on("next", () => {
+
+			if (settings.arrows === "content") {
+				next.addClass("active");
+				setTimeout(() => { next.removeClass("active"); }, 100);
+			}
+		});
+
+		reader.on("sidebaropener", (value) => {
+
+			overlay.dom.style.display = value ? "block" : "none";
+		});
+
+		reader.on("viewercleanup", () => {
+
+			viewer.clear();
+		});
+	}
+}
 ;// CONCATENATED MODULE: ./src/sidebar/toc.js
 
 
@@ -1491,9 +2054,15 @@ class TocPanel extends UIPanel {
 
 		super();
 		const container = new UIDiv().setClass("list-container");
-		this.setId("contents");
+		const strings = reader.strings;
+		const keys = [
+			"sidebar/contents"
+		];
+		const label = new UIText(strings.get(keys[0])).setClass("label");
 		this.reader = reader;
 		this.selector = undefined; // save reference to selected tree item
+		this.setId("contents");
+		this.add(new UIBox(label).addClass("header"));
 
 		//-- events --//
 
@@ -1502,6 +2071,11 @@ class TocPanel extends UIPanel {
 			container.clear();
 			container.add(this.generateToc(toc));
 			this.add(container);
+		});
+
+		reader.on("languagechanged", (value) => {
+
+			label.setValue(strings.get(keys[0]));
 		});
 	}
 
@@ -1513,9 +2087,9 @@ class TocPanel extends UIPanel {
 
 			const link = new UILink(chapter.href, chapter.label);
 			const item = new UIItem(list).setId(chapter.id);
-			const tbox = new UIDiv().setId("expander");
+			const ibtn = new UISpan();
 
-			link.dom.onclick = () => {
+			link.dom.onclick = (e) => {
 
 				if (this.selector && this.selector !== item)
 					this.selector.unselect();
@@ -1524,9 +2098,9 @@ class TocPanel extends UIPanel {
 				this.selector = item;
 				this.reader.settings.sectionId = chapter.id;
 				this.reader.rendition.display(chapter.href);
-				return false;
+				e.preventDefault();
 			};
-			item.add([tbox, link]);
+			item.add([ibtn, link]);
 			this.reader.navItems[chapter.href] = {
 				id: chapter.id,
 				label: chapter.label
@@ -1541,19 +2115,18 @@ class TocPanel extends UIPanel {
 			if (chapter.subitems && chapter.subitems.length > 0) {
 
 				const subItems = this.generateToc(chapter.subitems, item);
-				const tbtn = new UISpan().setClass("toggle-collapsed");
-				tbtn.dom.onclick = () => {
+				ibtn.setClass("toggle-collapsed");
+				ibtn.dom.onclick = () => {
 
 					if (subItems.expanded) {
 						subItems.collaps();
-						tbtn.setClass("toggle-collapsed");
+						ibtn.setClass("toggle-collapsed");
 					} else {
 						subItems.expand();
-						tbtn.setClass("toggle-expanded");
+						ibtn.setClass("toggle-expanded");
 					}
 					return false;
 				};
-				tbox.add(tbtn);
 				item.add(subItems);
 			}
 
@@ -1563,7 +2136,6 @@ class TocPanel extends UIPanel {
 		return list;
 	}
 }
-
 ;// CONCATENATED MODULE: ./src/sidebar/bookmarks.js
 
 
@@ -1574,47 +2146,29 @@ class BookmarksPanel extends UIPanel {
 		super();
 		const container = new UIDiv().setClass("list-container");
 		const strings = reader.strings;
-		const ctrlRow = new UIRow();
-		const ctrlStr = [
-			strings.get("sidebar/bookmarks/add"),
-			strings.get("sidebar/bookmarks/remove"),
-			strings.get("sidebar/bookmarks/clear"),
+		const keys = [
+			"sidebar/bookmarks",
+			"sidebar/bookmarks/clear"
 		];
-		const btn_a = new UIInput("button", ctrlStr[0]).addClass("btn-start");
-		const btn_r = new UIInput("button", ctrlStr[1]).addClass("btn-medium");
-		const btn_c = new UIInput("button", ctrlStr[2]).addClass("btn-end");
-
-		btn_a.dom.onclick = () => {
-
-			reader.emit("bookmarked", true);
-			return false;
-		};
-
-		btn_r.dom.onclick = () => {
-
-			reader.emit("bookmarked", false);
-			return false;
-		};
-
-		btn_c.dom.onclick = () => {
+		const headerLabel = new UIText(strings.get(keys[0])).setClass("label");
+		const clearBtn = new UIInput("button", strings.get(keys[1]));
+		clearBtn.dom.onclick = (e) => {
 
 			this.clearBookmarks();
 			reader.emit("bookmarked", false);
-			return false;
+			e.preventDefault();
 		};
-
-		ctrlRow.add([btn_a, btn_r, btn_c]);
-
+		this.add(new UIBox([headerLabel, clearBtn]).addClass("header"));
+		this.selector = undefined;
 		this.bookmarks = new UIList();
 		container.add(this.bookmarks);
 		this.setId("bookmarks");
-		this.add([ctrlRow, container]);
+		this.add(container);
 		this.reader = reader;
 
 		const update = () => {
 
-			btn_r.dom.disabled = reader.settings.bookmarks.length === 0;
-			btn_c.dom.disabled = reader.settings.bookmarks.length === 0;
+			clearBtn.dom.disabled = reader.settings.bookmarks.length === 0;
 		};
 
 		//-- events --//
@@ -1630,23 +2184,23 @@ class BookmarksPanel extends UIPanel {
 
 		reader.on("relocated", (location) => {
 
-			const cfi = location.start.cfi;
-			const val = reader.isBookmarked(cfi) === -1;
-			btn_a.dom.disabled = !val;
-			btn_r.dom.disabled = val;
-			this.locationCfi = cfi; // save location cfi
+			this.locationCfi = location.start.cfi; // save location cfi
 		});
 
-		reader.on("bookmarked", (boolean) => {
+		reader.on("bookmarked", (boolean, cfi) => {
 
 			if (boolean) {
 				this.appendBookmark();
-				btn_a.dom.disabled = true;
 			} else {
-				this.removeBookmark();
-				btn_a.dom.disabled = false;
+				this.removeBookmark(cfi);
 			}
 			update();
+		});
+
+		reader.on("languagechanged", (value) => {
+
+			headerLabel.setValue(strings.get(keys[0]));
+			clearBtn.setValue(strings.get(keys[1]));
 		});
 	}
 
@@ -1660,10 +2214,10 @@ class BookmarksPanel extends UIPanel {
 		this.reader.settings.bookmarks.push(cfi);
 	}
 
-	removeBookmark() {
+	removeBookmark(cfi) {
 
-		const cfi = this.locationCfi;
-		const index = this.reader.isBookmarked(cfi);
+		const _cfi = cfi || this.locationCfi;
+		const index = this.reader.isBookmarked(_cfi);
 		if (index === -1) {
 			return;
 		}
@@ -1681,6 +2235,7 @@ class BookmarksPanel extends UIPanel {
 
 		const link = new UILink();
 		const item = new UIItem();
+		const btnr = new UISpan().setClass("btn-remove");
 		const navItem = this.reader.navItemFromCfi(cfi);
 		let idref;
 		let label;
@@ -1695,19 +2250,29 @@ class BookmarksPanel extends UIPanel {
 		}
 
 		link.setHref("#" + cfi);
-		link.dom.onclick = () => {
+		link.dom.onclick = (e) => {
 
+			if (this.selector && this.selector !== item) {
+				this.selector.unselect();
+			}
+			item.select();
+			this.selector = item;
 			this.reader.rendition.display(cfi);
-			return false;
+			e.preventDefault();
 		};
 		link.setTextContent(label);
 
-		item.add(link);
+		btnr.dom.onclick = (e) => {
+
+			this.reader.emit("bookmarked", false, cfi);
+			e.preventDefault();
+		};
+
+		item.add([link, btnr]);
 		item.setId(idref);
 		this.bookmarks.add(item);
 	}
 }
-
 ;// CONCATENATED MODULE: ./src/sidebar/annotations.js
 
 
@@ -1718,57 +2283,27 @@ class AnnotationsPanel extends UIPanel {
 		super();
 		const container = new UIDiv().setClass("list-container");
 		const strings = reader.strings;
-		const textRow = new UIRow();
-		const ctrlRow = new UIRow();
-		const ctrlStr = [
-			strings.get("sidebar/annotations/add"),
-			strings.get("sidebar/annotations/clear")
+		const keys = [
+			"sidebar/annotations",
+			"sidebar/annotations/clear"
 		];
-
-		const textBox = new UITextArea();
-		textBox.dom.oninput = (e) => {
-
-			this.update();
-		};
-
-		const btn_a = new UIInput("button", ctrlStr[0]).addClass("btn-start");
-		btn_a.dom.disabled = true;
-		btn_a.dom.onclick = () => {
-
-			const note = {
-				cfi: this.cfiRange,
-				date: new Date(),
-				text: textBox.getValue(),
-				uuid: reader.uuid()
-			};
-
-			reader.settings.annotations.push(note);
-
-			textBox.setValue("");
-			this.set(note);
-			return false;
-		};
-
-		const btn_c = new UIInput("button", ctrlStr[1]).addClass("btn-end");
-		btn_c.dom.disabled = true;
-		btn_c.dom.onclick = () => {
+		const headerLabel = new UIText(strings.get(keys[0])).setClass("label");
+		const clearBtn = new UIInput("button", strings.get(keys[1]));
+		clearBtn.dom.onclick = (e) => {
 
 			this.clearNotes();
-			return false;
+			e.preventDefault();
 		};
-
-		textRow.add(textBox);
-		ctrlRow.add([btn_a, btn_c]);
-
+		this.add(new UIBox([headerLabel, clearBtn]).addClass("header"));
+		this.selector = undefined;
 		this.notes = new UIList();
 		container.add(this.notes);
 		this.setId("annotations");
-		this.add([textRow, ctrlRow, container]);
+		this.add(container);
 		this.reader = reader;
 		this.update = () => {
 
-			btn_a.dom.disabled = !this.range || textBox.getValue().length === 0;
-			btn_c.dom.disabled = reader.settings.annotations.length === 0;
+			clearBtn.dom.disabled = reader.settings.annotations.length === 0;
 		};
 
 		//-- events --//
@@ -1779,19 +2314,19 @@ class AnnotationsPanel extends UIPanel {
 
 				this.set(note);
 			});
-		});
-
-		reader.on("selected", (cfiRange, contents) => {
-
-			this.cfiRange = cfiRange;
-			this.range = contents.range(cfiRange);
 			this.update();
 		});
 
-		reader.on("unselected", () => {
+		reader.on("noteadded", (note) => {
 
-			this.range = undefined;
+			this.set(note);
 			this.update();
+		});
+
+		reader.on("languagechanged", (value) => {
+
+			headerLabel.setValue(strings.get(keys[0]));
+			clearBtn.setValue(strings.get(keys[1]));
 		});
 	}
 
@@ -1802,16 +2337,21 @@ class AnnotationsPanel extends UIPanel {
 		const btnr = new UISpan().setClass("btn-remove");
 		const call = () => { };
 
-		link.onclick = () => {
+		link.dom.onclick = (e) => {
 
+			if (this.selector && this.selector !== item) {
+				this.selector.unselect();
+			}
+			item.select();
+			this.selector = item;
 			this.reader.rendition.display(note.cfi);
-			return false;
+			e.preventDefault();
 		};
 
-		btnr.dom.onclick = () => {
+		btnr.dom.onclick = (e) => {
 
 			this.removeNote(note);
-			return false;
+			e.preventDefault();
 		};
 
 		item.add([link, btnr]);
@@ -1843,7 +2383,6 @@ class AnnotationsPanel extends UIPanel {
 		this.update();
 	}
 }
-
 ;// CONCATENATED MODULE: ./src/sidebar/search.js
 
 
@@ -1856,11 +2395,11 @@ class SearchPanel extends UIPanel {
 		const strings = reader.strings;
 
 		let searchQuery = undefined;
-		const searchBox = new UIInput("search");
-		searchBox.dom.placeholder = strings.get("sidebar/search/placeholder");
-		searchBox.dom.onsearch = () => {
+		const search = new UIInput("search").setId("nav-q");
+		search.dom.placeholder = strings.get("sidebar/search/placeholder");
+		search.dom.onsearch = () => {
 
-			const value = searchBox.getValue();
+			const value = search.getValue();
 
 			if (value.length === 0) {
 				this.items.clear();
@@ -1876,14 +2415,12 @@ class SearchPanel extends UIPanel {
 			searchQuery = value;
 		};
 
-		const ctrlRow = new UIRow();
-		ctrlRow.add(searchBox);
-
 		this.setId("search");
 		this.items = new UIList();
 		container.add(this.items);
-		this.add([ctrlRow, container]);
+		this.add([new UIBox(search), container]);
 		this.reader = reader;
+		this.selector = undefined;
 		//
 		// improvement of the highlighting of keywords is required...
 		//
@@ -1909,6 +2446,11 @@ class SearchPanel extends UIPanel {
 		const item = new UIItem();
 		link.dom.onclick = () => {
 
+			if (this.selector && this.selector !== item)
+				this.selector.unselect();
+			
+			item.select();
+			this.selector = item;
 			this.reader.rendition.display(data.cfi);
 			return false;
 		};
@@ -1916,7 +2458,6 @@ class SearchPanel extends UIPanel {
 		this.items.add(item);
 	}
 }
-
 ;// CONCATENATED MODULE: ./src/sidebar/settings.js
 
 
@@ -1929,14 +2470,17 @@ class SettingsPanel extends UIPanel {
 
 		const strings = reader.strings;
 		const keys = [
+			"sidebar/settings",
 			"sidebar/settings/language",
 			"sidebar/settings/fontsize",
-			"sidebar/settings/layout",
+			"sidebar/settings/flow",
 			"sidebar/settings/spread",
-			"sidebar/settings/spread/pagewidth"
+			"sidebar/settings/spread/minwidth"
 		];
+		const headerLabel = new UIText(strings.get(keys[0])).setClass("label");
+		this.add(new UIBox(headerLabel).addClass("header"));
 
-		const languageLabel = new UILabel(strings.get(keys[0]), "language-ui");
+		const languageLabel = new UILabel(strings.get(keys[1]), "language-ui");
 		const languageRow = new UIRow();
 		const language = new UISelect().setOptions({
 			en: "English",
@@ -1949,11 +2493,10 @@ class SettingsPanel extends UIPanel {
 			reader.emit("languagechanged", e.target.value);
 		};
 		language.setId("language-ui");
-
 		languageRow.add(languageLabel);
 		languageRow.add(language);
 
-		const fontSizeLabel = new UILabel(strings.get(keys[1]), "fontsize");
+		const fontSizeLabel = new UILabel(strings.get(keys[2]), "fontsize");
 		const fontSizeRow = new UIRow();
 		const fontSize = new UINumber(100, 1);
 		fontSize.dom.onchange = (e) => {
@@ -1963,19 +2506,18 @@ class SettingsPanel extends UIPanel {
 			});
 		};
 		fontSize.setId("fontsize")
-
 		fontSizeRow.add(fontSizeLabel);
 		fontSizeRow.add(fontSize);
 
-		//-- layout configure --//
+		//-- flow configure --//
 
-		const layoutLabel = new UILabel(strings.get(keys[2]), "layout");
-		const layoutRow = new UIRow();
-		const layout = new UISelect().setOptions({
+		const flowLabel = new UILabel(strings.get(keys[3]), "flow");
+		const flowRow = new UIRow();
+		const flow = new UISelect().setOptions({
 			paginated: "Paginated",
 			scrolled: "Scrolled"
 		});
-		layout.dom.onchange = (e) => {
+		flow.dom.onchange = (e) => {
 
 			reader.emit("flowchanged", e.target.value);
 
@@ -1991,14 +2533,14 @@ class SettingsPanel extends UIPanel {
 				});
 			}
 		};
-		layout.setId("layout");
-
-		layoutRow.add(layoutLabel);
-		layoutRow.add(layout);
+		flow.setId("flow");
+		flowRow.add(flowLabel);
+		flowRow.add(flow);
 
 		//-- spdead configure --//
 
-		const spreadLabel = new UILabel(strings.get(keys[3]), "spread");
+		const minSpreadWidth = new UINumber(800, 1);
+		const spreadLabel = new UILabel(strings.get(keys[4]), "spread");
 		const spreadRow = new UIRow();
 		const spread = new UISelect().setOptions({
 			none: "None",
@@ -2010,15 +2552,15 @@ class SettingsPanel extends UIPanel {
 				mod: e.target.value,
 				min: undefined
 			});
+			minSpreadWidth.dom.disabled = e.target.value === "none";
 		};
 		spread.setId("spread");
 
 		spreadRow.add(spreadLabel);
 		spreadRow.add(spread);
 
-		const minSpreadWidthLabel = new UILabel(strings.get(keys[4]), "min-spread-width");
+		const minSpreadWidthLabel = new UILabel(strings.get(keys[5]), "min-spread-width");
 		const minSpreadWidthRow = new UIRow();
-		const minSpreadWidth = new UINumber(800, 1);
 		minSpreadWidth.dom.onchange = (e) => {
 
 			reader.emit("spreadchanged", {
@@ -2027,7 +2569,6 @@ class SettingsPanel extends UIPanel {
 			});
 		};
 		minSpreadWidth.setId("min-spread-width");
-
 		minSpreadWidthRow.add(minSpreadWidthLabel);
 		minSpreadWidthRow.add(minSpreadWidth);
 
@@ -2045,14 +2586,14 @@ class SettingsPanel extends UIPanel {
 		paginationRow.add(new UILabel(paginationStr[0], "pagination"));
 		paginationRow.add(pagination);
 
-		super.add([
+		this.add(new UIBox([
 			languageRow,
 			fontSizeRow,
-			layoutRow,
+			flowRow,
 			spreadRow,
 			minSpreadWidthRow,
 			//paginationRow
-		]);
+		]));
 
 		//-- events --//
 
@@ -2060,16 +2601,18 @@ class SettingsPanel extends UIPanel {
 
 			language.setValue(cfg.language);
 			fontSize.setValue(cfg.styles.fontSize);
-			layout.setValue(cfg.flow);
+			flow.setValue(cfg.flow);
 			spread.setValue(cfg.spread.mod);
 			minSpreadWidth.setValue(cfg.spread.min);
+			minSpreadWidth.dom.disabled = cfg.spread.mod === "none";
 		});
 
 		reader.on("layout", (props) => {
 
 			if (props.flow === "scrolled") {
-				spread.dom.disabled = true;
 				spread.setValue("none");
+				spread.dom.disabled = true;
+				minSpreadWidth.dom.disabled = true;
 			} else {
 				spread.dom.disabled = false;
 			}
@@ -2077,15 +2620,15 @@ class SettingsPanel extends UIPanel {
 
 		reader.on("languagechanged", (value) => {
 
-			languageLabel.dom.textContent = strings.get(keys[0]);
-			fontSizeLabel.dom.textContent = strings.get(keys[1]);
-			layoutLabel.dom.textContent = strings.get(keys[2]);
-			spreadLabel.dom.textContent = strings.get(keys[3]);
-			minSpreadWidthLabel.dom.textContent = strings.get(keys[4]);
+			headerLabel.setTextContent(strings.get(keys[0]));
+			languageLabel.setTextContent(strings.get(keys[1]));
+			fontSizeLabel.setTextContent(strings.get(keys[2]));
+			flowLabel.setTextContent(strings.get(keys[3]));
+			spreadLabel.setTextContent(strings.get(keys[4]));
+			minSpreadWidthLabel.setTextContent(strings.get(keys[5]));
 		});
 	}
 }
-
 ;// CONCATENATED MODULE: ./src/sidebar/metadata.js
 
 
@@ -2094,133 +2637,64 @@ class MetadataPanel extends UIPanel {
 	constructor(reader) {
 
 		super();
+		const container = new UIDiv().setClass("list-container");
 		const strings = reader.strings;
-		const keys = [
-			"sidebar/metadata",
-			"sidebar/metadata/creator",
-			"sidebar/metadata/description",
-			"sidebar/metadata/identifier",
-			"sidebar/metadata/language",
-			"sidebar/metadata/pubdate",
-			"sidebar/metadata/publisher",
-			"sidebar/metadata/title"
-		];
+		const labels = {};
+		const key = "sidebar/metadata";
+		const label = new UIText(strings.get(key)).setClass("label");
+		this.add(new UIBox(label).addClass("header"));
+		labels[key] = label;
 
-		const creatorLabel = new UIText(strings.get(keys[1])).setClass("label");
-		const creatorValue = new UIText().setClass("value");
-		const creatorRow = new UIRow();
-		creatorRow.add([creatorLabel, creatorValue]);
-
-		const descriptionLabel = new UIText(strings.get(keys[2])).setClass("label");
-		const descriptionValue = new UIText().setClass("value");
-		const descriptionRow = new UIRow();
-		descriptionRow.add([descriptionLabel, descriptionValue]);
-
-		const identifierLabel = new UIText(strings.get(keys[3])).setClass("label");
-		const identifierValue = new UIText().setClass("value");
-		const identifierRow = new UIRow();
-		identifierRow.add([identifierLabel, identifierValue]);
-
-		const languageLabel = new UIText(strings.get(keys[4])).setClass("label");
-		const languageValue = new UIText().setClass("value");
-		const languageRow = new UIRow();
-		languageRow.add([languageLabel, languageValue]);
-
-		const pubdateLabel = new UIText(strings.get(keys[5])).setClass("label");
-		const pubdateValue = new UIText().setClass("value");
-		const pubdateRow = new UIRow();
-		pubdateRow.add([pubdateLabel, pubdateValue]);
-
-		const publisherLabel = new UIText(strings.get(keys[6])).setClass("label");
-		const publisherValue = new UIText().setClass("value");
-		const publisherRow = new UIRow();
-		publisherRow.add([publisherLabel, publisherValue]);
-
-		const titleLabel = new UIText(strings.get(keys[7])).setClass("label");
-		const titleValue = new UIText().setClass("value");
-		const titleRow = new UIRow();
-		titleRow.add([titleLabel, titleValue]);
-
+		this.items = new UIList();
 		this.setId("metadata");
-		this.add([
-			creatorRow,
-			descriptionRow,
-			identifierRow,
-			languageRow,
-			pubdateRow,
-			publisherRow,
-			titleRow
-		]);
+		this.add(container);
+
+		const init = (prop, meta) => {
+			if (meta[prop] === undefined ||
+				meta[prop] === null || (typeof meta[prop] === "string" && meta[prop].length === 0)) {
+				return;
+			}
+			const item = new UIItem();
+			const label = new UIText().setClass("label");
+			const value = new UIText().setClass("value");
+			label.setValue(strings.get(key + "/" + prop).toUpperCase());
+			if (prop === "description") {
+				value.dom.innerHTML = meta[prop];
+			} else {
+				value.setValue(meta[prop]);
+			}
+			labels[key + "/" + prop] = label;
+			item.add([label, value]);
+			this.items.add(item);
+		}
 
 		//-- events --//
 
 		reader.on("metadata", (meta) => {
 
+			this.items.clear();
+			container.clear();
+			container.add(this.items);
 			document.title = meta.title;
-
-			if (meta.creator) {
-				creatorValue.setValue(meta.creator);
-				creatorValue.dom.title = meta.creator;
-			} else {
-				creatorValue.setValue("-");
-			}
-
-			if (meta.description) {
-				descriptionValue.setValue(meta.description);
-				descriptionValue.dom.title = meta.description;
-			} else {
-				descriptionValue.setValue("-");
-			}
-
-			if (meta.identifier) {
-				identifierValue.setValue(meta.identifier);
-				identifierValue.dom.title = meta.identifier;
-			} else {
-				identifierValue.setValue("-");
-			}
-
-			if (meta.language) {
-				languageValue.setValue(meta.language);
-				languageValue.dom.title = meta.language;
-			} else {
-				languageValue.setValue("-");
-			}
-
-			if (meta.pubdate) {
-				pubdateValue.setValue(meta.pubdate);
-				pubdateValue.dom.title = meta.pubdate;
-			} else {
-				pubdateValue.setValue("-");
-			}
-
-			if (meta.publisher) {
-				publisherValue.setValue(meta.publisher);
-				publisherValue.dom.title = meta.publisher;
-			} else {
-				publisherValue.setValue("-");
-			}
-
-			if (meta.title) {
-				titleValue.setValue(meta.title);
-				titleValue.dom.title = meta.title;
-			} else {
-				titleValue.setValue("-");
+			for (const prop in meta) {
+				init(prop, meta);
 			}
 		});
 
 		reader.on("languagechanged", (value) => {
 
-			creatorLabel.setValue(strings.get(keys[1]));
-			descriptionLabel.setValue(strings.get(keys[2]));
-			identifierLabel.setValue(strings.get(keys[3]));
-			languageLabel.setValue(strings.get(keys[4]));
-			pubdateLabel.setValue(strings.get(keys[5]));
-			publisherLabel.setValue(strings.get(keys[6]));
-			titleLabel.setValue(strings.get(keys[7]));
+			for (const prop in labels) {
+				let text;
+				if (prop === key) {
+					text = strings.get(prop);
+				} else {
+					text = strings.get(prop).toUpperCase();
+				}
+				labels[prop].setValue(text);
+			}
 		});
 	}
 }
-
 ;// CONCATENATED MODULE: ./src/sidebar.js
 
 
@@ -2235,7 +2709,9 @@ class Sidebar {
 	constructor(reader) {
 
 		const strings = reader.strings;
+		const controls = reader.settings;
 		const keys = [
+			"sidebar/close",
 			"sidebar/contents",
 			"sidebar/bookmarks",
 			"sidebar/annotations",
@@ -2246,289 +2722,136 @@ class Sidebar {
 
 		const container = new UITabbedPanel("vertical").setId("sidebar");
 
-		container.addTab("tab-t", strings.get(keys[0]), new TocPanel(reader));
-		container.addTab("tab-b", strings.get(keys[1]), new BookmarksPanel(reader));
-		container.addTab("tab-n", strings.get(keys[2]), new AnnotationsPanel(reader));
-		container.addTab("tab-s", strings.get(keys[3]), new SearchPanel(reader));
-		container.addTab("tab-c", strings.get(keys[4]), new SettingsPanel(reader));
-		container.addTab("tab-i", strings.get(keys[5]), new MetadataPanel(reader));
-		container.select("tab-t");
+		const openerBox = new UIDiv().setId("btn-p").addClass("box");
+		const openerBtn = new UIInput("button");
+		openerBtn.setTitle(strings.get(keys[0]));
+		openerBtn.dom.onclick = (e) => {
+
+			reader.emit("sidebaropener", false);
+			e.preventDefault();
+			openerBtn.dom.blur();
+		};
+		openerBox.add(openerBtn);
+		container.addMenu(openerBox);
+
+		container.addTab("btn-t", strings.get(keys[1]), new TocPanel(reader));
+		if (controls.bookmarks) {
+			container.addTab("btn-d", strings.get(keys[2]), new BookmarksPanel(reader));
+		}
+		if (controls.annotations) {
+			container.addTab("btn-a", strings.get(keys[3]), new AnnotationsPanel(reader));
+		}
+		container.addTab("btn-s", strings.get(keys[4]), new SearchPanel(reader));
+		container.addTab("btn-c", strings.get(keys[5]), new SettingsPanel(reader));
+		container.addTab("btn-i", strings.get(keys[6]), new MetadataPanel(reader));
+		container.select("btn-t");
 
 		document.body.appendChild(container.dom);
 
 		//-- events --//
-
-		reader.on("languagechanged", (value) => {
-
-			container.setLabel("tab-t", strings.get(keys[0]));
-			container.setLabel("tab-b", strings.get(keys[1]));
-			container.setLabel("tab-n", strings.get(keys[2]));
-			container.setLabel("tab-s", strings.get(keys[3]));
-			container.setLabel("tab-c", strings.get(keys[4]));
-			container.setLabel("tab-i", strings.get(keys[5]));
-		});
-	}
-}
-
-;// CONCATENATED MODULE: ./src/content.js
-
-
-class Content {
-
-	constructor(reader) {
-
-		const container = new UIDiv().setId("content");
-		container.dom.ontransitionend = (e) => {
-
-			reader.emit("sidebarreflow");
-			e.preventDefault();
-		};
-
-		const prev = new UIDiv().setId("prev").setClass("arrow");
-		prev.dom.onclick = (e) => {
-
-			reader.emit("prev");
-			e.preventDefault();
-		};
-		prev.add(new UISpan("<"));
-
-		const next = new UIDiv().setId("next").setClass("arrow");
-		next.dom.onclick = (e) => {
-
-			reader.emit("next");
-			e.preventDefault();
-		};
-		next.add(new UISpan(">"));
-
-		const viewer = new UIDiv().setId("viewer");
-		const divider = new UIDiv().setId("divider");
-		const loader = new UIDiv().setId("loader");
-
-		container.add([prev, viewer, next, divider, loader]);
-		document.body.appendChild(container.dom);
-
-		//-- events --//
-
-		reader.on("bookready", (cfg) => {
-
-			loader.dom.style.display = "block";
-		});
-
-		reader.on("bookloaded", () => {
-
-			loader.dom.style.display = "none";
-		});
 
 		reader.on("sidebaropener", (value) => {
 
 			if (value) {
-				container.addClass("closed");
+				container.setClass("open");
 			} else {
-				container.removeClass("closed");
+				container.removeAttribute("class");
 			}
 		});
-
-		reader.on("layout", (props) => {
-
-			if (props.spread && props.width > props.spreadWidth) {
-				divider.dom.style.display = "block";
-			} else {
-				divider.dom.style.display = "none";
-			}
-		});
-
-		reader.on("relocated", (location) => {
-
-			if (location.atStart) {
-				prev.addClass("disabled");
-			} else {
-				prev.removeClass("disabled");
-			}
-
-			if (location.atEnd) {
-				next.addClass("disabled");
-			} else {
-				next.removeClass("disabled");
-			}
-		});
-
-		reader.on("prev", () => {
-
-			prev.addClass("active");
-			setTimeout(() => { prev.removeClass("active"); }, 100);
-		});
-
-		reader.on("next", () => {
-
-			next.addClass("active");
-			setTimeout(() => { next.removeClass("active"); }, 100);
-		});
-
-		reader.on("viewercleanup", () => {
-
-			viewer.clear();
-		});
-	}
-}
-
-;// CONCATENATED MODULE: ./src/strings.js
-class Strings {
-
-	constructor(reader) {
-
-		this.language = reader.settings.language || "en";
-		this.values = {
-			en: {
-				"toolbar/opener": "Sidebar",
-				"toolbar/openbook": "Open book",
-				"toolbar/openbook/error": "Your browser does not support the required features.\nPlease use a modern browser such as Google Chrome, or Mozilla Firefox.",
-				"toolbar/bookmark": "Add this page to bookmarks",
-				"toolbar/fullsceen": "Fullscreen",
-
-				"sidebar/contents": "Contents",
-				"sidebar/bookmarks": "Bookmarks",
-				"sidebar/bookmarks/add": "Add",
-				"sidebar/bookmarks/remove": "Remove",
-				"sidebar/bookmarks/clear": "Clear",
-				"sidebar/annotations": "Annotations",
-				"sidebar/annotations/add": "Add",
-				"sidebar/annotations/clear": "Clear",
-				"sidebar/annotations/anchor": "Anchor",
-				"sidebar/annotations/cancel": "Cancel",
-				"sidebar/search": "Search",
-				"sidebar/search/placeholder": "Search",
-				"sidebar/settings": "Settings",
-				"sidebar/settings/language": "Language",
-				"sidebar/settings/fontsize": "Font size (%)",
-				"sidebar/settings/layout": "Layout",
-				"sidebar/settings/pagination": ["Pagination", "Generate pagination"],
-				"sidebar/settings/spread": "Spread",
-				"sidebar/settings/spread/pagewidth": "Page width",
-				"sidebar/metadata": "Metadata",
-				"sidebar/metadata/creator": "Creator",
-				"sidebar/metadata/description": "Description",
-				"sidebar/metadata/identifier": "Identifier",
-				"sidebar/metadata/language": "Language",
-				"sidebar/metadata/pubdate": "Pubdate",
-				"sidebar/metadata/publisher": "Publisher",
-				"sidebar/metadata/title": "Title"
-			},
-			fr: {
-				"toolbar/opener": "Barre latérale",
-				"toolbar/openbook": "Ouvrir un livre local",
-				"toolbar/openbook/error": "Votre navigateur ne prend pas en charge les fonctions nécessaires.\nVeuillez utiliser un navigateur moderne tel que Google Chrome ou Mozilla Firefox.",
-				"toolbar/bookmark": "Insérer un marque page ici",
-				"toolbar/fullsceen": "Plein écran",
-
-				"sidebar/contents": "Sommaire",
-				"sidebar/bookmarks": "Marque-pages",
-				"sidebar/bookmarks/add": "Ajouter",
-				"sidebar/bookmarks/remove": "Retirer",
-				"sidebar/bookmarks/clear": "Tout enlever",
-				"sidebar/annotations": "Annotations",
-				"sidebar/annotations/add": "Ajouter",
-				"sidebar/annotations/clear": "Tout enlever",
-				"sidebar/annotations/anchor": "Ancre",
-				"sidebar/annotations/cancel": "Annuler",
-				"sidebar/search": "Rechercher",
-				"sidebar/search/placeholder": "rechercher",
-				"sidebar/settings": "Réglages",
-				"sidebar/settings/language": "Langue",
-				"sidebar/settings/fontsize": "???",
-				"sidebar/settings/layout": "???",
-				"sidebar/settings/pagination": ["Pagination", "Établir une pagination"],
-				"sidebar/settings/spread": "???",
-				"sidebar/settings/spread/pagewidth": "???",
-				"sidebar/metadata": "???",
-				"sidebar/metadata/creator": "???",
-				"sidebar/metadata/description": "???",
-				"sidebar/metadata/identifier": "???",
-				"sidebar/metadata/language": "Langue",
-				"sidebar/metadata/pubdate": "???",
-				"sidebar/metadata/publisher": "???",
-				"sidebar/metadata/title": "???"
-			},
-			ja: {
-				"toolbar/opener": "サイドバー",
-				"toolbar/openbook": "本を開く",
-				"toolbar/openbook/error": "ご利用のブラウザは必要な機能をサポートしていません。\nGoogle Chrome、Mozilla Firefox、その他のモダンなブラウザでご利用ください。",
-				"toolbar/bookmark": "このページに栞を設定する",
-				"toolbar/fullsceen": "フルスクリーン",
-
-				"sidebar/contents": "目次",
-				"sidebar/bookmarks": "栞",
-				"sidebar/bookmarks/add": "追加",
-				"sidebar/bookmarks/remove": "削除",
-				"sidebar/bookmarks/clear": "クリア",
-				"sidebar/annotations": "注釈",
-				"sidebar/annotations/add": "追加",
-				"sidebar/annotations/clear": "クリア",
-				"sidebar/annotations/anchor": "アンカー",
-				"sidebar/annotations/cancel": "キャンセル",
-				"sidebar/search": "検索",
-				"sidebar/search/placeholder": "検索",
-				"sidebar/settings": "設定",
-				"sidebar/settings/language": "表示言語",
-				"sidebar/settings/fontsize": "???",
-				"sidebar/settings/layout": "???",
-				"sidebar/settings/pagination": ["ページネーション", "ページネーションを生成します。"],
-				"sidebar/settings/spread": "???",
-				"sidebar/settings/spread/pagewidth": "???",
-				"sidebar/metadata": "???",
-				"sidebar/metadata/creator": "???",
-				"sidebar/metadata/description": "???",
-				"sidebar/metadata/identifier": "???",
-				"sidebar/metadata/language": "表示言語",
-				"sidebar/metadata/pubdate": "???",
-				"sidebar/metadata/publisher": "???",
-				"sidebar/metadata/title": "???"
-			},
-			ru: {
-				"toolbar/opener": "Боковая панель",
-				"toolbar/openbook": "Открыть книгу",
-				"toolbar/openbook/error": "Ваш браузер не поддерживает необходимые функции.\nПожалуйста, используйте современный браузер, такой как Google Chrome или Mozilla Firefox.",
-				"toolbar/bookmark": "Добавить эту страницу в закладки",
-				"toolbar/fullsceen": "Полноэкранный режим",
-
-				"sidebar/contents": "Содержание",
-				"sidebar/bookmarks": "Закладки",
-				"sidebar/bookmarks/add": "Добавить",
-				"sidebar/bookmarks/remove": "Удалить",
-				"sidebar/bookmarks/clear": "Очистить",
-				"sidebar/annotations": "Аннотации",
-				"sidebar/annotations/add": "Добавить",
-				"sidebar/annotations/clear": "Очистить",
-				"sidebar/annotations/anchor": "Метка",
-				"sidebar/annotations/cancel": "Отмена",
-				"sidebar/search": "Поиск",
-				"sidebar/search/placeholder": "Поиск",
-				"sidebar/settings": "Настройки",
-				"sidebar/settings/language": "Язык",
-				"sidebar/settings/fontsize": "Размер шрифта",
-				"sidebar/settings/layout": "Макет",
-				"sidebar/settings/pagination": ["Нумерация страниц", "Генерировать нумерацию страниц"],
-				"sidebar/settings/spread": "Разворот",
-				"sidebar/settings/spread/pagewidth": "Ширина страницы",
-				"sidebar/metadata": "Метаданные",
-				"sidebar/metadata/creator": "Автор",
-				"sidebar/metadata/description": "Описание",
-				"sidebar/metadata/identifier": "Идентификатор",
-				"sidebar/metadata/language": "Язык",
-				"sidebar/metadata/pubdate": "Дата публикации",
-				"sidebar/metadata/publisher": "Издатель",
-				"sidebar/metadata/title": "Заголовок"
-			}
-		};
 
 		reader.on("languagechanged", (value) => {
-			this.language = value;
+
+			openerBtn.setTitle(strings.get(keys[0]));
+			container.setLabel("btn-t", strings.get(keys[1]));
+			if (controls.bookmarks) {
+				container.setLabel("btn-d", strings.get(keys[2]));
+			}
+			if (controls.annotations) {
+				container.setLabel("btn-a", strings.get(keys[3]));
+			}
+			container.setLabel("btn-s", strings.get(keys[4]));
+			container.setLabel("btn-c", strings.get(keys[5]));
+			container.setLabel("btn-i", strings.get(keys[6]));
 		});
 	}
-
-	get(key) { return this.values[this.language][key] || "???"; }
 }
+;// CONCATENATED MODULE: ./src/notedlg.js
 
+
+
+class NoteDlg {
+
+    constructor(reader) {
+
+        const container = new UIDiv().setId("notedlg");
+        const strings = reader.strings;
+        const keys = [
+            "notedlg/label",
+            "notedlg/add"
+        ];
+        const label = new UILabel(strings.get(keys[0]), "note-input");
+        const textBox = new UIInput("text", "").setId("note-input");
+        textBox.dom.oninput = (e) => {
+
+            this.update();
+            e.preventDefault();
+        };
+
+        const addBtn = new UIInput("button", strings.get(keys[1]));
+        addBtn.dom.disabled = true;
+        addBtn.dom.onclick = (e) => {
+
+            const note = {
+                cfi: this.cfi,
+                date: new Date(),
+                text: textBox.getValue(),
+                uuid: uuid()
+            };
+            this.range = undefined;
+            reader.settings.annotations.push(note);
+            reader.emit("noteadded", note);
+            container.removeAttribute("class");
+            e.preventDefault();
+            addBtn.dom.blur();
+        };
+
+        this.update = () => {
+
+            addBtn.dom.disabled = !(this.range && textBox.getValue().length > 0);
+        };
+
+        container.add(new UIBox([label, textBox, addBtn]).addClass("control"));
+        document.body.appendChild(container.dom);
+
+        //-- events --//
+
+        reader.on("selected", (cfi, contents) => {
+
+            this.cfi = cfi;
+            this.range = contents.range(cfi);
+            this.update();
+            container.setClass("open");
+            textBox.setValue("");
+        });
+
+        reader.on("unselected", () => {
+
+            this.range = undefined;
+            this.update();
+            container.removeAttribute("class");
+        });
+
+        reader.on("languagechanged", (value) => {
+
+            label.setTextContent(strings.get(keys[0]));
+            addBtn.setValue(strings.get(keys[1]));
+        });
+    }
+}
 ;// CONCATENATED MODULE: ./src/reader.js
+
+
+
 
 
 
@@ -2538,21 +2861,38 @@ class Strings {
 
 class Reader {
 
-	constructor(bookPath, _options) {
+	constructor(bookPath, settings) {
+
+		const preinit = (data) => {
+			const url = new URL(window.location);
+			let path = bookPath;
+			if (settings && !settings.openbook) {
+				path = bookPath;
+				if (data) this.storage.clear();
+			} else if (data && url.search.length === 0) {
+				path = data;
+			}
+			this.cfgInit(path, settings);
+			this.strings = new Strings(this);
+			this.toolbar = new Toolbar(this);
+			this.content = new Content(this);
+			this.sidebar = new Sidebar(this);
+			if (this.settings.annotations) {
+				this.notedlg = new NoteDlg(this);
+			}
+			this.init();
+		}
 
 		this.settings = undefined;
-		this.cfgInit(bookPath, _options);
+		this.isMobile = detectMobile();
+		this.storage = new Storage();
+		const openbook = settings && settings.openbook;
 
-		this.strings = new Strings(this);
-		this.toolbar = new Toolbar(this);
-		this.sidebar = new Sidebar(this);
-		this.content = new Content(this);
-
-		this.book = undefined;
-		this.rendition = undefined;
-		this.displayed = undefined;
-
-		this.init();
+		if (this.storage.indexedDB && (!settings || openbook)) {
+			this.storage.init(() => this.storage.get((data) => preinit(data)));
+		} else {
+			preinit();
+		}
 
 		window.onbeforeunload = this.unload.bind(this);
 		window.onhashchange = this.hashChanged.bind(this);
@@ -2567,25 +2907,27 @@ class Reader {
 	/**
 	 * Initialize book.
 	 * @param {*} bookPath
-	 * @param {*} _options
+	 * @param {*} settings
 	 */
-	init(bookPath, _options) {
+	init(bookPath, settings) {
 
 		this.emit("viewercleanup");
 		this.navItems = {};
 
 		if (arguments.length > 0) {
 
-			this.cfgInit(bookPath, _options);
+			this.cfgInit(bookPath, settings);
 		}
 
 		this.book = ePub(this.settings.bookPath);
 		this.rendition = this.book.renderTo("viewer", {
+			manager: this.settings.manager,
 			flow: this.settings.flow,
 			spread: this.settings.spread.mod,
 			minSpreadWidth: this.settings.spread.min,
 			width: "100%",
-			height: "100%"
+			height: "100%",
+			snap: true
 		});
 
 		const cfi = this.settings.previousLocationCfi;
@@ -2634,8 +2976,10 @@ class Reader {
 			this.emit("relocated", location);
 		});
 
+		this.rendition.on("keydown", this.keyboardHandler.bind(this));
+
 		this.on("prev", () => {
-			if (this.book.package.metadata.direction === 'rtl') {
+			if (this.book.package.metadata.direction === "rtl") {
 				this.rendition.next();
 			} else {
 				this.rendition.prev();
@@ -2643,16 +2987,11 @@ class Reader {
 		});
 
 		this.on("next", () => {
-			if (this.book.package.metadata.direction === 'rtl') {
+			if (this.book.package.metadata.direction === "rtl") {
 				this.rendition.prev();
 			} else {
 				this.rendition.next();
 			}
-		});
-
-		this.on("sidebarreflow", () => {
-			// no implementation sidebarReflow setting
-			//this.rendition.resize();
 		});
 
 		this.on("languagechanged", (value) => {
@@ -2663,7 +3002,7 @@ class Reader {
 			this.settings.flow = value;
 			this.rendition.flow(value);
 		});
-		
+
 		this.on("spreadchanged", (value) => {
 			const mod = value.mod || this.settings.spread.mod;
 			const min = value.min || this.settings.spread.min;
@@ -2681,33 +3020,13 @@ class Reader {
 
 	/* ------------------------------- Common ------------------------------- */
 
-	defaults(obj) {
-
-		for (let i = 1, length = arguments.length; i < length; i++) {
-			const source = arguments[i];
-			for (let prop in source) {
-				if (obj[prop] === void 0)
-					obj[prop] = source[prop];
-			}
-		}
-		return obj;
-	}
-
-	uuid() {
-
-		let d = new Date().getTime();
-		const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-			let r = (d + Math.random() * 16) % 16 | 0;
-			d = Math.floor(d / 16);
-			return (c === 'x' ? r : (r & 0x7 | 0x8)).toString(16);
-		});
-		return uuid;
-	}
-
 	navItemFromCfi(cfi) {
 
+		// This feature was added to solve the problem of duplicate titles in 
+		// bookmarks. But this still has no solution because when reloading the 
+		// reader, rendition cannot get the range from the previously saved CFI.
 		const range = this.rendition.getRange(cfi);
-		const idref = range.startContainer.parentNode.id;
+		const idref = range ? range.startContainer.parentNode.id : undefined;
 		const location = this.rendition.currentLocation();
 		const href = location.start.href;
 		return this.navItems[href + "#" + idref] || this.navItems[href];
@@ -2736,59 +3055,41 @@ class Reader {
 
 	/**
 	 * Initialize book settings.
-	 * @param {*} bookPath
-	 * @param {*} _options
+	 * @param {any} bookPath
+	 * @param {any} settings
 	 */
-	cfgInit(bookPath, _options) {
+	cfgInit(bookPath, settings) {
 
 		this.entryKey = md5(bookPath).toString();
-		this.settings = this.defaults(_options || {}, {
+		this.settings = {
 			bookPath: bookPath,
-			flow: undefined,
-			restore: false,
+			arrows: this.isMobile ? "none" : "content", // none | content | toolbar
+			manager: this.isMobile ? "continuous" : "default",
+			restore: true,
 			history: true,
-			reload: false, // ??
-			bookmarks: undefined,
-			annotations: undefined,
-			contained: undefined,
+			openbook: this.storage.indexedDB ? true : false,
+			language: "en",
 			sectionId: undefined,
-			spread: undefined,
-			styles: undefined,
-			pagination: false, // ??
-			language: undefined
-		});
-
-		if (this.settings.restore && this.isSaved()) {
-			this.applySavedSettings();
-		}
-
-		if (this.settings.bookmarks === undefined) {
-			this.settings.bookmarks = [];
-		}
-
-		if (this.settings.annotations === undefined) {
-			this.settings.annotations = [];
-		}
-
-		if (this.settings.flow === undefined) {
-			this.settings.flow = "paginated";
-		}
-
-		if (this.settings.spread === undefined) {
-			this.settings.spread = {
-				mod: "auto",
+			bookmarks: [],   // array | false
+			annotations: [], // array | false
+			flow: "paginated", // paginated | scrolled
+			spread: {
+				mod: "auto", // auto | none
 				min: 800
-			};
-		}
-
-		if (this.settings.styles === undefined) {
-			this.settings.styles = {
+			},
+			styles: {
 				fontSize: 100
-			};
-		}
+			},
+			pagination: undefined, // not implemented
+			fullscreen: document.fullscreenEnabled
+		};
 
-		if (this.settings.language === undefined) {
-			this.settings.language = "en";
+		extend(settings || {}, this.settings);
+
+		if (this.settings.restore) {
+			this.applySavedSettings(settings || {});
+		} else {
+			this.removeSavedSettings();
 		}
 	}
 
@@ -2798,10 +3099,7 @@ class Reader {
 	 */
 	isSaved() {
 
-		if (!localStorage)
-			return false;
-
-		return localStorage.getItem(this.entryKey) !== null;
+		return localStorage && localStorage.getItem(this.entryKey) !== null;
 	}
 
 	/**
@@ -2818,31 +3116,25 @@ class Reader {
 		return true;
 	}
 
-	applySavedSettings() {
+	/**
+	 * Applies saved settings from local storage.
+	 * @param {*} external External settings
+	 * @returns True if the settings were applied successfully, false otherwise.
+	 */
+	applySavedSettings(external) {
 
-		if (!localStorage)
+		if (!this.isSaved())
 			return false;
 
 		let stored;
 		try {
 			stored = JSON.parse(localStorage.getItem(this.entryKey));
-		} catch (e) { // parsing error of localStorage
+		} catch (e) {
 			console.exception(e);
 		}
 
 		if (stored) {
-			// Merge spread
-			if (stored.spread) {
-				this.settings.spread = this.defaults(this.settings.spread || {}, 
-					stored.spread);
-			}
-			// Merge styles
-			if (stored.styles) {
-				this.settings.styles = this.defaults(this.settings.styles || {},
-					stored.styles);
-			}
-			// Merge the rest
-			this.settings = this.defaults(this.settings, stored);
+			extend(stored, this.settings, external);
 			return true;
 		} else {
 			return false;
@@ -2851,12 +3143,19 @@ class Reader {
 
 	/**
 	 * Saving the current book settings in local storage.
-	 * @returns
 	 */
 	saveSettings() {
 
 		this.settings.previousLocationCfi = this.rendition.location.start.cfi;
-		localStorage.setItem(this.entryKey, JSON.stringify(this.settings));
+		const cfg = Object.assign({}, this.settings);
+		delete cfg.arrows;
+		delete cfg.manager;
+		delete cfg.history;
+		delete cfg.restore;
+		delete cfg.openbook;
+		delete cfg.pagination;
+		delete cfg.fullscreen;
+		localStorage.setItem(this.entryKey, JSON.stringify(cfg));
 	}
 
 	setLocation(cfi) {
@@ -2890,187 +3189,38 @@ class Reader {
 
 	keyboardHandler(e) {
 
-		const MOD = (e.ctrlKey || e.metaKey);
+		const step = 2;
+		let value = this.settings.styles.fontSize;
 
-		if (MOD) {
+		switch (e.key) {
 
-			const step = 2;
-			let value = this.settings.styles.fontSize;
-
-			switch (e.key) {
-
-				case '=':
-					e.preventDefault();
-					value += step;
-					this.emit("styleschanged", { fontSize: value });
-					break;
-				case '-':
-					e.preventDefault();
-					value -= step;
-					this.emit("styleschanged", { fontSize: value });
-					break;
-				case '0':
-					e.preventDefault();
-					value = 100;
-					this.emit("styleschanged", { fontSize: value });
-					break;
-			}
-		} else {
-
-			switch (e.key) {
-				case 'ArrowLeft':
-					this.emit('prev');
-					e.preventDefault();
-					break;
-				case 'ArrowRight':
-					this.emit('next');
-					e.preventDefault();
-					break;
-			}
+			case "=":
+			case "+":
+				value += step;
+				this.emit("styleschanged", { fontSize: value });
+				break;
+			case "-":
+				value -= step;
+				this.emit("styleschanged", { fontSize: value });
+				break;
+			case "0":
+				value = 100;
+				this.emit("styleschanged", { fontSize: value });
+				break;
+			case "ArrowLeft":
+				this.emit("prev");
+				break;
+			case "ArrowRight":
+				this.emit("next");
+				break;
 		}
 	}
 }
 
-event_emitter_default()(Reader.prototype);
-
-;// CONCATENATED MODULE: ./src/storage.js
-class Storage {
-
-	constructor() {
-
-		this.name = 'epubjs-reader';
-		this.version = 1.0;
-		this.database;
-		this.indexedDB = window.indexedDB ||
-			window.webkitIndexedDB ||
-			window.mozIndexedDB ||
-			window.OIndexedDB ||
-			window.msIndexedDB;
-
-		if (this.indexedDB === undefined) {
-
-			alert('The IndexedDB API not available in your browser.');
-		}
-	}
-
-	init(callback) {
-
-		if (this.indexedDB === undefined) {
-			callback();
-			return;
-		}
-
-		const scope = this;
-		const request = indexedDB.open(this.name, this.version);
-		request.onupgradeneeded = function (event) {
-
-			const db = event.target.result;
-			if (db.objectStoreNames.contains('entries') === false) {
-
-				db.createObjectStore("entries");
-			}
-		};
-
-		request.onsuccess = function (event) {
-
-			scope.database = event.target.result;
-			scope.database.onerror = function (event) {
-
-				console.error('IndexedDB', event);
-			};
-			callback();
-		}
-
-		request.onerror = function (event) {
-
-			console.error('IndexedDB', event);
-		};
-	}
-
-	get(callback) {
-
-		if (this.database === undefined) {
-			callback();
-			return;
-		}
-
-		const transaction = this.database.transaction(['entries'], 'readwrite');
-		const objectStore = transaction.objectStore('entries');
-		const request = objectStore.get(0);
-		request.onsuccess = function (event) {
-
-			callback(event.target.result);
-			console.log('storage.get');
-		};
-	}
-
-	set(data, callback) {
-
-		if (this.database === undefined) {
-			callback();
-			return;
-		}
-
-		const transaction = this.database.transaction(['entries'], 'readwrite');
-		const objectStore = transaction.objectStore('entries');
-		const request = objectStore.put(data, 0);
-		request.onsuccess = function () {
-
-			callback();
-			console.log('storage.set');
-		};
-	}
-
-	clear() {
-
-		if (this.database === undefined)
-			return;
-
-		const transaction = this.database.transaction(['entries'], 'readwrite');
-		const objectStore = transaction.objectStore('entries');
-		const request = objectStore.clear();
-		request.onsuccess = function () {
-
-			console.log('storage.clear');
-		};
-	}
-}
-
-;// CONCATENATED MODULE: ./src/main.js
-
-
-
-"use strict";
-
-window.ResizeObserver = undefined;
-window.onload = function () {
-
-	const storage = new Storage();
-	const url = new URL(window.location);
-	const path = (window.bookPath !== undefined)
-		? window.bookPath
-		: ((url.search.length > 0) ? url.searchParams.get("bookPath") : "https://s3.amazonaws.com/moby-dick/");
-
-	storage.init(function () {
-
-		storage.get(function (data) {
-
-			if (data !== undefined && url.search.length === 0) {
-
-				window.reader = new Reader(data, { restore: true });
-
-			} else {
-
-				window.reader = new Reader(path, { restore: true });
-			}
-		});
-	});
-
-	window.storage = storage;
-};
-
+event_emitter(Reader.prototype);
 })();
 
-/******/ })()
-;
+var __webpack_exports__Reader = __webpack_exports__.m;
+export { __webpack_exports__Reader as Reader };
+
 //# sourceMappingURL=epubreader.js.map

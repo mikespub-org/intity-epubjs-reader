@@ -6,6 +6,7 @@
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta http-equiv="Permissions-Policy" content="interest-cohort=()">
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, user-scalable=no">
 	<meta name="apple-mobile-web-app-capable" content="yes">
@@ -19,11 +20,11 @@
 	<script src="js/libs/epub.min.js"></script>
 
 	<!-- Reader -->
-	<script src="js/epubreader.js"></script>
-
-	<!-- Initialize bookPath -->
-	<script>
-		window.bookPath = "https://s3.amazonaws.com/moby-dick/";
+	<script type="module">
+		import { Reader } from "./js/epubreader.min.js"
+		const url = new URL(window.location)
+		const path = url.searchParams.get("bookPath") || "https://s3.amazonaws.com/moby-dick/"
+		window.onload = (e) => new Reader(path)
 	</script>
 </head>
 

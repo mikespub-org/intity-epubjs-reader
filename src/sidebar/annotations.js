@@ -1,4 +1,4 @@
-import { UIPanel, UIDiv, UIRow, UITextArea, UIInput, UILink, UIList, UIItem, UISpan } from "../ui.js";
+import { UIPanel, UIDiv, UITextArea, UIInput, UILink, UIList, UIItem, UISpan, UIText, UIBox } from "../ui.js";
 
 export class AnnotationsPanel extends UIPanel {
 
@@ -7,57 +7,27 @@ export class AnnotationsPanel extends UIPanel {
 		super();
 		const container = new UIDiv().setClass("list-container");
 		const strings = reader.strings;
-		const textRow = new UIRow();
-		const ctrlRow = new UIRow();
-		const ctrlStr = [
-			strings.get("sidebar/annotations/add"),
-			strings.get("sidebar/annotations/clear")
+		const keys = [
+			"sidebar/annotations",
+			"sidebar/annotations/clear"
 		];
-
-		const textBox = new UITextArea();
-		textBox.dom.oninput = (e) => {
-
-			this.update();
-		};
-
-		const btn_a = new UIInput("button", ctrlStr[0]).addClass("btn-start");
-		btn_a.dom.disabled = true;
-		btn_a.dom.onclick = () => {
-
-			const note = {
-				cfi: this.cfiRange,
-				date: new Date(),
-				text: textBox.getValue(),
-				uuid: reader.uuid()
-			};
-
-			reader.settings.annotations.push(note);
-
-			textBox.setValue("");
-			this.set(note);
-			return false;
-		};
-
-		const btn_c = new UIInput("button", ctrlStr[1]).addClass("btn-end");
-		btn_c.dom.disabled = true;
-		btn_c.dom.onclick = () => {
+		const headerLabel = new UIText(strings.get(keys[0])).setClass("label");
+		const clearBtn = new UIInput("button", strings.get(keys[1]));
+		clearBtn.dom.onclick = (e) => {
 
 			this.clearNotes();
-			return false;
+			e.preventDefault();
 		};
-
-		textRow.add(textBox);
-		ctrlRow.add([btn_a, btn_c]);
-
+		this.add(new UIBox([headerLabel, clearBtn]).addClass("header"));
+		this.selector = undefined;
 		this.notes = new UIList();
 		container.add(this.notes);
 		this.setId("annotations");
-		this.add([textRow, ctrlRow, container]);
+		this.add(container);
 		this.reader = reader;
 		this.update = () => {
 
-			btn_a.dom.disabled = !this.range || textBox.getValue().length === 0;
-			btn_c.dom.disabled = reader.settings.annotations.length === 0;
+			clearBtn.dom.disabled = reader.settings.annotations.length === 0;
 		};
 
 		//-- events --//
@@ -68,19 +38,19 @@ export class AnnotationsPanel extends UIPanel {
 
 				this.set(note);
 			});
-		});
-
-		reader.on("selected", (cfiRange, contents) => {
-
-			this.cfiRange = cfiRange;
-			this.range = contents.range(cfiRange);
 			this.update();
 		});
 
-		reader.on("unselected", () => {
+		reader.on("noteadded", (note) => {
 
-			this.range = undefined;
+			this.set(note);
 			this.update();
+		});
+
+		reader.on("languagechanged", (value) => {
+
+			headerLabel.setValue(strings.get(keys[0]));
+			clearBtn.setValue(strings.get(keys[1]));
 		});
 	}
 
@@ -91,16 +61,21 @@ export class AnnotationsPanel extends UIPanel {
 		const btnr = new UISpan().setClass("btn-remove");
 		const call = () => { };
 
-		link.onclick = () => {
+		link.dom.onclick = (e) => {
 
+			if (this.selector && this.selector !== item) {
+				this.selector.unselect();
+			}
+			item.select();
+			this.selector = item;
 			this.reader.rendition.display(note.cfi);
-			return false;
+			e.preventDefault();
 		};
 
-		btnr.dom.onclick = () => {
+		btnr.dom.onclick = (e) => {
 
 			this.removeNote(note);
-			return false;
+			e.preventDefault();
 		};
 
 		item.add([link, btnr]);

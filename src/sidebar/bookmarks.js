@@ -1,4 +1,4 @@
-import { UIPanel, UIDiv, UIRow, UIInput, UILink, UIList, UIItem } from "../ui.js";
+import { UIPanel, UIDiv, UIRow, UIInput, UILink, UIList, UIItem, UIText, UIBox, UISpan } from "../ui.js";
 
 export class BookmarksPanel extends UIPanel {
 
@@ -7,47 +7,29 @@ export class BookmarksPanel extends UIPanel {
 		super();
 		const container = new UIDiv().setClass("list-container");
 		const strings = reader.strings;
-		const ctrlRow = new UIRow();
-		const ctrlStr = [
-			strings.get("sidebar/bookmarks/add"),
-			strings.get("sidebar/bookmarks/remove"),
-			strings.get("sidebar/bookmarks/clear"),
+		const keys = [
+			"sidebar/bookmarks",
+			"sidebar/bookmarks/clear"
 		];
-		const btn_a = new UIInput("button", ctrlStr[0]).addClass("btn-start");
-		const btn_r = new UIInput("button", ctrlStr[1]).addClass("btn-medium");
-		const btn_c = new UIInput("button", ctrlStr[2]).addClass("btn-end");
-
-		btn_a.dom.onclick = () => {
-
-			reader.emit("bookmarked", true);
-			return false;
-		};
-
-		btn_r.dom.onclick = () => {
-
-			reader.emit("bookmarked", false);
-			return false;
-		};
-
-		btn_c.dom.onclick = () => {
+		const headerLabel = new UIText(strings.get(keys[0])).setClass("label");
+		const clearBtn = new UIInput("button", strings.get(keys[1]));
+		clearBtn.dom.onclick = (e) => {
 
 			this.clearBookmarks();
 			reader.emit("bookmarked", false);
-			return false;
+			e.preventDefault();
 		};
-
-		ctrlRow.add([btn_a, btn_r, btn_c]);
-
+		this.add(new UIBox([headerLabel, clearBtn]).addClass("header"));
+		this.selector = undefined;
 		this.bookmarks = new UIList();
 		container.add(this.bookmarks);
 		this.setId("bookmarks");
-		this.add([ctrlRow, container]);
+		this.add(container);
 		this.reader = reader;
 
 		const update = () => {
 
-			btn_r.dom.disabled = reader.settings.bookmarks.length === 0;
-			btn_c.dom.disabled = reader.settings.bookmarks.length === 0;
+			clearBtn.dom.disabled = reader.settings.bookmarks.length === 0;
 		};
 
 		//-- events --//
@@ -63,23 +45,23 @@ export class BookmarksPanel extends UIPanel {
 
 		reader.on("relocated", (location) => {
 
-			const cfi = location.start.cfi;
-			const val = reader.isBookmarked(cfi) === -1;
-			btn_a.dom.disabled = !val;
-			btn_r.dom.disabled = val;
-			this.locationCfi = cfi; // save location cfi
+			this.locationCfi = location.start.cfi; // save location cfi
 		});
 
-		reader.on("bookmarked", (boolean) => {
+		reader.on("bookmarked", (boolean, cfi) => {
 
 			if (boolean) {
 				this.appendBookmark();
-				btn_a.dom.disabled = true;
 			} else {
-				this.removeBookmark();
-				btn_a.dom.disabled = false;
+				this.removeBookmark(cfi);
 			}
 			update();
+		});
+
+		reader.on("languagechanged", (value) => {
+
+			headerLabel.setValue(strings.get(keys[0]));
+			clearBtn.setValue(strings.get(keys[1]));
 		});
 	}
 
@@ -93,10 +75,10 @@ export class BookmarksPanel extends UIPanel {
 		this.reader.settings.bookmarks.push(cfi);
 	}
 
-	removeBookmark() {
+	removeBookmark(cfi) {
 
-		const cfi = this.locationCfi;
-		const index = this.reader.isBookmarked(cfi);
+		const _cfi = cfi || this.locationCfi;
+		const index = this.reader.isBookmarked(_cfi);
 		if (index === -1) {
 			return;
 		}
@@ -114,6 +96,7 @@ export class BookmarksPanel extends UIPanel {
 
 		const link = new UILink();
 		const item = new UIItem();
+		const btnr = new UISpan().setClass("btn-remove");
 		const navItem = this.reader.navItemFromCfi(cfi);
 		let idref;
 		let label;
@@ -128,14 +111,25 @@ export class BookmarksPanel extends UIPanel {
 		}
 
 		link.setHref("#" + cfi);
-		link.dom.onclick = () => {
+		link.dom.onclick = (e) => {
 
+			if (this.selector && this.selector !== item) {
+				this.selector.unselect();
+			}
+			item.select();
+			this.selector = item;
 			this.reader.rendition.display(cfi);
-			return false;
+			e.preventDefault();
 		};
 		link.setTextContent(label);
 
-		item.add(link);
+		btnr.dom.onclick = (e) => {
+
+			this.reader.emit("bookmarked", false, cfi);
+			e.preventDefault();
+		};
+
+		item.add([link, btnr]);
 		item.setId(idref);
 		this.bookmarks.add(item);
 	}

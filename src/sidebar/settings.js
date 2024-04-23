@@ -1,4 +1,4 @@
-import { UIPanel, UIRow, UISelect, UIInput, UILabel, UINumber } from "../ui.js";
+import { UIPanel, UIRow, UISelect, UIInput, UILabel, UINumber, UIText, UIBox, UIDiv } from "../ui.js";
 
 export class SettingsPanel extends UIPanel {
 
@@ -9,14 +9,17 @@ export class SettingsPanel extends UIPanel {
 
 		const strings = reader.strings;
 		const keys = [
+			"sidebar/settings",
 			"sidebar/settings/language",
 			"sidebar/settings/fontsize",
-			"sidebar/settings/layout",
+			"sidebar/settings/flow",
 			"sidebar/settings/spread",
-			"sidebar/settings/spread/pagewidth"
+			"sidebar/settings/spread/minwidth"
 		];
+		const headerLabel = new UIText(strings.get(keys[0])).setClass("label");
+		this.add(new UIBox(headerLabel).addClass("header"));
 
-		const languageLabel = new UILabel(strings.get(keys[0]), "language-ui");
+		const languageLabel = new UILabel(strings.get(keys[1]), "language-ui");
 		const languageRow = new UIRow();
 		const language = new UISelect().setOptions({
 			en: "English",
@@ -29,11 +32,10 @@ export class SettingsPanel extends UIPanel {
 			reader.emit("languagechanged", e.target.value);
 		};
 		language.setId("language-ui");
-
 		languageRow.add(languageLabel);
 		languageRow.add(language);
 
-		const fontSizeLabel = new UILabel(strings.get(keys[1]), "fontsize");
+		const fontSizeLabel = new UILabel(strings.get(keys[2]), "fontsize");
 		const fontSizeRow = new UIRow();
 		const fontSize = new UINumber(100, 1);
 		fontSize.dom.onchange = (e) => {
@@ -43,19 +45,18 @@ export class SettingsPanel extends UIPanel {
 			});
 		};
 		fontSize.setId("fontsize")
-
 		fontSizeRow.add(fontSizeLabel);
 		fontSizeRow.add(fontSize);
 
-		//-- layout configure --//
+		//-- flow configure --//
 
-		const layoutLabel = new UILabel(strings.get(keys[2]), "layout");
-		const layoutRow = new UIRow();
-		const layout = new UISelect().setOptions({
+		const flowLabel = new UILabel(strings.get(keys[3]), "flow");
+		const flowRow = new UIRow();
+		const flow = new UISelect().setOptions({
 			paginated: "Paginated",
 			scrolled: "Scrolled"
 		});
-		layout.dom.onchange = (e) => {
+		flow.dom.onchange = (e) => {
 
 			reader.emit("flowchanged", e.target.value);
 
@@ -71,14 +72,14 @@ export class SettingsPanel extends UIPanel {
 				});
 			}
 		};
-		layout.setId("layout");
-
-		layoutRow.add(layoutLabel);
-		layoutRow.add(layout);
+		flow.setId("flow");
+		flowRow.add(flowLabel);
+		flowRow.add(flow);
 
 		//-- spdead configure --//
 
-		const spreadLabel = new UILabel(strings.get(keys[3]), "spread");
+		const minSpreadWidth = new UINumber(800, 1);
+		const spreadLabel = new UILabel(strings.get(keys[4]), "spread");
 		const spreadRow = new UIRow();
 		const spread = new UISelect().setOptions({
 			none: "None",
@@ -90,15 +91,15 @@ export class SettingsPanel extends UIPanel {
 				mod: e.target.value,
 				min: undefined
 			});
+			minSpreadWidth.dom.disabled = e.target.value === "none";
 		};
 		spread.setId("spread");
 
 		spreadRow.add(spreadLabel);
 		spreadRow.add(spread);
 
-		const minSpreadWidthLabel = new UILabel(strings.get(keys[4]), "min-spread-width");
+		const minSpreadWidthLabel = new UILabel(strings.get(keys[5]), "min-spread-width");
 		const minSpreadWidthRow = new UIRow();
-		const minSpreadWidth = new UINumber(800, 1);
 		minSpreadWidth.dom.onchange = (e) => {
 
 			reader.emit("spreadchanged", {
@@ -107,7 +108,6 @@ export class SettingsPanel extends UIPanel {
 			});
 		};
 		minSpreadWidth.setId("min-spread-width");
-
 		minSpreadWidthRow.add(minSpreadWidthLabel);
 		minSpreadWidthRow.add(minSpreadWidth);
 
@@ -125,14 +125,14 @@ export class SettingsPanel extends UIPanel {
 		paginationRow.add(new UILabel(paginationStr[0], "pagination"));
 		paginationRow.add(pagination);
 
-		super.add([
+		this.add(new UIBox([
 			languageRow,
 			fontSizeRow,
-			layoutRow,
+			flowRow,
 			spreadRow,
 			minSpreadWidthRow,
 			//paginationRow
-		]);
+		]));
 
 		//-- events --//
 
@@ -140,16 +140,18 @@ export class SettingsPanel extends UIPanel {
 
 			language.setValue(cfg.language);
 			fontSize.setValue(cfg.styles.fontSize);
-			layout.setValue(cfg.flow);
+			flow.setValue(cfg.flow);
 			spread.setValue(cfg.spread.mod);
 			minSpreadWidth.setValue(cfg.spread.min);
+			minSpreadWidth.dom.disabled = cfg.spread.mod === "none";
 		});
 
 		reader.on("layout", (props) => {
 
 			if (props.flow === "scrolled") {
-				spread.dom.disabled = true;
 				spread.setValue("none");
+				spread.dom.disabled = true;
+				minSpreadWidth.dom.disabled = true;
 			} else {
 				spread.dom.disabled = false;
 			}
@@ -157,11 +159,12 @@ export class SettingsPanel extends UIPanel {
 
 		reader.on("languagechanged", (value) => {
 
-			languageLabel.dom.textContent = strings.get(keys[0]);
-			fontSizeLabel.dom.textContent = strings.get(keys[1]);
-			layoutLabel.dom.textContent = strings.get(keys[2]);
-			spreadLabel.dom.textContent = strings.get(keys[3]);
-			minSpreadWidthLabel.dom.textContent = strings.get(keys[4]);
+			headerLabel.setTextContent(strings.get(keys[0]));
+			languageLabel.setTextContent(strings.get(keys[1]));
+			fontSizeLabel.setTextContent(strings.get(keys[2]));
+			flowLabel.setTextContent(strings.get(keys[3]));
+			spreadLabel.setTextContent(strings.get(keys[4]));
+			minSpreadWidthLabel.setTextContent(strings.get(keys[5]));
 		});
 	}
 }
