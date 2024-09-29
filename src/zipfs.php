@@ -3,16 +3,20 @@
  * COPS (Calibre OPDS PHP Server) class file
  *
  * @author mikespub
+ * @deprecated 3.1.0 use index.php/zipfs instead
  */
 
 use SebLucas\Cops\Input\Request;
 use SebLucas\Cops\Calibre\Book;
 
-require_once __DIR__ . '/config.php';
-
+if (!empty($_SERVER['SCRIPT_NAME']) && str_contains($_SERVER['SCRIPT_NAME'], '/vendor/')) {
+    echo "Unable to run in /vendor/ directory";
+    return;
+}
 if (php_sapi_name() === 'cli') {
     return;
 }
+require_once __DIR__ . '/config.php';
 
 // don't try to match path params here
 $request = new Request(false);
