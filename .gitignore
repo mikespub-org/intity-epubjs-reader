@@ -1,5 +1,9 @@
 # Dependency directories
 node_modules/
+vendor/
 
 # Visual Studio Code
 .vscode
+
+# Composer
+composer.lock
