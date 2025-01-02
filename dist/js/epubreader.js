@@ -561,12 +561,25 @@ module.exports = function (value) { return value !== _undefined && value !== nul
 /******/ 	__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ })();
 /******/ 
+/******/ /* webpack/runtime/make namespace object */
+/******/ (() => {
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = (exports) => {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/ })();
+/******/ 
 /************************************************************************/
 var __webpack_exports__ = {};
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  m: () => (/* binding */ Reader)
+  Reader: () => (/* binding */ Reader)
 });
 
 // EXTERNAL MODULE: ./node_modules/event-emitter/index.js
@@ -3216,7 +3229,7 @@ class Reader {
 }
 
 event_emitter(Reader.prototype);
-var __webpack_exports__Reader = __webpack_exports__.m;
+var __webpack_exports__Reader = __webpack_exports__.Reader;
 export { __webpack_exports__Reader as Reader };
 
 //# sourceMappingURL=epubreader.js.map

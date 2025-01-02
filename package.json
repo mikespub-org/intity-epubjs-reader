@@ -1,8 +1,12 @@
 {
     "name": "@mikespub/epubjs-reader",
-    "version": "2024.10.27",
+    "version": "2025.01.02",
     "repository": "https://github.com/mikespub-org/intity-epubjs-reader",
-    "description": "ePub.js Reader",
+    "directories": {
+        "dist": "dist",
+        "docs": "docs"
+    },
+    "description": "epub reader",
     "bugs": {
         "url": "https://github.com/intity/epubreader-js/issues"
     },
@@ -16,6 +20,12 @@
     },
     "author": "mikespub",
     "license": "MIT",
+    "contributors": [
+        {
+            "name": "vite",
+            "email": "nuget@list.ru"
+        }
+    ],
     "devDependencies": {
         "copy-webpack-plugin": "^12.0.2",
         "webpack": "^5.96.1",
