@@ -1,6 +1,6 @@
 {
     "name": "@mikespub/epubjs-reader",
-    "version": "2025.01.02",
+    "version": "2025.04.08",
     "repository": "https://github.com/mikespub-org/intity-epubjs-reader",
     "directories": {
         "dist": "dist",
