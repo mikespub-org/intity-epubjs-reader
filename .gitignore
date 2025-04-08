@@ -1,3 +1,6 @@
+# Keep for composer package
+# dist/
+
 # Dependency directories
 node_modules/
 vendor/

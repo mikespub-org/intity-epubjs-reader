@@ -49,11 +49,23 @@ const config = {
 					toType: "file",
 					force: true
 				},
-			],
-			options: {
-				concurrency: 100,
-			},
-		}),
+				{
+					from: "assets",
+					to: "assets",
+					toType: "dir",
+					force: true
+				},
+				{
+					from: "index.html",
+					to: "index.html",
+					toType: "file",
+					force: true,
+					transform: (content, absoluteFrom) => {
+						return content.toString().replace(/dist\//g, "")
+					}
+				}
+			]
+		})
 	],
 	performance: {
 		hints: false
