@@ -10,8 +10,11 @@ const config = {
 		path: path.resolve(__dirname, "dist"),
 		libraryTarget: "module"
 	},
+	externals: {
+		"epubjs": "epubjs"
+	},
 	optimization: {
-		minimize: false
+		usedExports: false
 	},
 	devServer: {
 		static: {
@@ -46,11 +49,23 @@ const config = {
 					toType: "file",
 					force: true
 				},
-			],
-			options: {
-				concurrency: 100,
-			},
-		}),
+				{
+					from: "assets",
+					to: "assets",
+					toType: "dir",
+					force: true
+				},
+				{
+					from: "index.html",
+					to: "index.html",
+					toType: "file",
+					force: true,
+					transform: (content, absoluteFrom) => {
+						return content.toString().replace(/dist\//g, "")
+					}
+				}
+			]
+		})
 	],
 	performance: {
 		hints: false
@@ -64,11 +79,11 @@ module.exports = (env, args) => {
 	if (args.optimizationMinimize) {
 		config.output.filename = "js/[name].min.js"
 		config.output.sourceMapFilename = "js/[name].min.js.map"
-		config.optimization.usedExports = false
 		config.optimization.minimize = true
 	} else {
 		config.output.filename = "js/[name].js"
 		config.output.sourceMapFilename = "js/[name].js.map"
+		config.optimization.minimize = false
 	}
 
 	return config;
