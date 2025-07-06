@@ -1,6 +1,6 @@
 {
     "name": "@mikespub/epubjs-reader",
-    "version": "2025.04.08",
+    "version": "2025.07.06",
     "repository": "https://github.com/mikespub-org/intity-epubjs-reader",
     "directories": {
         "dist": "dist",
@@ -27,7 +27,7 @@
         }
     ],
     "devDependencies": {
-        "copy-webpack-plugin": "^8.1.1",
+        "copy-webpack-plugin": "^13.0.0",
         "webpack": "^5.99.9",
         "webpack-cli": "^6.0.1",
         "webpack-concat-files-plugin": "^0.5.2",
