@@ -4,3 +4,6 @@
 .gitremotes    export-ignore
 webpack.*      export-ignore
 src/           export-ignore
+app/           export-ignore
+tests/         export-ignore
+phpunit.*      export-ignore
