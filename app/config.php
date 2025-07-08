@@ -3,7 +3,7 @@
 $config = [
     'title' => 'Intity Epub.js Reader',
     'description' => 'Epub.js Reader with zipfs.php',
-    'version' => '2025.07.06',
+    'version' => '2025.07.07',
     'template' => dirname(__DIR__) . '/assets/template.html',
     'base_url' => '/app/',
     'dist_url' => '/dist/',

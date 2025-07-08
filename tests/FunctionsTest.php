@@ -61,7 +61,25 @@ class FunctionsTest extends TestCase
         $output = ob_get_clean();
 
         // Assert the output
-        $this->assertStringContainsString('<li><a href="/app/index.php/0ec42b3ea512677aaa60ac75551b1338">quickstart.en.epub</a></li>', $output);
+        $this->assertStringContainsString(
+            '<li><a href="/app/index.php/0ec42b3ea512677aaa60ac75551b1338">quickstart.en.epub</a></li>',
+            $output
+        );
+    }
+
+    public function testSendFilelistEmpty(): void
+    {
+        // Set up the environment with empty files
+        $config = $this->config;
+        $config['files'] = [];
+
+        // Call the function
+        ob_start();
+        intity\App\send_filelist($config);
+        $output = ob_get_clean();
+
+        // Assert the output
+        $this->assertStringContainsString('<li>No files available</li>', $output);
     }
 
     public function testRenderTemplate(): void
@@ -93,5 +111,28 @@ class FunctionsTest extends TestCase
 
         // Assert the output
         $this->assertStringContainsString('const path = "/app/zipfs.php/0ec42b3ea512677aaa60ac75551b1338/";', $output);
+    }
+
+    public function testSendComponent(): void
+    {
+        // Set up the environment
+        $config = $this->config;
+        $hash = '0ec42b3ea512677aaa60ac75551b1338'; // Hash for quickstart.en.epub
+        $zipfile = $config['files'][$hash];
+
+        // We'll test retrieving the table of contents (if it exists in the test epub)
+        $component = 'toc.ncx'; // Or a different component you know exists
+
+        // Call the function
+        ob_start();
+        intity\App\send_component($zipfile, $component);
+        $output = ob_get_clean();
+
+        // Assert the output (check for some expected content from the component)
+        $this->assertStringContainsString('<text>Calibre Quick Start Guide</text>', $output);
+
+        // Test for exceptions
+        $this->expectException(Exception::class);
+        intity\App\send_component('invalid_file.epub', 'some_component'); // Test invalid zip file
     }
 }
